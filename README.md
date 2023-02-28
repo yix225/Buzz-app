@@ -1,29 +1,25 @@
-# README #
+# TEAM 10 DETAILS #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+TEAM NAME: TEAM M 
 
-### What is this repository for? ###
+## TEAM CONTACT / INFORMATION
+1. Name: Tamilore Adegbaye
+   Email: doa325@lehigh.edu
+   Phone#: 215-558-8231
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+2. Name: David Wang
+   Email: jiw324@lehigh.edu
+   Phone#: 669-307-3008
 
-### How do I get set up? ###
+3. Name: Hien Thi
+   Email: hnt224@lehigh.edu
+   Phone#: 215-609-5838
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+4. Name: Selase Dzathor
+   Email: skd225@lehigh.edu
+   Phone#: 601-760-5029
 
-### Contribution guidelines ###
+5. Yinuo Xu
+   Email: yix225@lehigh.edu
+   Phone#: 
 
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
