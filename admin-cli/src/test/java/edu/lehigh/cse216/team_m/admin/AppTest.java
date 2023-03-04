@@ -15,7 +15,7 @@ import java.util.Map;
 public class AppTest 
     extends TestCase
 {
-    private BufferedReader mockInput;
+    
     /**
      * Create the test case
      *
