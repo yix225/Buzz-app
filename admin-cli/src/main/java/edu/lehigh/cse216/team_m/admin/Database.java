@@ -88,7 +88,7 @@ public class Database {
      * The Database constructor is private: we only create Database objects 
      * through the getDatabase() method.
      */
-    private Database() {
+    public Database() {
     }
 
     /**
