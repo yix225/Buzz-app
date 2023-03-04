@@ -12,3 +12,8 @@
 
 5. Name: Yinuo Xu 			| Email: yix225@lehigh.edu | Phone #: 484-934-7389 
 
+##### INSTRUCTIONS ON BUILDING AND RUNNING LOCALLY AND ON DOKKU
+- Open a terminal specifaclly for dokku
+- Open another terminal for your local host
+- SSH into dokku by running this command : yourUID@ubudokku01.cse.lehigh.edu
+- On your local host, run this command : sh local-deploy.sh in the web branch of your web folder
