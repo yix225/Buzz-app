@@ -90,7 +90,7 @@ public class Database {
      */
     public Database() {
     }
-
+   
     /**
      * Get a fully-configured connection to the database
      * 
