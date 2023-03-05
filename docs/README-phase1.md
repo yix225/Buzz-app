@@ -159,3 +159,11 @@ __________
 **BACKEND:**
 
 - LIST HERE 
+
+**How to run flutter test for mobile**
+
+- First go to folder contain the "test" folder.
+- Go to terminal and run "flutter test"
+- Then, it will run the test for mobile branch
+- P.S. Right now the test will run not the original main.dart, instead it will run testmain.dart (a mock main file, which does not do any http request).
+
