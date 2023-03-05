@@ -138,7 +138,7 @@ __________
 
 ### `DESCRIPTION OF TESTS FOR EACH ROLE`
 **WEB:**
-- CASE: Anonymous Message Displaying Functionality
+- *CASE*: Anonymous Message Displaying Functionality
 
 - OBJECTIVE: Verify basic decoration of the web page shows and the anonymous message displaying functionality works correctly; meets the acceptance criteria specified in user story. 
 
@@ -158,4 +158,27 @@ __________
 
 **BACKEND:**
 
-- LIST HERE 
+- *CASE*: Routes that Users use to “POST” and “like” messages along with retrieving  information about messages and number of likes
+
+- Objective: Verify database connection, database saves posted message data in SQL,returns messages and likes as JSON. Launch 
+
+- Steps:  Create a database and connect to web, create a message, make sure all message data is saved inside a Database. Verify that user can update, delete, and like messages. Once again, verify that all updates are saved to Database
+Environment: Test web and database, make sure that web can access data from database and database can save data from web
+
+- Criteria: Backend is successfully saving all message data and returning message data
+
+- Type: Testing each routes functionality, each function and interesting inputs
+
+
+- *CASE*: Backend is launched inside dokku
+
+- Objective: Verify backend is launching correctly inside of dokku
+
+- Steps: Open app on dokku and make sure that it is connected to Database
+
+- Environment: backend and dokku-backend
+
+- Criteria: App is successfully connected to backend and using the correct routes
+
+- Type: Manually opening app on Dokku and making sure that Data is the same for messages
+
