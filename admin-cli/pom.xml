@@ -31,7 +31,7 @@
       <artifactId>exec-maven-plugin</artifactId>
       <version>1.6.0</version>
       <configuration>
-        <mainClass>edu.lehigh.cse216.mfs409.admin.App</mainClass>
+        <mainClass>edu.lehigh.cse216.team_m.admin.App</mainClass>
       </configuration>
     </plugin>
   </plugins>
