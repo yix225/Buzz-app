@@ -63,6 +63,7 @@ var NewEntryForm = /** @class */ (function () {
     NewEntryForm.prototype.clearForm = function () {
         document.getElementById("newTitle").value = "";
         document.getElementById("newMessage").value = "";
+        document.getElementById("newLikes").value = "";
         // reset the UI
         document.getElementById("editElement").style.display = "none";
         document.getElementById("addElement").style.display = "none";
@@ -378,6 +379,7 @@ var EditEntryForm = /** @class */ (function () {
             document.getElementById("editTitle").value = data.mData.mTitle;
             document.getElementById("editMessage").value = data.mData.mContent;
             document.getElementById("editId").value = data.mData.mId;
+            document.getElementById("editLikes").value = data.mData.mLikes;
             document.getElementById("editCreated").value = data.mData.mCreated;
             // show the edit form
             document.getElementById("editElement").style.display = "block";
@@ -400,6 +402,7 @@ var EditEntryForm = /** @class */ (function () {
         document.getElementById("editTitle").value = "";
         document.getElementById("editMessage").value = "";
         document.getElementById("editId").value = "";
+        document.getElementById("editLikes").value = "";
         document.getElementById("editCreated").value = "";
         // reset the UI
         document.getElementById("editElement").style.display = "none";
@@ -416,6 +419,7 @@ var EditEntryForm = /** @class */ (function () {
         // that neither is empty
         var title = "" + document.getElementById("editTitle").value;
         var msg = "" + document.getElementById("editMessage").value;
+        var likes = "" + document.getElementById("editLikes").value;
         // NB: we assume that the user didn't modify the value of editId
         var id = "" + document.getElementById("editId").value;
         if (title === "" || msg === "" || id === "") {
@@ -431,7 +435,8 @@ var EditEntryForm = /** @class */ (function () {
                             method: 'PUT',
                             body: JSON.stringify({
                                 mTitle: title,
-                                mMessage: msg
+                                mMessage: msg,
+                                mLikes: likes
                             }),
                             headers: {
                                 'Content-type': 'application/json; charset=UTF-8'

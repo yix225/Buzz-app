@@ -42,6 +42,11 @@ public class Database {
      */
     private PreparedStatement mUpdateOne;
 
+     /**
+     * A prepared statement for incrementing like on a single row in the database
+     */
+    private PreparedStatement mLikeOne;
+
     /**
      * A prepared statement for creating the table in our database
      */
@@ -109,17 +114,17 @@ public class Database {
 
             // Note: no "IF NOT EXISTS" or "IF EXISTS" checks on table 
             // creation/deletion, so multiple executions will cause an exception
-            db.mCreateTable = db.mConnection.prepareStatement(
-                    "CREATE TABLE tblData (id SERIAL PRIMARY KEY, subject VARCHAR(50) "
-                    + "NOT NULL, message VARCHAR(500) NOT NULL)");
+            db.mCreateTable = db.mConnection.prepareStatement("CREATE TABLE tblData (id SERIAL PRIMARY KEY, subject VARCHAR(50) NOT NULL," 
+                            + " message VARCHAR(500) NOT NULL, likes int DEFAULT 0 NOT NULL)");
             db.mDropTable = db.mConnection.prepareStatement("DROP TABLE tblData");
 
             // Standard CRUD operations
             db.mDeleteOne = db.mConnection.prepareStatement("DELETE FROM tblData WHERE id = ?");
-            db.mInsertOne = db.mConnection.prepareStatement("INSERT INTO tblData VALUES (default, ?, ?)");
+            db.mInsertOne = db.mConnection.prepareStatement("INSERT INTO tblData VALUES (default, ?, ?, ?)");
             db.mSelectAll = db.mConnection.prepareStatement("SELECT id, subject FROM tblData");
             db.mSelectOne = db.mConnection.prepareStatement("SELECT * from tblData WHERE id=?");
             db.mUpdateOne = db.mConnection.prepareStatement("UPDATE tblData SET message = ? WHERE id = ?");
+            db.mLikeOne = db.mConnection.prepareStatement("UPDATE tblData SET likes = likes + 1 WHERE id = ?");
         } catch (SQLException e) {
             System.err.println("Error creating prepared statement");
             e.printStackTrace();
@@ -176,7 +181,7 @@ public class Database {
             // creation/deletion, so multiple executions will cause an exception
             db.mCreateTable = db.mConnection.prepareStatement(
                     "CREATE TABLE tblData (id SERIAL PRIMARY KEY, subject VARCHAR(50) "
-                    + "NOT NULL, message VARCHAR(500) NOT NULL)");
+                    + "NOT NULL, message VARCHAR(500) NOT NULL, likes int DEFAULT 0 NOT NULL)");
             db.mDropTable = db.mConnection.prepareStatement("DROP TABLE tblData");
 
             // Standard CRUD operations
@@ -185,6 +190,7 @@ public class Database {
             db.mSelectAll = db.mConnection.prepareStatement("SELECT id, subject FROM tblData");
             db.mSelectOne = db.mConnection.prepareStatement("SELECT * from tblData WHERE id=?");
             db.mUpdateOne = db.mConnection.prepareStatement("UPDATE tblData SET message = ? WHERE id = ?");
+            db.mLikeOne = db.mConnection.prepareStatement("UPDATE tblDate SET likes = likes + 1 WHERE id = ?");
         } catch (SQLException e) {
             System.err.println("Error creating prepared statement");
             e.printStackTrace();
@@ -256,6 +262,7 @@ public class Database {
         try {
             mInsertOne.setString(1, subject);
             mInsertOne.setString(2, message);
+            mInsertOne.setInt(3, 0);
             count += mInsertOne.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -264,7 +271,7 @@ public class Database {
     }
 
     /**
-     * Query the database for a list of all subjects and their IDs
+     * Query the database for a list of all subjects, their IDs, content, and number of likes
      * 
      * @return All rows, as an ArrayList
      */
@@ -296,7 +303,7 @@ public class Database {
             mSelectOne.setInt(1, id);
             ResultSet rs = mSelectOne.executeQuery();
             if (rs.next()) {
-                res = new DataRow(rs.getInt("id"), rs.getString("subject"), rs.getString("message"));
+                res = new DataRow(rs.getInt("id"), rs.getString("subject"), rs.getString("message"), rs.getInt("likes"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -336,6 +343,17 @@ public class Database {
             mUpdateOne.setString(1, message);
             mUpdateOne.setInt(2, id);
             res = mUpdateOne.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
+
+    int likeOne(int id) {
+        int res = -1;
+        try {
+            mLikeOne.setInt(1, id);
+            res = mLikeOne.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }

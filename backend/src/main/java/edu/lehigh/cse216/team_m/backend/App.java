@@ -141,7 +141,7 @@ public class App {
             response.status(200);
             response.type("application/json");
             // NB: createEntry checks for null title and message
-            int newId = db.insertRow(req.mTitle, req.mMessage);
+            int newId = db.insertRow(req.mSubject, req.mMessage);
             if (newId == -1) {
                 return gson.toJson(new StructuredResponse("error", "error performing insertion", null));
             } else {

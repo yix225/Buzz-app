@@ -15,15 +15,15 @@ public class DataRowLite {
     public int mId;
 
     /**
-     * The title string for this row of data; see DataRow.mTitle
+     * The title string for this row of data; see DataRow.mSubject
      */
-    public String mTitle;
+    public String mSubject;
 
     /**
      * Create a DataRowLite by copying fields from a DataRow
      */
     public DataRowLite(DataRow data) {
         this.mId = data.mId;
-        this.mTitle = data.mTitle;
+        this.mSubject = data.mSubject;
     }
 }
