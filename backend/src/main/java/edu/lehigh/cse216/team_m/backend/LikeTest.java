@@ -101,6 +101,21 @@ public class LikeTest {
         return i;
     }
 
+    private static final String DEFAULT_PORT_DB = "5432";
+
+    private static Database getDatabaseConnection(){
+        if( System.getenv("DATABASE_URL") != null ){
+            return Database.getDatabase(System.getenv("DATABASE_URL"), DEFAULT_PORT_DB);
+        }
+
+        Map<String, String> env = System.getenv();
+        String ip = env.get("POSTGRES_IP");
+        String port = env.get("POSTGRES_PORT");
+        String user = env.get("POSTGRES_USER");
+        String pass = env.get("POSTGRES_PASS");
+        return Database.getDatabase(ip, port, "", user, pass);
+    } 
+
     /**
      * The main routine runs a loop that gets a request from the user and
      * processes it
@@ -108,16 +123,9 @@ public class LikeTest {
      * @param argv Command-line options.  Ignored by this program.
      */
     public static void main(String[] argv) {
-        // get the Postgres configuration from the environment
-        Map<String, String> env = System.getenv();
-        String ip = env.get("POSTGRES_IP");
-        String port = env.get("POSTGRES_PORT");
-        String user = env.get("POSTGRES_USER");
-        String pass = env.get("POSTGRES_PASS");
-
         // Get a fully-configured connection to the database, or exit 
         // immediately
-        Database db = Database.getDatabase(ip, port, user, pass);
+        Database db = getDatabaseConnection();
         if (db == null)
             return;
 

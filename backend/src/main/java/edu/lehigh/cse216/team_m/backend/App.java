@@ -144,7 +144,8 @@ public class App {
             int newId = db.insertRow(req.mSubject, req.mMessage);
             if (newId == -1) {
                 return gson.toJson(new StructuredResponse("error", "error performing insertion", null));
-            } else {
+            } 
+            else {
                 return gson.toJson(new StructuredResponse("ok", "" + newId, null));
             }
         });
@@ -167,6 +168,24 @@ public class App {
             }
         });
 
+         // PUT route for liking a row in the DataStore.  This is almost 
+        // exactly the same as POST
+        Spark.put("/messages/:id", (request, response) -> {
+            // If we can't get an ID or can't parse the JSON, Spark will send
+            // a status 500
+            int idx = Integer.parseInt(request.params("id"));
+            SimpleRequest req = gson.fromJson(request.body(), SimpleRequest.class);
+            // ensure status 200 OK, with a MIME type of JSON
+            response.status(200);
+            response.type("application/json");
+            int result = db.likeOne(idx);
+            if (result == -1) {
+                return gson.toJson(new StructuredResponse("error", "unable to like row " + idx, null));
+            } else {
+                return gson.toJson(new StructuredResponse("ok", null, result));
+            }
+        });
+
         // DELETE route for removing a row from the DataStore
         Spark.delete("/messages/:id", (request, response) -> {
             // If we can't get an ID, Spark will send a status 500
@@ -179,7 +198,8 @@ public class App {
             int result = db.deleteRow(idx);
             if (result == -1) {
                 return gson.toJson(new StructuredResponse("error", "unable to delete row " + idx, null));
-            } else {
+            }
+            else {
                 return gson.toJson(new StructuredResponse("ok", null, null));
             }
         });

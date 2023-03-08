@@ -63,7 +63,6 @@ var NewEntryForm = /** @class */ (function () {
     NewEntryForm.prototype.clearForm = function () {
         document.getElementById("newTitle").value = "";
         document.getElementById("newMessage").value = "";
-        document.getElementById("newLikes").value = "";
         // reset the UI
         document.getElementById("editElement").style.display = "none";
         document.getElementById("addElement").style.display = "none";
@@ -91,7 +90,7 @@ var NewEntryForm = /** @class */ (function () {
                     case 0: return [4 /*yield*/, fetch('/messages', {
                             method: 'POST',
                             body: JSON.stringify({
-                                mTitle: title,
+                                mSubject: title,
                                 mMessage: msg
                             }),
                             headers: {
@@ -205,7 +204,7 @@ var ElementList = /** @class */ (function () {
                 var tr = document.createElement('tr');
                 var td_title = document.createElement('td');
                 var td_id = document.createElement('td');
-                td_title.innerHTML = data.mData[i].mTitle;
+                td_title.innerHTML = data.mData[i].mSubject;
                 td_id.innerHTML = data.mData[i].mId;
                 tr.appendChild(td_id);
                 tr.appendChild(td_title);
@@ -376,10 +375,9 @@ var EditEntryForm = /** @class */ (function () {
     EditEntryForm.prototype.init = function (data) {
         // If we get an "ok" message, fill in the edit form
         if (data.mStatus === "ok") {
-            document.getElementById("editTitle").value = data.mData.mTitle;
-            document.getElementById("editMessage").value = data.mData.mContent;
+            document.getElementById("editTitle").value = data.mData.mSubject;
+            document.getElementById("editMessage").value = data.mData.mMessage;
             document.getElementById("editId").value = data.mData.mId;
-            document.getElementById("editLikes").value = data.mData.mLikes;
             document.getElementById("editCreated").value = data.mData.mCreated;
             // show the edit form
             document.getElementById("editElement").style.display = "block";
@@ -402,7 +400,6 @@ var EditEntryForm = /** @class */ (function () {
         document.getElementById("editTitle").value = "";
         document.getElementById("editMessage").value = "";
         document.getElementById("editId").value = "";
-        document.getElementById("editLikes").value = "";
         document.getElementById("editCreated").value = "";
         // reset the UI
         document.getElementById("editElement").style.display = "none";
@@ -419,7 +416,6 @@ var EditEntryForm = /** @class */ (function () {
         // that neither is empty
         var title = "" + document.getElementById("editTitle").value;
         var msg = "" + document.getElementById("editMessage").value;
-        var likes = "" + document.getElementById("editLikes").value;
         // NB: we assume that the user didn't modify the value of editId
         var id = "" + document.getElementById("editId").value;
         if (title === "" || msg === "" || id === "") {
@@ -434,9 +430,8 @@ var EditEntryForm = /** @class */ (function () {
                     case 0: return [4 /*yield*/, fetch("/messages/".concat(id), {
                             method: 'PUT',
                             body: JSON.stringify({
-                                mTitle: title,
-                                mMessage: msg,
-                                mLikes: likes
+                                mSubject: title,
+                                mMessage: msg
                             }),
                             headers: {
                                 'Content-type': 'application/json; charset=UTF-8'
