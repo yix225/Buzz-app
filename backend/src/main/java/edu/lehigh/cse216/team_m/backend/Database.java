@@ -42,10 +42,15 @@ public class Database {
      */
     private PreparedStatement mUpdateOne;
 
-     /**
+    /**
      * A prepared statement for incrementing like on a single row in the database
      */
     private PreparedStatement mLikeOne;
+
+    /**
+     * A prepared statement for decrementing like on a single row in the database
+     */
+    private PreparedStatement mUnlikeOne;
 
     /**
      * A prepared statement for creating the table in our database
@@ -125,6 +130,7 @@ public class Database {
             db.mSelectOne = db.mConnection.prepareStatement("SELECT * from tblData WHERE id=?");
             db.mUpdateOne = db.mConnection.prepareStatement("UPDATE tblData SET message = ? WHERE id = ?");
             db.mLikeOne = db.mConnection.prepareStatement("UPDATE tblData SET likes = likes + 1 WHERE id = ?");
+            db.mUnlikeOne = db.mConnection.prepareStatement("UPDATE tblData SET likes = likes - 1 WHERE id = ?");
         } catch (SQLException e) {
             System.err.println("Error creating prepared statement");
             e.printStackTrace();
@@ -191,6 +197,7 @@ public class Database {
             db.mSelectOne = db.mConnection.prepareStatement("SELECT * from tblData WHERE id=?");
             db.mUpdateOne = db.mConnection.prepareStatement("UPDATE tblData SET message = ? WHERE id = ?");
             db.mLikeOne = db.mConnection.prepareStatement("UPDATE tblData SET likes = likes + 1 WHERE id = ?");
+            db.mUnlikeOne = db.mConnection.prepareStatement("UPDATE tblData SET likes = likes - 1 WHERE id = ?");
         } catch (SQLException e) {
             System.err.println("Error creating prepared statement");
             e.printStackTrace();
@@ -354,6 +361,17 @@ public class Database {
         try {
             mLikeOne.setInt(1, id);
             res = mLikeOne.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
+
+    int unlikeOne(int id) {
+        int res = -1;
+        try {
+            mUnlikeOne.setInt(1, id);
+            res = mUnlikeOne.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
