@@ -91,7 +91,7 @@ var NewEntryForm = /** @class */ (function () {
                             method: 'POST',
                             body: JSON.stringify({
                                 mSubject: title,
-                                mMessage: msg
+                                mMessage: msg,
                             }),
                             headers: {
                                 'Content-type': 'application/json; charset=UTF-8'
@@ -204,10 +204,13 @@ var ElementList = /** @class */ (function () {
                 var tr = document.createElement('tr');
                 var td_title = document.createElement('td');
                 var td_id = document.createElement('td');
+                var td_likes = document.createElement('td');
                 td_title.innerHTML = data.mData[i].mSubject;
                 td_id.innerHTML = data.mData[i].mId;
+                td_likes.innerHTML = data.mData[i].mLikes;
                 tr.appendChild(td_id);
                 tr.appendChild(td_title);
+                tr.appendChild(td_likes);
                 tr.appendChild(this.buttons(data.mData[i].mId));
                 table.appendChild(tr);
             }
@@ -326,6 +329,14 @@ var ElementList = /** @class */ (function () {
         btn.classList.add("delbtn");
         btn.setAttribute('data-value', id);
         btn.innerHTML = 'Delete';
+        td.appendChild(btn);
+        fragment.appendChild(td);
+        // create delete button, add to new td, add td to returned fragment
+        td = document.createElement('td');
+        btn = document.createElement('button');
+        btn.classList.add("likebtn");
+        btn.setAttribute('data-value', id);
+        btn.innerHTML = 'Like';
         td.appendChild(btn);
         fragment.appendChild(td);
         return fragment;
