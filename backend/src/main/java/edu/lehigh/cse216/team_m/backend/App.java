@@ -170,11 +170,10 @@ public class App {
 
          // PUT route for liking a row in the DataStore.  This is almost 
         // exactly the same as POST
-        Spark.put("/messages/:id", (request, response) -> {
+        Spark.get("/messages/:id/likes", (request, response) -> {
             // If we can't get an ID or can't parse the JSON, Spark will send
             // a status 500
             int idx = Integer.parseInt(request.params("id"));
-            SimpleRequest req = gson.fromJson(request.body(), SimpleRequest.class);
             // ensure status 200 OK, with a MIME type of JSON
             response.status(200);
             response.type("application/json");

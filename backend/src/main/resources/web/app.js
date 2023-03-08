@@ -311,6 +311,46 @@ var ElementList = /** @class */ (function () {
         doAjax().then(console.log).catch(console.log);
     };
     /**
+     * clickLike is the code we run in response to a click of a like button
+     */
+    ElementList.prototype.clickLike = function (e) {
+        var _this = this;
+        // as in clickDelete, we need the ID of the row
+        var id = e.target.getAttribute("data-value");
+        // Issue an AJAX GET and then pass the result to editEntryForm.init()
+        var doAjax = function () { return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, fetch("/messages/".concat(id), {
+                            method: 'GET',
+                            headers: {
+                                'Content-type': 'application/json; charset=UTF-8'
+                            }
+                        }).then(function (response) {
+                            if (response.ok) {
+                                return Promise.resolve(response.json());
+                            }
+                            else {
+                                window.alert("The server replied not ok: ".concat(response.status, "\n") + response.statusText);
+                            }
+                            return Promise.reject(response);
+                        }).then(function (data) {
+                            editEntryForm.init(data);
+                            console.log(data);
+                        }).catch(function (error) {
+                            console.warn('Something went wrong.', error);
+                            window.alert("Unspecified error");
+                        })];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        }); };
+        // make the AJAX post and output value or error message to console
+        doAjax().then(console.log).catch(console.log);
+    };
+    /**
      * buttons() adds a 'delete' button and an 'edit' button to the HTML for each row
      */
     ElementList.prototype.buttons = function (id) {
