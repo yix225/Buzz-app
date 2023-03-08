@@ -132,7 +132,7 @@ public class Database {
             // creation/deletion, so multiple executions will cause an exception
             db.mCreateTable = db.mConnection.prepareStatement(
                     "CREATE TABLE tblData (id SERIAL PRIMARY KEY, subject VARCHAR(50) "
-                    + "NOT NULL, message VARCHAR(500) NOT NULL)");
+                    + "NOT NULL, message VARCHAR(1024) NOT NULL), likes INTEGER");
             db.mDropTable = db.mConnection.prepareStatement("DROP TABLE tblData");
 
             // Standard CRUD operations
@@ -279,6 +279,7 @@ public class Database {
      */
     void createTable() {
         try {
+            
             mCreateTable.execute();
         } catch (SQLException e) {
             e.printStackTrace();
