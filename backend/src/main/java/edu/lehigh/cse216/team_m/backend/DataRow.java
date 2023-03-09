@@ -4,7 +4,7 @@ import java.util.Date;
 
 /**
  * DataRow holds a row of information.  A row of information consists of
- * an identifier, strings for a "title" and "content", and a creation date.
+ * an identifier, strings for a "subject" and "content", and a creation date.
  * 
  * Because we will ultimately be converting instances of this object into JSON
  * directly, we need to make the fields public.  That being the case, we will
@@ -19,14 +19,19 @@ public class DataRow {
     public final int mId;
 
     /**
-     * The title for this row of data
+     * The subject for this row of data
      */
-    public String mTitle;
+    public String mSubject;
 
     /**
-     * The content for this row of data
+     * The message for this row of data
      */
-    public String mContent;
+    public String mMessage;
+    
+    /**
+     * The number of likes for this row of data
+     */
+    public int mLikes;
 
     /**
      * The creation date for this row of data.  Once it is set, it cannot be 
@@ -35,23 +40,47 @@ public class DataRow {
     public final Date mCreated;
 
     /**
-     * Create a new DataRow with the provided id and title/content, and a 
+     * Default Constructor: Create a new DataRow with the provided id and subject/content, 
+     * and a creation date based on the system clock at the time the constructor was
+     * called. Likes are automatically set to 0.
+     * 
+     * @param id The id to associate with this row.  Assumed to be unique 
+     *           throughout the whole program.
+     * 
+     * @param subject The subject string for this row of data
+     * 
+     * @param content The content string for this row of data
+     */
+    DataRow(int id, String subject, String message) {
+        mId = id;
+        mSubject = subject;
+        mMessage = message;
+        mLikes = 0;
+        mCreated = new Date();
+    }
+
+    /**
+     * Create a new DataRow with the provided id and subject/content, and likes, and a 
      * creation date based on the system clock at the time the constructor was
      * called
      * 
      * @param id The id to associate with this row.  Assumed to be unique 
      *           throughout the whole program.
      * 
-     * @param title The title string for this row of data
+     * @param subject The subject string for this row of data
      * 
      * @param content The content string for this row of data
+     * 
+     * @param likes The likes of 
      */
-    DataRow(int id, String title, String content) {
+    DataRow(int id, String subject, String message, int likes) {
         mId = id;
-        mTitle = title;
-        mContent = content;
+        mSubject = subject;
+        mMessage = message;
+        mLikes = likes;
         mCreated = new Date();
     }
+
 
     /**
      * Copy constructor to create one datarow from another
@@ -59,8 +88,9 @@ public class DataRow {
     DataRow(DataRow data) {
         mId = data.mId;
         // NB: Strings and Dates are immutable, so copy-by-reference is safe
-        mTitle = data.mTitle;
-        mContent = data.mContent;
+        mSubject = data.mSubject;
+        mMessage = data.mMessage;
+        mLikes = data.mLikes;
         mCreated = data.mCreated;
     }
 }

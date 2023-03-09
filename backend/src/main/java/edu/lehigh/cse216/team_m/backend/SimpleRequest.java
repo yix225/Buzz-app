@@ -11,10 +11,11 @@ public class SimpleRequest {
     /**
      * The title being provided by the client.
      */
-    public String mTitle;
+    public String mSubject;
 
     /**
      * The message being provided by the client.
      */
     public String mMessage;
+    
 }

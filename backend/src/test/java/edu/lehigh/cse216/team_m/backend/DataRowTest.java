@@ -34,8 +34,8 @@ public class DataRowTest extends TestCase {
         int id = 17;
         DataRow d = new DataRow(id, title, content);
 
-        assertTrue(d.mTitle.equals(title));
-        assertTrue(d.mContent.equals(content));
+        assertTrue(d.mSubject.equals(title));
+        assertTrue(d.mMessage.equals(content));
         assertTrue(d.mId == id);
         assertFalse(d.mCreated == null);
     }
@@ -49,8 +49,8 @@ public class DataRowTest extends TestCase {
         int id = 177;
         DataRow d = new DataRow(id, title, content);
         DataRow d2 = new DataRow(d);
-        assertTrue(d2.mTitle.equals(d.mTitle));
-        assertTrue(d2.mContent.equals(d.mContent));
+        assertTrue(d2.mSubject.equals(d.mSubject));
+        assertTrue(d2.mMessage.equals(d.mMessage));
         assertTrue(d2.mId == d.mId);
         assertTrue(d2.mCreated.equals(d.mCreated));
     }

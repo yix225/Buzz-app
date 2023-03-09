@@ -141,10 +141,11 @@ public class App {
             response.status(200);
             response.type("application/json");
             // NB: createEntry checks for null title and message
-            int newId = db.insertRow(req.mTitle, req.mMessage);
+            int newId = db.insertRow(req.mSubject, req.mMessage);
             if (newId == -1) {
                 return gson.toJson(new StructuredResponse("error", "error performing insertion", null));
-            } else {
+            } 
+            else {
                 return gson.toJson(new StructuredResponse("ok", "" + newId, null));
             }
         });
@@ -167,6 +168,38 @@ public class App {
             }
         });
 
+        // PUT route for liking a row in the DataStore.
+        Spark.get("/messages/:id/like", (request, response) -> {
+            // If we can't get an ID or can't parse the JSON, Spark will send
+            // a status 500
+            int idx = Integer.parseInt(request.params("id"));
+            // ensure status 200 OK, with a MIME type of JSON
+            response.status(200);
+            response.type("application/json");
+            int result = db.likeOne(idx);
+            if (result == -1) {
+                return gson.toJson(new StructuredResponse("error", "unable to like row " + idx, null));
+            } else {
+                return gson.toJson(new StructuredResponse("ok", null, result));
+            }
+        });
+
+        // PUT route for unliking a row in the DataStore.
+        Spark.get("/messages/:id/unlike", (request, response) -> {
+            // If we can't get an ID or can't parse the JSON, Spark will send
+            // a status 500
+            int idx = Integer.parseInt(request.params("id"));
+            // ensure status 200 OK, with a MIME type of JSON
+            response.status(200);
+            response.type("application/json");
+            int result = db.unlikeOne(idx);
+            if (result == -1) {
+                return gson.toJson(new StructuredResponse("error", "unable to unlike row " + idx, null));
+            } else {
+                return gson.toJson(new StructuredResponse("ok", null, result));
+            }
+        });
+
         // DELETE route for removing a row from the DataStore
         Spark.delete("/messages/:id", (request, response) -> {
             // If we can't get an ID, Spark will send a status 500
@@ -179,7 +212,8 @@ public class App {
             int result = db.deleteRow(idx);
             if (result == -1) {
                 return gson.toJson(new StructuredResponse("error", "unable to delete row " + idx, null));
-            } else {
+            }
+            else {
                 return gson.toJson(new StructuredResponse("ok", null, null));
             }
         });
