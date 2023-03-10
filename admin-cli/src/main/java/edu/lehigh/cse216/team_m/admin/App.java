@@ -145,6 +145,22 @@ public class App {
                     System.out.println("  [" + res.mId + "] " + res.mSubject);
                     System.out.println("  --> " + res.mMessage);
                     System.out.println(" Likes: " + res.mLikes);
+                    
+                        String action2 = getString(in," Add(A) or Remove(R) a Like or Leave(L)?: ");
+                        if(action2.equals("A")){
+                           int update = db.addLikes(id, res.mLikes);
+                            if(update == -1){
+                                continue;
+                            }
+                          
+                        }
+                        else if(action2.equals("R")){
+                            int update = db.removeLikes(id, res.mLikes);   
+                        }
+                        else if(action2.equals("L")){
+                            continue;
+                        }
+                    
                 }
             } else if (action == '*') {
                 ArrayList<Database.RowData> res = db.selectAll();

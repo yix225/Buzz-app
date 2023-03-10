@@ -50,6 +50,7 @@ public class Database {
      */
     private PreparedStatement mDropTable;
 
+    private PreparedStatement mUpdateLikes;
     /**
      * RowData is like a struct in C: we use it to hold data, and we allow 
      * direct access to its fields.  In the context of this Database, RowData 
@@ -147,6 +148,7 @@ public class Database {
             db.mSelectAll = db.mConnection.prepareStatement("SELECT id, subject FROM tblData");
             db.mSelectOne = db.mConnection.prepareStatement("SELECT * from tblData WHERE id=?");
             db.mUpdateOne = db.mConnection.prepareStatement("UPDATE tblData SET message = ? WHERE id = ?");
+            db.mUpdateLikes = db.mConnection.prepareStatement("UPDATE tblData SET likes = ? WHERE id = ?");
         } catch (SQLException e) {
             System.err.println("Error creating prepared statement");
             e.printStackTrace();
@@ -280,6 +282,33 @@ public class Database {
         return res;
     }
 
+    int addLikes(int id,int likes){
+        int res = -1;
+        int tempLikes = likes;
+        try{
+            tempLikes += 1;
+            mUpdateLikes.setInt(1, tempLikes);
+            mUpdateLikes.setInt(2, id);
+            res = mUpdateLikes.executeUpdate();
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return res;
+    }
+
+    int removeLikes(int id, int likes){
+        int res = -1;
+        int tempLikes = likes;
+        try{
+            tempLikes -= 1;
+            mUpdateLikes.setInt(1, tempLikes);
+            mUpdateLikes.setInt(2, id);
+            res = mUpdateLikes.executeUpdate();
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return res;
+    }
     /**
      * Create tblData.  If it already exists, this will print an error
      */
