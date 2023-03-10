@@ -144,6 +144,7 @@ public class App {
                 if (res != null) {
                     System.out.println("  [" + res.mId + "] " + res.mSubject);
                     System.out.println("  --> " + res.mMessage);
+                    System.out.println(" Likes: " + res.mLikes);
                 }
             } else if (action == '*') {
                 ArrayList<Database.RowData> res = db.selectAll();
@@ -153,6 +154,7 @@ public class App {
                 System.out.println("  -------------------------");
                 for (Database.RowData rd : res) {
                     System.out.println("  [" + rd.mId + "] " + rd.mSubject);
+                    
                 }
             } else if (action == '-') {
                 int id = getInt(in, "Enter the row ID");

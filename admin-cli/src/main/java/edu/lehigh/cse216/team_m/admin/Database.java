@@ -75,12 +75,18 @@ public class Database {
         String mMessage;
 
         /**
+         * The like counter stored in this row
+         */
+        int mLikes;
+        /**
+         * 
          * Construct a RowData object by providing values for its fields
          */
-        public RowData(int id, String subject, String message) {
+        public RowData(int id, String subject, String message, int likes) {
             mId = id;
             mSubject = subject;
             mMessage = message;
+            mLikes = likes;
         }
     }
 
@@ -132,7 +138,7 @@ public class Database {
             // creation/deletion, so multiple executions will cause an exception
             db.mCreateTable = db.mConnection.prepareStatement(
                     "CREATE TABLE tblData (id SERIAL PRIMARY KEY, subject VARCHAR(50) "
-                    + "NOT NULL, message VARCHAR(1024) NOT NULL), likes INTEGER");
+                    + "NOT NULL, message VARCHAR(1024) NOT NULL, likes INTEGER)");
             db.mDropTable = db.mConnection.prepareStatement("DROP TABLE tblData");
 
             // Standard CRUD operations
@@ -205,7 +211,7 @@ public class Database {
         try {
             ResultSet rs = mSelectAll.executeQuery();
             while (rs.next()) {
-                res.add(new RowData(rs.getInt("id"), rs.getString("subject"), null));
+                res.add(new RowData(rs.getInt("id"), rs.getString("subject"), null, 0));
             }
             rs.close();
             return res;
@@ -228,7 +234,7 @@ public class Database {
             mSelectOne.setInt(1, id);
             ResultSet rs = mSelectOne.executeQuery();
             if (rs.next()) {
-                res = new RowData(rs.getInt("id"), rs.getString("subject"), rs.getString("message"));
+                res = new RowData(rs.getInt("id"), rs.getString("subject"), rs.getString("message"), rs.getInt("likes"));
             }
         } catch (SQLException e) {
             e.printStackTrace();

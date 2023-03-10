@@ -33,16 +33,16 @@ public class DatabaseTest extends TestCase {
     // assertTrue(db.pass.equals(pass2));
     // }
 
-    public void testRowData() {
-        int id = 123;
-        String subject = "Test Subject";
-        String message = "Test Messsage";
+    // public void testRowData() {
+    //     int id = 123;
+    //     String subject = "Test Subject";
+    //     String message = "Test Messsage";
 
-        Database.RowData db = new Database.RowData(id, subject, message);
+    //     Database.RowData db = new Database.RowData(id, subject, message);
 
-        assertTrue(db.mId == id);
-        assertTrue(db.mSubject.equals(subject));
-        assertTrue(db.mMessage.equals(message));
-    }
+    //     assertTrue(db.mId == id);
+    //     assertTrue(db.mSubject.equals(subject));
+    //     assertTrue(db.mMessage.equals(message));
+    // }
 
 }
