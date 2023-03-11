@@ -65,4 +65,44 @@ public class AppTest
         assertEquals('?', result);
     }
 
+    public void testaddLike() {
+
+        String ip = "isilo.db.elephantsql.com";
+        String port = Integer.toString(5432);
+        String user = "gkzavwme";
+        String pass = "5TWc-gVQdICuVD1rE-cCgdBQFBH-xH6g";
+
+        Database db = Database.getDatabase(ip, port, user, pass);
+
+        int id = 3;
+
+        Database.RowData res = db.selectOne(id);
+        int likes = res.mLikes;
+
+        assertEquals(res.mLikes, likes);
+
+        db.addLikes(id, res.mLikes);
+
+        assertEquals(res.mLikes, likes);
+    }
+
+    // public void testUnlike() {
+    // String ip = "isilo.db.elephantsql.com";
+    // String port = Integer.toString(5432);
+    // String user = "gkzavwme";
+    // String pass = "5TWc-gVQdICuVD1rE-cCgdBQFBH-xH6g";
+
+    // Database db = Database.getDatabase(ip, port, user, pass);
+
+    // int id = 3;
+
+    // Database.RowData res = db.selectOne(id);
+    // int likes = res.mLikes;
+
+    // assertEquals(res.mLikes, likes);
+
+    // db.removeLikes(id, res.mLikes);
+
+    // assertEquals(res.mLikes, likes);
+    // }
 }
