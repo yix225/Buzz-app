@@ -169,7 +169,7 @@ public class App {
                 System.out.println("  Current Database Contents");
                 System.out.println("  -------------------------");
                 for (Database.RowData rd : res) {
-                    System.out.println("  [" + rd.mId + "] " + rd.mSubject);
+                    System.out.println("  [" + rd.mId + "] " + rd.mSubject + "Likes [" + rd.mLikes + " ]");
                     
                 }
             } else if (action == '-') {
