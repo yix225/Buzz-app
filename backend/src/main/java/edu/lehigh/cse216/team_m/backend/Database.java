@@ -193,7 +193,11 @@ public class Database {
             // Standard CRUD operations
             db.mDeleteOne = db.mConnection.prepareStatement("DELETE FROM tblData WHERE id = ?");
             db.mInsertOne = db.mConnection.prepareStatement("INSERT INTO tblData VALUES (default, ?, ?, ?)");
+<<<<<<< HEAD
+            db.mSelectAll = db.mConnection.prepareStatement("SELECT id, subject, message, likes FROM tblData");
+=======
             db.mSelectAll = db.mConnection.prepareStatement("SELECT id, subject, message likes FROM tblData");
+>>>>>>> b9f961ef3d20e19f74f97e3b8c8492813fe39201
             db.mSelectOne = db.mConnection.prepareStatement("SELECT * from tblData WHERE id=?");
             db.mUpdateOne = db.mConnection.prepareStatement("UPDATE tblData SET message = ? WHERE id = ?");
             db.mLikeOne = db.mConnection.prepareStatement("UPDATE tblData SET likes = likes + 1 WHERE id = ?");
