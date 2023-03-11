@@ -9,55 +9,54 @@ import java.util.Scanner;
 
 import java.util.ArrayList;
 import java.util.Map;
+
 /**
  * Unit test for simple App.
  */
-public class AppTest 
-    extends TestCase
-{
-    
+public class AppTest
+        extends TestCase {
+
     /**
      * Create the test case
      *
      * @param testName name of the test case
      */
-    public AppTest( String testName )
-    {
-        super( testName );
+    public AppTest(String testName) {
+        super(testName);
     }
 
     /**
      * @return the suite of tests being tested
      */
-    public static Test suite()
-    {
-        return new TestSuite( AppTest.class );
+    public static Test suite() {
+        return new TestSuite(AppTest.class);
     }
 
     /**
      * Rigourous Test :-)
      */
-    public void testApp()
-    {
-        assertTrue( true );
+    public void testApp() {
+        assertTrue(true);
     }
-    public String getInput(){
+
+    public String getInput() {
         Scanner sc = new Scanner(System.in);
         return sc.nextLine();
     }
-    public void testInputs(){
+
+    public void testInputs() {
         String actions = "TD1*-+~q?";
-     
-        InputStream in = new ByteArrayInputStream(actions.getBytes()); //load user input into input stream
+
+        InputStream in = new ByteArrayInputStream(actions.getBytes()); // load user input into input stream
         System.setIn(in);
 
         // char testAction = actions.charAt(0);
         // boolean testValid = actions.contains(String.valueOf(testAction));
 
-        assertEquals(actions, getInput());      //if both strings are equal returns true
+        assertEquals(actions, getInput()); // if both strings are equal returns true
     }
 
-    public void testPrompt(){               //tests that users can input stuff
+    public void testPrompt() { // tests that users can input stuff
         App testApp = new App();
         String input = "?\n";
         InputStream inputStream = new ByteArrayInputStream(input.getBytes());
@@ -66,4 +65,44 @@ public class AppTest
         assertEquals('?', result);
     }
 
+    public void testaddLike() {
+
+        String ip = "isilo.db.elephantsql.com";
+        String port = Integer.toString(5432);
+        String user = "gkzavwme";
+        String pass = "5TWc-gVQdICuVD1rE-cCgdBQFBH-xH6g";
+
+        Database db = Database.getDatabase(ip, port, user, pass);
+
+        int id = 3;
+
+        Database.RowData res = db.selectOne(id);
+        int likes = res.mLikes;
+
+        assertEquals(res.mLikes, likes);
+
+        db.addLikes(id, res.mLikes);
+
+        assertEquals(res.mLikes, likes);
+    }
+
+    // public void testUnlike() {
+    // String ip = "isilo.db.elephantsql.com";
+    // String port = Integer.toString(5432);
+    // String user = "gkzavwme";
+    // String pass = "5TWc-gVQdICuVD1rE-cCgdBQFBH-xH6g";
+
+    // Database db = Database.getDatabase(ip, port, user, pass);
+
+    // int id = 3;
+
+    // Database.RowData res = db.selectOne(id);
+    // int likes = res.mLikes;
+
+    // assertEquals(res.mLikes, likes);
+
+    // db.removeLikes(id, res.mLikes);
+
+    // assertEquals(res.mLikes, likes);
+    // }
 }

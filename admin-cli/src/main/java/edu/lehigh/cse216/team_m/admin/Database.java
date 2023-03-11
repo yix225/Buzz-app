@@ -50,6 +50,7 @@ public class Database {
      */
     private PreparedStatement mDropTable;
 
+    private PreparedStatement mUpdateLikes;
     /**
      * RowData is like a struct in C: we use it to hold data, and we allow 
      * direct access to its fields.  In the context of this Database, RowData 
@@ -75,12 +76,18 @@ public class Database {
         String mMessage;
 
         /**
+         * The like counter stored in this row
+         */
+        int mLikes;
+        /**
+         * 
          * Construct a RowData object by providing values for its fields
          */
-        public RowData(int id, String subject, String message) {
+        public RowData(int id, String subject, String message, int likes) {
             mId = id;
             mSubject = subject;
             mMessage = message;
+            mLikes = likes;
         }
     }
 
@@ -132,7 +139,7 @@ public class Database {
             // creation/deletion, so multiple executions will cause an exception
             db.mCreateTable = db.mConnection.prepareStatement(
                     "CREATE TABLE tblData (id SERIAL PRIMARY KEY, subject VARCHAR(50) "
-                    + "NOT NULL, message VARCHAR(500) NOT NULL)");
+                    + "NOT NULL, message VARCHAR(1024) NOT NULL, likes INTEGER)");
             db.mDropTable = db.mConnection.prepareStatement("DROP TABLE tblData");
 
             // Standard CRUD operations
@@ -141,6 +148,7 @@ public class Database {
             db.mSelectAll = db.mConnection.prepareStatement("SELECT id, subject FROM tblData");
             db.mSelectOne = db.mConnection.prepareStatement("SELECT * from tblData WHERE id=?");
             db.mUpdateOne = db.mConnection.prepareStatement("UPDATE tblData SET message = ? WHERE id = ?");
+            db.mUpdateLikes = db.mConnection.prepareStatement("UPDATE tblData SET likes = ? WHERE id = ?");
         } catch (SQLException e) {
             System.err.println("Error creating prepared statement");
             e.printStackTrace();
@@ -205,7 +213,7 @@ public class Database {
         try {
             ResultSet rs = mSelectAll.executeQuery();
             while (rs.next()) {
-                res.add(new RowData(rs.getInt("id"), rs.getString("subject"), null));
+                res.add(new RowData(rs.getInt("id"), rs.getString("subject"), null, 0));
             }
             rs.close();
             return res;
@@ -228,7 +236,7 @@ public class Database {
             mSelectOne.setInt(1, id);
             ResultSet rs = mSelectOne.executeQuery();
             if (rs.next()) {
-                res = new RowData(rs.getInt("id"), rs.getString("subject"), rs.getString("message"));
+                res = new RowData(rs.getInt("id"), rs.getString("subject"), rs.getString("message"), rs.getInt("likes"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -274,11 +282,39 @@ public class Database {
         return res;
     }
 
+    int addLikes(int id,int likes){
+        int res = -1;
+        int tempLikes = likes;
+        try{
+            tempLikes += 1;
+            mUpdateLikes.setInt(1, tempLikes);
+            mUpdateLikes.setInt(2, id);
+            res = mUpdateLikes.executeUpdate();
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return res;
+    }
+
+    int removeLikes(int id, int likes){
+        int res = -1;
+        int tempLikes = likes;
+        try{
+            tempLikes -= 1;
+            mUpdateLikes.setInt(1, tempLikes);
+            mUpdateLikes.setInt(2, id);
+            res = mUpdateLikes.executeUpdate();
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return res;
+    }
     /**
      * Create tblData.  If it already exists, this will print an error
      */
     void createTable() {
         try {
+            
             mCreateTable.execute();
         } catch (SQLException e) {
             e.printStackTrace();
