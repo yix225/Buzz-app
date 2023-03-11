@@ -76,13 +76,15 @@ public class AppTest
 
         int id = 3;
 
+        // selects a specific row in database
         Database.RowData res = db.selectOne(id);
         int likes = res.mLikes;
 
         assertEquals(res.mLikes, likes);
-
+        // add likes to the specific row and update int likes
         db.addLikes(id, res.mLikes);
 
+        // should be equal after likes added
         assertEquals(res.mLikes, likes);
     }
 
@@ -100,7 +102,7 @@ public class AppTest
     // int likes = res.mLikes;
 
     // assertEquals(res.mLikes, likes);
-
+    // remove a like and should be equal after
     // db.removeLikes(id, res.mLikes);
 
     // assertEquals(res.mLikes, likes);
