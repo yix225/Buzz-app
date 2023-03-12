@@ -162,7 +162,7 @@ class _HttpReqWordsState extends State<HttpReqWords> {
     setState(() {
     });
   }
-
+final TextEditingController _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -170,36 +170,49 @@ class _HttpReqWordsState extends State<HttpReqWords> {
       future: _future_list_numword_pairs,
       builder: (BuildContext context, AsyncSnapshot<List<mLine>> snapshot) {
         Widget child;
-
-
         if (snapshot.hasData) {
-          // developer.log('`using` ${snapshot.data}', name: 'my.app.category');
-          // create  listview to show one row per array element of json response
-          child = ListView.builder(
-            padding: const EdgeInsets.all(16.0),
-            itemCount: snapshot.data!.length,
-            itemBuilder: (context, i) {
-              return Column(
-                children: <Widget>[
-                  ListTile(
-                    title: Text(
-                      "id=${snapshot.data![i].mId} | ${snapshot.data![i].mMessage} | ${snapshot.data![i].mLikes}",
-                      style: _biggerFont,
-                    ),
-                    trailing: ElevatedButton(
-                      onPressed: () {
-                        int newLikes = snapshot.data![i].mLikes + 1;
-                        updateLikes(snapshot.data![i], snapshot.data![i].mId, newLikes);
-                        //snapshot.data![i].mLikes++;
-                        _retry();
-                      },
-                      child: Text('Like'),
-                    ),
+          child=Column(
+            children: <Widget>[
+              Expanded(
+                child: ListView.builder(
+                  padding: const EdgeInsets.all(16.0),
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (context, i) {
+                    return Column(
+                      children: <Widget>[
+                        ListTile(
+                          title: Text(
+                            "id=${snapshot.data![i].mId} | ${snapshot.data![i].mMessage} | ${snapshot.data![i].mLikes}",
+                            style: _biggerFont,
+                          ),
+                          trailing: ElevatedButton(
+                            onPressed: () {
+                              updateLikes(snapshot.data![i].mId);
+                              _retry();
+                            },
+                            child: Text('Like'),
+                          ),
+                        ),
+                        Divider(height: 1.0),
+                      ],
+                    );
+                  },
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.all(16.0),
+                child: TextField(
+                  // ignore: prefer_const_constructors
+                  decoration: InputDecoration(
+                    hintText: 'Enter new a message',
                   ),
-                  Divider(height: 1.0),
-                ],
-              );
-            },
+                  onSubmitted: (String value) {
+                    addMessage(value);
+                    _retry();
+                  },
+                ),
+              ),
+            ],
           );
         } else if (snapshot.hasError) { // newly added
           child = Text('${snapshot.error}');
@@ -242,11 +255,24 @@ Future<List<mLine>> fetchmLines() async {
 }
 
 
-void updateLikes(mLine message, int myid, int newLikes) async {
+void updateLikes(int myid) async {
   // Update the mLikes field of the message object.
-  message.mLikes = newLikes;
-  final response = await http.put(
-    Uri.parse('http://2023sp-team-m.dokku.cse.lehigh.edu/messages/${myid}'),
+  final response = await http.get(
+    Uri.parse('http://2023sp-team-m.dokku.cse.lehigh.edu/messages/${myid}/like')
+  );
+  if (response.statusCode != 200) {
+    throw Exception('Failed to update like.');
+  }
+}
+
+void addMessage(String myMessage) async {
+  DateTime now = DateTime.now();
+  String currentTime = now.toString();
+
+  mLine message = mLine(mId: 100, mSubject: "a", mMessage: myMessage, mLikes: 0, mCreated: currentTime);
+
+  final response = await http.post(
+    Uri.parse('http://2023sp-team-m.dokku.cse.lehigh.edu/messages'),
     headers: {'Content-Type': 'application/json'},
     body: jsonEncode(message.toJson()),
   );
@@ -254,4 +280,3 @@ void updateLikes(mLine message, int myid, int newLikes) async {
     throw Exception('Failed to update like.');
   }
 }
-
