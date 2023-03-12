@@ -138,7 +138,6 @@ public class App {
             // ensure status 200 OK, with a MIME type of JSON
             // NB: even on error, we return 200, but with a JSON object that
             //     describes the error.
-            System.out.println(req.toString);
             response.status(200);
             response.type("application/json");
             // NB: createEntry checks for null title and message
