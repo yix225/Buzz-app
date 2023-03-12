@@ -29,13 +29,32 @@ public class DataRowTest extends TestCase {
      * creates
      */
     public void testConstructor() {
-        String title = "Test Title";
-        String content = "Test Content";
+        String subject = "Test subject";
+        String message = "Test message";
         int id = 17;
-        DataRow d = new DataRow(id, title, content);
+        DataRow d = new DataRow(id, subject, message);
 
         assertTrue(d.mSubject.equals(title));
         assertTrue(d.mMessage.equals(content));
+        assertTrue(d.likes == 0);
+        assertTrue(d.mId == id);
+        assertFalse(d.mCreated == null);
+    }
+
+    /**
+     * Ensure that the constructor populates every field when likes are specified of the object it
+     * creates
+     */
+    public void testconstructor2() {
+        String subject = "Test subject";
+        String message = "Test message";
+        int likes = 32;
+        int id = 21;
+        DataRow d = new DataRow(id, subject, message);
+
+        assertTrue(d.mSubject.equals(title));
+        assertTrue(d.mMessage.equals(content));
+        assertTrue(d.likes == 0);
         assertTrue(d.mId == id);
         assertFalse(d.mCreated == null);
     }
