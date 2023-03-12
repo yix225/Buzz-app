@@ -1,12 +1,3 @@
-const express = require('express');
-const app = express();
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*"); // allow any origin to access the resource
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS"); // allow these HTTP methods
-  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization"); // allow these headers
-  next();
-});
-
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
