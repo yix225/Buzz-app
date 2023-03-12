@@ -226,6 +226,11 @@ var ElementList = /** @class */ (function () {
             for (var i = 0; i < all_editbtns.length; ++i) {
                 all_editbtns[i].addEventListener("click", function (e) { mainList.clickEdit(e); });
             }
+            // Find all of the edit buttons, and set their behavior
+            var all_editbtns = document.getElementsByClassName("likebtn");
+            for (var i = 0; i < all_editbtns.length; ++i) {
+                all_editbtns[i].addEventListener("click", function (e) { mainList.clickLike(e); });
+            }
         }
     };
     /**
@@ -317,11 +322,11 @@ var ElementList = /** @class */ (function () {
         var _this = this;
         // as in clickDelete, we need the ID of the row
         var id = e.target.getAttribute("data-value");
-        // Issue an AJAX GET and then pass the result to editEntryForm.init()
+        // Issue an AJAX PUT to update likes and refresh page
         var doAjax = function () { return __awaiter(_this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, fetch("/messages/".concat(id), {
+                    case 0: return [4 /*yield*/, fetch("/messages/".concat(id).concat("/like"), {
                             method: 'PUT',
                             headers: {
                                 'Content-type': 'application/json; charset=UTF-8'
@@ -335,7 +340,7 @@ var ElementList = /** @class */ (function () {
                             }
                             return Promise.reject(response);
                         }).then(function (data) {
-                            editEntryForm.init(data);
+                            mainList.refresh();
                             console.log(data);
                         }).catch(function (error) {
                             console.warn('Something went wrong.', error);
