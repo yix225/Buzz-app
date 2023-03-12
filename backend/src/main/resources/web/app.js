@@ -227,9 +227,9 @@ var ElementList = /** @class */ (function () {
                 all_editbtns[i].addEventListener("click", function (e) { mainList.clickEdit(e); });
             }
             // Find all of the edit buttons, and set their behavior
-            var all_editbtns = document.getElementsByClassName("likebtn");
-            for (var i = 0; i < all_editbtns.length; ++i) {
-                all_editbtns[i].addEventListener("click", function (e) { mainList.clickLike(e); });
+            var all_likebtns = document.getElementsByClassName("likebtn");
+            for (var i = 0; i < all_likebtns.length; ++i) {
+                all_likebtns[i].addEventListener("click", function (e) { mainList.clickLike(e); });
             }
         }
     };
