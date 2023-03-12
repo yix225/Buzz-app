@@ -34,8 +34,8 @@ public class DataRowTest extends TestCase {
         int id = 17;
         DataRow d = new DataRow(id, subject, message);
 
-        assertTrue(d.mSubject.equals(title));
-        assertTrue(d.mMessage.equals(content));
+        assertTrue(d.mSubject.equals(subject));
+        assertTrue(d.mMessage.equals(message));
         assertTrue(d.likes == 0);
         assertTrue(d.mId == id);
         assertFalse(d.mCreated == null);
@@ -52,8 +52,8 @@ public class DataRowTest extends TestCase {
         int id = 21;
         DataRow d = new DataRow(id, subject, message);
 
-        assertTrue(d.mSubject.equals(title));
-        assertTrue(d.mMessage.equals(content));
+        assertTrue(d.mSubject.equals(subject));
+        assertTrue(d.mMessage.equals(message));
         assertTrue(d.likes == 0);
         assertTrue(d.mId == id);
         assertFalse(d.mCreated == null);
@@ -63,13 +63,14 @@ public class DataRowTest extends TestCase {
      * Ensure that the copy constructor works correctly
      */
     public void testCopyconstructor() {
-        String title = "Test Title For Copy";
-        String content = "Test Content For Copy";
+        String subject = "Test Title For Copy";
+        String message = "Test Content For Copy";
         int id = 177;
-        DataRow d = new DataRow(id, title, content);
+        DataRow d = new DataRow(id, subject, message);
         DataRow d2 = new DataRow(d);
         assertTrue(d2.mSubject.equals(d.mSubject));
         assertTrue(d2.mMessage.equals(d.mMessage));
+        assertTrue(d2.likes == d.likes);
         assertTrue(d2.mId == d.mId);
         assertTrue(d2.mCreated.equals(d.mCreated));
     }
