@@ -327,7 +327,7 @@ var ElementList = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, fetch("/messages/".concat(id).concat("/like"), {
-                            method: 'PUT',
+                        method: 'PUT',
                             headers: {
                                 'Content-type': 'application/json; charset=UTF-8'
                             }
