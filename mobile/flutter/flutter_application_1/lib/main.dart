@@ -3,7 +3,7 @@ import 'package:english_words/english_words.dart';
 import 'dart:developer' as developer;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
+import 'dart:async';
 
 void main() {
   runApp(const MyApp());
@@ -55,7 +55,6 @@ class mLine {
 //{"mStatus":"ok","mData":{"mId":3,"mSubject":"Test Test","mMessage":"Hello","mLikes":9,"mCreated":"Mar 11, 2023 2:41:02 AM"}}
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
 
   // This widget is the root of your application.
   @override
@@ -139,7 +138,7 @@ class HttpReqWords extends StatefulWidget {
 
 class _HttpReqWordsState extends State<HttpReqWords> {
   late Future<List<mLine>> _future_list_numword_pairs;
-
+  late Timer _timer;
 
   final _biggerFont = const TextStyle(fontSize: 18);
 
@@ -147,7 +146,11 @@ class _HttpReqWordsState extends State<HttpReqWords> {
   @override
   void initState() {
     super.initState();
-    _future_list_numword_pairs = fetchmLines();
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        _future_list_numword_pairs = fetchmLines();
+      });
+    });
   }
 
 
@@ -207,8 +210,11 @@ final TextEditingController _controller = TextEditingController();
                     hintText: 'Enter new a message',
                   ),
                   onSubmitted: (String value) {
+                    _retry();
+                    reload();
                     addMessage(value);
                     _retry();
+                    reload();
                   },
                 ),
               ),
@@ -257,7 +263,7 @@ Future<List<mLine>> fetchmLines() async {
 
 void updateLikes(int myid) async {
   // Update the mLikes field of the message object.
-  final response = await http.get(
+  final response = await http.put(
     Uri.parse('http://2023sp-team-m.dokku.cse.lehigh.edu/messages/${myid}/like')
   );
   if (response.statusCode != 200) {
@@ -268,13 +274,14 @@ void updateLikes(int myid) async {
 void addMessage(String myMessage) async {
   DateTime now = DateTime.now();
   String currentTime = now.toString();
-
-  mLine message = mLine(mId: 100, mSubject: "a", mMessage: myMessage, mLikes: 0, mCreated: currentTime);
-
+  String msub = 'a';
+  //mLine message = mLine(mId: 100, mSubject: msub, mMessage: myMessage, mLikes: 0, mCreated: currentTime);
+  Map<String, String> headers = {'Content-Type': 'application/json'};
+  Map<String, dynamic> payload = {'mId': 0, 'mSubject': 'a', 'mMessage': myMessage, 'mLikes': 0, 'mCreated': currentTime};
   final response = await http.post(
     Uri.parse('http://2023sp-team-m.dokku.cse.lehigh.edu/messages'),
-    headers: {'Content-Type': 'application/json'},
-    body: jsonEncode(message.toJson()),
+    headers: headers,
+    body: jsonEncode(payload),
   );
   if (response.statusCode != 200) {
     throw Exception('Failed to update like.');
