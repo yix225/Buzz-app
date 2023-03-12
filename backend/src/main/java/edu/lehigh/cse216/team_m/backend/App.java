@@ -169,7 +169,7 @@ public class App {
         });
 
         // PUT route for liking a row in the DataStore.
-        Spark.get("/messages/:id/like", (request, response) -> {
+        Spark.put ("/messages/:id/like", (request, response) -> {
             // If we can't get an ID or can't parse the JSON, Spark will send
             // a status 500
             int idx = Integer.parseInt(request.params("id"));
@@ -185,7 +185,7 @@ public class App {
         });
 
         // PUT route for unliking a row in the DataStore.
-        Spark.get("/messages/:id/unlike", (request, response) -> {
+        Spark.put ("/messages/:id/unlike", (request, response) -> {
             // If we can't get an ID or can't parse the JSON, Spark will send
             // a status 500
             int idx = Integer.parseInt(request.params("id"));

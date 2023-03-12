@@ -322,7 +322,7 @@ var ElementList = /** @class */ (function () {
         var _this = this;
         // as in clickDelete, we need the ID of the row
         var id = e.target.getAttribute("data-value");
-        // Issue an AJAX GET and then pass the result to editEntryForm.init()
+        // Issue an AJAX PUT to update likes and refresh page
         var doAjax = function () { return __awaiter(_this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
