@@ -59,6 +59,11 @@ public class App {
         }
         return defaultVal;
     }
+    
+    /**
+     * @author Selase Dzathor
+     * @version 3/25/2023
+     */
     public static void main(String[] args) {
         
         // Get the port on which to listen for requests

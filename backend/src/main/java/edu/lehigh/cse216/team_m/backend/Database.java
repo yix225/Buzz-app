@@ -356,6 +356,11 @@ public class Database {
         return res;
     }
 
+    
+    /** 
+     * @param id
+     * @return int
+     */
     int likeOne(int id) {
         int res = -1;
         try {
@@ -367,6 +372,11 @@ public class Database {
         return res;
     }
 
+    
+    /** 
+     * @param id
+     * @return int
+     */
     int unlikeOne(int id) {
         int res = -1;
         try {
