@@ -49,7 +49,7 @@ public class DataRow {
      * 
      * @param subject The subject string for this row of data
      * 
-     * @param content The content string for this row of data
+     * @param message The message string for this row of data
      */
     DataRow(int id, String subject, String message) {
         mId = id;
@@ -69,7 +69,7 @@ public class DataRow {
      * 
      * @param subject The subject string for this row of data
      * 
-     * @param content The content string for this row of data
+     * @param message The message string for this row of data
      * 
      * @param likes The likes of 
      */
@@ -84,6 +84,7 @@ public class DataRow {
 
     /**
      * Copy constructor to create one datarow from another
+     * @param data The dataRow you are copying from
      */
     DataRow(DataRow data) {
         mId = data.mId;

@@ -11,7 +11,10 @@ import junit.framework.TestSuite;
 public class AppTest 
     extends TestCase
 {
-    int id = -1;
+	/**
+	 * id used for test rows
+	 */
+    private int id = -1;
 
     /**
      * Create the test case
