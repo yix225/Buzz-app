@@ -10,4 +10,4 @@
 
 4. Name: Selase Dzathor 	| Email: skd225@lehigh.edu | Phone #: 601-760-5029
 
-5. Name: Yinuo Xu 			| Email: yix225@lehigh.edu | Phone #: 484-934-7389 
+5. Name: Yinuo Xu 			| Email: yix225@lehigh.edu | Phone #: 484-934-7389
