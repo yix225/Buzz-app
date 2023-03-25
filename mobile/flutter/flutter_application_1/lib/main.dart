@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
+import 'package:flutter_application_1/insert_message.dart';
+import 'package:flutter_application_1/message.dart';
+import 'package:flutter_application_1/my_function.dart';
 import 'dart:developer' as developer;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -51,8 +54,6 @@ class mLine {
   }
 }
 
-//{"mStatus":"ok","mData":{"mId":3,"mSubject":"Test Test","mMessage":"Hello","mLikes":9,"mCreated":"Mar 11, 2023 2:37:31 AM"}}
-//{"mStatus":"ok","mData":{"mId":3,"mSubject":"Test Test","mMessage":"Hello","mLikes":9,"mCreated":"Mar 11, 2023 2:41:02 AM"}}
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -74,6 +75,10 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.deepPurple,
       ),
       home: const MyHomePage(title: 'Team M Flutter App'),
+      routes: {
+        '/insert': (context) => insert_message(),
+        '/mymessage': (context) => message(),
+      },
     );
   }
 }
@@ -92,11 +97,7 @@ class MyHomePage extends StatefulWidget {
   // case the title) provided by the parent (in this case the App widget) and
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
-
-
   final String title;
-
-
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
@@ -185,15 +186,26 @@ final TextEditingController _controller = TextEditingController();
                       children: <Widget>[
                         ListTile(
                           title: Text(
-                            "id=${snapshot.data![i].mId} | ${snapshot.data![i].mMessage} | ${snapshot.data![i].mLikes}",
+                            "${snapshot.data![i].mMessage} | Like:${snapshot.data![i].mLikes}",
                             style: _biggerFont,
                           ),
                           trailing: ElevatedButton(
                             onPressed: () {
-                              updateLikes(snapshot.data![i].mId);
-                              _retry();
+                              //updateLikes(snapshot.data![i].mId);
+                              //_retry();
+                              List<String> myarg =[];
+                              myarg.add((snapshot.data![i].mId).toString());
+                              myarg.add((snapshot.data![i].mSubject).toString());
+                              myarg.add((snapshot.data![i].mMessage).toString());
+                              myarg.add((snapshot.data![i].mLikes).toString());
+                              myarg.add((snapshot.data![i].mCreated).toString());
+                              Navigator.pushNamed(
+                                context, 
+                                '/mymessage',
+                                arguments: myarg,
+                              );
                             },
-                            child: Text('Like'),
+                            child: Text('>>'),
                           ),
                         ),
                         Divider(height: 1.0),
@@ -202,21 +214,11 @@ final TextEditingController _controller = TextEditingController();
                   },
                 ),
               ),
-              Container(
-                padding: const EdgeInsets.all(16.0),
-                child: TextField(
-                  // ignore: prefer_const_constructors
-                  decoration: InputDecoration(
-                    hintText: 'Enter new a message',
-                  ),
-                  onSubmitted: (String value) {
-                    _retry();
-                    reload();
-                    addMessage(value);
-                    _retry();
-                    reload();
-                  },
-                ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/insert');
+                },
+                child: Text('Add a message'),
               ),
             ],
           );
@@ -257,33 +259,5 @@ Future<List<mLine>> fetchmLines() async {
     // If the server did not return a 200 OK response,
     // then throw an exception.
     throw Exception('Did not receive success status code from request.');
-  }
-}
-
-
-void updateLikes(int myid) async {
-  // Update the mLikes field of the message object.
-  final response = await http.put(
-    Uri.parse('http://2023sp-team-m.dokku.cse.lehigh.edu/messages/${myid}/like')
-  );
-  if (response.statusCode != 200) {
-    throw Exception('Failed to update like.');
-  }
-}
-
-void addMessage(String myMessage) async {
-  DateTime now = DateTime.now();
-  String currentTime = now.toString();
-  String msub = 'a';
-  //mLine message = mLine(mId: 100, mSubject: msub, mMessage: myMessage, mLikes: 0, mCreated: currentTime);
-  Map<String, String> headers = {'Content-Type': 'application/json'};
-  Map<String, dynamic> payload = {'mId': 0, 'mSubject': 'a', 'mMessage': myMessage, 'mLikes': 0, 'mCreated': currentTime};
-  final response = await http.post(
-    Uri.parse('http://2023sp-team-m.dokku.cse.lehigh.edu/messages'),
-    headers: headers,
-    body: jsonEncode(payload),
-  );
-  if (response.statusCode != 200) {
-    throw Exception('Failed to update like.');
   }
 }
