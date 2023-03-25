@@ -6,7 +6,10 @@ import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.Map;
-
+/**
+ * @author Hien Thi
+ * @version 3/25/2023
+ */
 /**
  * App is our basic admin app.  For now, it is a demonstration of the six key 
  * operations on a database: connect, insert, update, query, delete, disconnect
