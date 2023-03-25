@@ -39,11 +39,20 @@ public class AppTest
         assertTrue(true);
     }
 
+    /**
+     * Get user input from scanner
+     * 
+     * @return String
+     */
     public String getInput() {
         Scanner sc = new Scanner(System.in);
         return sc.nextLine();
     }
 
+    /**
+     * Test all possible inputs user can type
+     * 
+     */
     public void testInputs() {
         String actions = "TD1*-+~q?";
 
@@ -56,6 +65,10 @@ public class AppTest
         assertEquals(actions, getInput()); // if both strings are equal returns true
     }
 
+    /**
+     * Hardcode an input of '?' to test if it works with menu
+     * 
+     */
     public void testPrompt() { // tests that users can input stuff
         App testApp = new App();
         String input = "?\n";
@@ -65,8 +78,10 @@ public class AppTest
         assertEquals('?', result);
     }
 
-    public void testaddLike() {
-
+    /**
+     * Connect to database and test if unlike does decrease the like counter
+     */
+    public void testUnlike() {
         String ip = "isilo.db.elephantsql.com";
         String port = Integer.toString(5432);
         String user = "gkzavwme";
@@ -74,37 +89,15 @@ public class AppTest
 
         Database db = Database.getDatabase(ip, port, user, pass);
 
-        int id = 3;
+        int id = 1;
 
-        // selects a specific row in database
         Database.RowData res = db.selectOne(id);
         int likes = res.mLikes;
 
         assertEquals(res.mLikes, likes);
-        // add likes to the specific row and update int likes
-        db.addLikes(id, res.mLikes);
+        // remove a like and should be equal after
+        db.removeLikes(id, res.mLikes);
 
-        // should be equal after likes added
         assertEquals(res.mLikes, likes);
     }
-
-    // public void testUnlike() {
-    // String ip = "isilo.db.elephantsql.com";
-    // String port = Integer.toString(5432);
-    // String user = "gkzavwme";
-    // String pass = "5TWc-gVQdICuVD1rE-cCgdBQFBH-xH6g";
-
-    // Database db = Database.getDatabase(ip, port, user, pass);
-
-    // int id = 3;
-
-    // Database.RowData res = db.selectOne(id);
-    // int likes = res.mLikes;
-
-    // assertEquals(res.mLikes, likes);
-    // remove a like and should be equal after
-    // db.removeLikes(id, res.mLikes);
-
-    // assertEquals(res.mLikes, likes);
-    // }
 }
