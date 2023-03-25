@@ -50,7 +50,7 @@ public class DataRowTest extends TestCase {
         String message = "Test message";
         int likes = 32;
         int id = 21;
-        DataRow d = new DataRow(id, subject, message);
+        DataRow d = new DataRow(id, subject, message, likes);
 
         assertTrue(d.mSubject.equals(subject));
         assertTrue(d.mMessage.equals(message));

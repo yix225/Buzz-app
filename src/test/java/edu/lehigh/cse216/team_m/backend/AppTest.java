@@ -11,7 +11,10 @@ import junit.framework.TestSuite;
 public class AppTest 
     extends TestCase
 {
-    int id = -1;
+	/**
+	 * id used for test rows
+	 */
+    private int id = -1;
 
     /**
      * Create the test case
@@ -31,11 +34,17 @@ public class AppTest
         return new TestSuite( AppTest.class );
     }
 
+    /**
+     * Test the app
+     */
     public void testApp()
     {
         assertTrue( true );
     }
-
+    
+    /**
+     * Test insertRow
+     */
     public void testInsertRow(){
         // Connecting to Database . . .
         String ip = "isilo.db.elephantsql.com";
@@ -68,7 +77,10 @@ public class AppTest
         assertEquals(dr1.mMessage, dr2.mMessage);
         assertEquals(dr1.mLikes, dr2.mLikes);
     }
-
+    
+    /**
+     * Tests DeleteRow
+     */
     public void testDeleteRow(){
         // Connecting to Database . . .
         String ip = "isilo.db.elephantsql.com";
@@ -95,6 +107,9 @@ public class AppTest
         assertTrue(true);
     }
     
+    /**
+     * Tests likeOne
+     */
     public void testLikeOne() {
         // Connecting to Database . . .
         String ip = "isilo.db.elephantsql.com";
@@ -126,7 +141,10 @@ public class AppTest
         // should be equal after likes added
         assertEquals(res.mLikes, likes);
     }
-
+    
+    /**
+     * Tests unLikeOne
+     */
     public void testunlikeOne() {
         // Connecting to Database . . .
         String ip = "isilo.db.elephantsql.com";

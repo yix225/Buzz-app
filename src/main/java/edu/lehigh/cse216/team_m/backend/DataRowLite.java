@@ -21,6 +21,7 @@ public class DataRowLite {
 
     /**
      * Create a DataRowLite by copying fields from a DataRow
+     * @param data The dataRow you are copying from
      */
     public DataRowLite(DataRow data) {
         this.mId = data.mId;

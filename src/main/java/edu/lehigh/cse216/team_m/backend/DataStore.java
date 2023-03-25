@@ -42,7 +42,7 @@ public class DataStore {
      * tutorial.
      * 
      * @param subject   The subject for this newly added row
-     * @param content The content for this row
+     * @param message The message for this row
      * @return the ID of the new row, or -1 if no row was created
      */
     public synchronized int createEntry(String subject, String message) {
@@ -91,7 +91,7 @@ public class DataStore {
      *
      * @param id      The Id of the row to update
      * @param subject   The new subject for the row
-     * @param content The new content for the row
+     * @param message The new message for the row
      * @param likes   The number of likes for the row
      * @return a copy of the data in the row, if it exists, or null otherwise
      */
