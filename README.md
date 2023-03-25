@@ -12,3 +12,5 @@
 
 5. Name: Yinuo Xu 			| Email: yix225@lehigh.edu | Phone #: 484-934-7389 
 
+### JavaDoc Artifacts
+1. team_m/admin-cli/doc/edu/lehigh/cse216/team_m/admin
