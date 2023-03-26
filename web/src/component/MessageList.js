@@ -9,6 +9,7 @@ function MessageList(){
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [newSubject, setNewSubject] = useState('');
+  const [lastLikeTimestamp, setLastLikeTimestamp] = useState(null);
   //const [newLike, setNewLikes] = useState(0);
 //console.log("Yess");
   const getMessages = async () => {
@@ -109,69 +110,86 @@ function MessageList(){
     }
   };
 
-// click like 
-  const likeMessage = async (index) => {
-    const likeCount = messages[index].mLikes + 1;
-    const messageId = messages[index].mId;
-    //const updatedMessages = [...messages];
-    const updatedMessage = {
-      ...messages[index],
-      mLikes: likeCount,
-      
-    };
-    //console.log(updatedMessage); 
-    //const updatedMessages = [...messages];
-    //updatedMessages[index] = updatedMessage;
-    const updatedMessages = messages.map((message) =>
-      message.mId === messageId ? updatedMessage : message
-    );
-    console.log(updatedMessages);
-      try {
-        const response = await axios.put(
-          `http://2023sp-team-m.dokku.cse.lehigh.edu/messages/${messageId}`,
-          updatedMessage
-        );
-        setMessages(updatedMessages); // Update state with updatedMessages
-        console.log(`message ${messageId} liked`);
-        console.log(updatedMessages);
-        console.log(response.data);
-        //getMessages();
-        console.log('Message updated successfully!');
-      } catch (error) {
-        console.log(error);
-      }
-  };
+//click like 
+const likeMessage = async (index) => {
+  const messageId = messages[index].mId;
+  const updatedLikeCount = messages[index].mLikes + 1;
 
-  const dislikeMessage = async(index) => {
-    const likeCount = messages[index].mLikes-1;
-    const messageId = messages[index].mId;
-    const updatedMessages = [...messages];
-    const updatedMessage = {
-      ...messages[index],
-      mLikes: likeCount,
-      
-    };
-    //console.log(updatedMessage); 
-    updatedMessages[index] = updatedMessage;
-    // const updatedMessages = messages.map((message) =>
-    //   message.mId === messageId ? updatedMessage : message
-    // );
-    console.log(updatedMessages);
-      try {
-        const response = await axios.put(
-          `http://2023sp-team-m.dokku.cse.lehigh.edu/messages/${messageId}`,
-          updatedMessage
-        );
-        console.log(`message ${messageId} liked`);
-        console.log(updatedMessages);
-        console.log(response.data);
-        setMessages(updatedMessages); // Update state with updatedMessages
-        //getMessages();
-        console.log('Message updated successfully!');
-      } catch (error) {
-        console.log(error);
+  // Check if previous like was within 3 seconds
+  const now = Date.now();
+  if (lastLikeTimestamp && now - lastLikeTimestamp < 3000) {
+    const updatedMessages = messages.map((message, i) => {
+      if (i === index) {
+        return {
+          ...message,
+          mLikes: updatedLikeCount - 2,
+        };
+      } else {
+        return message;
       }
+    });
+    setMessages(updatedMessages);
+    setLastLikeTimestamp(now);
+    console.log('Cannot like again within 3 seconds');
+    return;
+  }
+
+  const updatedMessage = {
+    ...messages[index],
+    mLikes: updatedLikeCount,
   };
+  const updatedMessages = messages.map((message) =>
+    message.mId === messageId ? updatedMessage : message
+  );
+  setMessages(updatedMessages);
+  setLastLikeTimestamp(now);
+  
+  try {
+    const response = await axios.put(
+      `http://2023sp-team-m.dokku.cse.lehigh.edu/messages/${messageId}`,
+      updatedMessage
+    );
+    console.log(`message ${messageId} liked`);
+    console.log(updatedMessages);
+    console.log(response.data);
+    console.log('Message updated successfully!');
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
+
+  // const dislikeMessage = async(index) => {
+  //   const likeCount = messages[index].mLikes-1;
+  //   const messageId = messages[index].mId;
+  //   const updatedMessages = [...messages];
+  //   const updatedMessage = {
+  //     ...messages[index],
+  //     mLikes: likeCount,
+      
+  //   };
+  //   //console.log(updatedMessage); 
+  //   updatedMessages[index] = updatedMessage;
+  //   // const updatedMessages = messages.map((message) =>
+  //   //   message.mId === messageId ? updatedMessage : message
+  //   // );
+  //   console.log(updatedMessages);
+  //     try {
+  //       const response = await axios.put(
+  //         `http://2023sp-team-m.dokku.cse.lehigh.edu/messages/${messageId}`,
+  //         updatedMessage
+  //       );
+  //       console.log(`message ${messageId} liked`);
+  //       console.log(updatedMessages);
+  //       console.log(response.data);
+  //       setMessages(updatedMessages); // Update state with updatedMessages
+  //       //getMessages();
+  //       console.log('Message updated successfully!');
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  // };
 
 
   return (
@@ -207,7 +225,7 @@ function MessageList(){
             <div className = "message-actions">
               <span className = "message-likes">{message.mLikes} likes</span>
               <button onClick={() => likeMessage(index)}>Like</button>
-              <button onClick={() => dislikeMessage(index)}>Dislike</button> 
+              {/* <button onClick={() => dislikeMessage(index)}>Dislike</button>  */}
               <button onClick={() => deleteMessage(message.mId)}>Delete</button>
               <button onClick={() => editMessage(index, prompt('Enter new text:'))}>Edit</button>
        

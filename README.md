@@ -10,5 +10,16 @@
 
 4. Name: Selase Dzathor | Email: skd225@lehigh.edu | Phone #: 601-760-5029
 
-5. Yinuo Xu | Email: yix225@lehigh.edu | Phone #: 
+5. Name: Yinuo Xu | Email: yix225@lehigh.edu | Phone #: 
 
+
+
+### INSTRUNCTIONS ON BUILDING AND RUNNING LOCALLY AND ON DOKKU
+
+Open a terminal specifaclly for dokku
+Open another terminal for your local host
+SSH into dokku by running this command : yourUID@ubudokku01.cse.lehigh.edu
+On your local host, run this command : sh local-deploy.sh in the web branch of your web folder
+
+
+## CONCISE DESCRIPTION OF THE FUNCTIONALITY IN THIS TAGGED RELEASE
