@@ -23,3 +23,7 @@ On your local host, run this command : sh local-deploy.sh in the web branch of y
 
 
 ## CONCISE DESCRIPTION OF THE FUNCTIONALITY IN THIS TAGGED RELEASE
+
+
+## Link for JsDoc
+./src/component/out
