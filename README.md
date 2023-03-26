@@ -23,7 +23,4 @@ On your local host, run this command : sh local-deploy.sh in the web branch of y
 
 
 ## CONCISE DESCRIPTION OF THE FUNCTIONALITY IN THIS TAGGED RELEASE
-
-
-## Link for JsDoc
-./src/component/out
+The Buzz app is a social messaging platform that enables users to post anonymous messages, like and unlike messages posted by other users, as well as edit or delete each other's messages. Users are able to use the application without having to create an account or log in order to maintain the anonymous nature of the platform. It allows users to share their thoughts and opinions without revealing their identity.
