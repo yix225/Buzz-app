@@ -1,20 +1,21 @@
 package edu.lehigh.cse216.team_m.backend;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.IOException;
-import java.util.ArrayList;
-// Import the Spark package, so that we can make use of the "get" function to 
-// create an HTTP GET route
 import spark.Spark;
-
-// Import Google's JSON library
 import com.google.gson.*;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Map;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.jackson2.JacksonFactory;
+import java.util.HashMap;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
+import com.google.api.client.json.JsonFactory;
 /**
  * For now, our app creates an HTTP server that can only get and add data.
  */
@@ -42,7 +43,6 @@ public class App {
         String pass = env.get("POSTGRES_PASS");
         return Database.getDatabase(ip, port, "", user, pass);
     } 
-
     /**
     * Get an integer environment variable if it exists, and otherwise return the
     * default value.
@@ -59,13 +59,45 @@ public class App {
         }
         return defaultVal;
     }
-    
+    // private static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
+    // private static final JsonFactory JSON_FACTORY = new JacksonFactory();
+    // private static final String CLIENT_ID = "926558226206-ppmn3bk4ckvrtaq6hun9kpi034sde366.apps.googleusercontent.com";
+    // private static final String CLIENT_SECRET = "your-client-secret";
+    // private static final String REDIRECT_URI = "your-redirect-uri";
+    // public static GoogleLogin verify() {
+    //     try {
+    //         String authorizationCode = "your-authorization-code";
+    //         GoogleTokenResponse tokenResponse = new GoogleAuthorizationCodeTokenRequest(
+    //             HTTP_TRANSPORT,
+    //             JSON_FACTORY,
+    //             CLIENT_ID,
+    //             CLIENT_SECRET,
+    //             authorizationCode,
+    //             REDIRECT_URI).execute();
+    //         String idTokenString = tokenResponse.getIdToken();
+    //         return verifier.verify(idTokenString);
+    //     } 
+    //     catch (Exception e) {
+    //         System.err.println("Exception verifying ID token: " + e.getMessage());
+    //         return null;
+    //     }
+    // }
     /**
-     * @author Selase Dzathor
-     * @version 3/25/2023
+     * @author David
+     * @version 4/2/2023
      */
-    public static void main(String[] args) {
-        
+    public static <GoogleSignInResponse> void main(String[] args) {
+        // Create a new hash map to store the user ID and session key
+        HashMap<String, HashMap<String, String>> usersMap = new HashMap<>();
+        HashMap<String, String> testUser = new HashMap<>();
+        testUser.put("name", "David");
+        testUser.put("email", "jiw324@lehigh.com");
+        testUser.put("gender identity", "Male");
+        testUser.put("sexual orientation", "Heterosexual");
+        testUser.put("note", "Backend dev");
+        usersMap.put("johndoe", testUser);
+
+        System.out.println(usersMap.get("johndoe"));
         // Get the port on which to listen for requests
         Spark.port(getIntFromEnv("PORT", DEFAULT_PORT_SPARK));
 
@@ -86,17 +118,12 @@ public class App {
         //
         // NB: Gson is thread-safe.  See 
         // https://stackoverflow.com/questions/10380835/is-it-ok-to-use-gson-instance-as-a-static-field-in-a-model-bean-reuse
-        final Gson gson = new Gson();
-
-        // dataStore holds all of the data that has been provided via HTTP 
-        // requests
-        //
+        Gson gson = new Gson();
         // NB: every time we shut down the server, we will lose all data, and 
         //     every time we start the server, we'll have an empty dataStore,
         //     with IDs starting over from 0.
         final DataStore dataStore = new DataStore();
         Database db = getDatabaseConnection();
-
         // Set up a route for serving the main page
         Spark.get("/", (req, res) -> {
             res.redirect("/index.html");
@@ -131,6 +158,22 @@ public class App {
                 return gson.toJson(new StructuredResponse("ok", null, data));
             }
         });
+
+        // Spark.post("/login", (request, response) -> {
+        //     String idTokenString = "your-id-token-string";
+        //     GoogleIdToken idToken = verify(idTokenString);
+        //     if (idToken != null) {
+        //         response.status(200);
+        //         response.type("application/json");
+        //         return gson.toJson(new StructuredResponse("ok", "Login Success", idToken.toString()));
+        //     }
+        //     else{
+        //         response.status(404);
+        //         response.type("application/json");
+        //         return gson.toJson(new StructuredResponse("error", "Login failed", null));
+        //     }
+        // });
+
 
         // POST route for adding a new element to the DataStore.  This will read
         // JSON from the body of the request, turn it into a SimpleRequest 
@@ -190,7 +233,7 @@ public class App {
         });
 
         // PUT route for unliking a row in the DataStore.
-        Spark.put ("/messages/:id/unlike", (request, response) -> {
+        Spark.put("/messages/:id/unlike", (request, response) -> {
             // If we can't get an ID or can't parse the JSON, Spark will send
             // a status 500
             int idx = Integer.parseInt(request.params("id"));
