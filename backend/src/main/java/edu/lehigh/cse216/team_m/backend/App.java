@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 
+import org.omg.CORBA.CODESET_INCOMPATIBLE;
+
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
 import com.google.api.client.http.HttpTransport;
@@ -59,9 +61,8 @@ public class App {
         }
         return defaultVal;
     }
-    // private static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
-    // private static final JsonFactory JSON_FACTORY = new JacksonFactory();
-    // private static final String CLIENT_ID = "926558226206-ppmn3bk4ckvrtaq6hun9kpi034sde366.apps.googleusercontent.com";
+
+    private static final String CLIENT_ID = "926558226206-ppmn3bk4ckvrtaq6hun9kpi034sde366.apps.googleusercontent.com";
     // private static final String CLIENT_SECRET = "your-client-secret";
     // private static final String REDIRECT_URI = "your-redirect-uri";
     // public static GoogleLogin verify() {
@@ -124,6 +125,13 @@ public class App {
         //     with IDs starting over from 0.
         final DataStore dataStore = new DataStore();
         Database db = getDatabaseConnection();
+
+
+        HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
+        JsonFactory JSON_FACTORY = new JacksonFactory();
+        GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(HTTP_TRANSPORT, JSON_FACTORY)
+            .setAudience(Collections.singletonList(CLIENT_ID))
+            .build();
         // Set up a route for serving the main page
         Spark.get("/", (req, res) -> {
             res.redirect("/index.html");
@@ -159,20 +167,20 @@ public class App {
             }
         });
 
-        // Spark.post("/login", (request, response) -> {
-        //     String idTokenString = "your-id-token-string";
-        //     GoogleIdToken idToken = verify(idTokenString);
-        //     if (idToken != null) {
-        //         response.status(200);
-        //         response.type("application/json");
-        //         return gson.toJson(new StructuredResponse("ok", "Login Success", idToken.toString()));
-        //     }
-        //     else{
-        //         response.status(404);
-        //         response.type("application/json");
-        //         return gson.toJson(new StructuredResponse("error", "Login failed", null));
-        //     }
-        // });
+        Spark.post("/login", (request, response) -> {
+            String idTokenString = "your-id-token-string";
+            GoogleIdToken idToken = verify(idTokenString);
+            if (idToken != null) {
+                response.status(200);
+                response.type("application/json");
+                return gson.toJson(new StructuredResponse("ok", "Login Success", idToken.toString()));
+            }
+            else{
+                response.status(404);
+                response.type("application/json");
+                return gson.toJson(new StructuredResponse("error", "Login failed", null));
+            }
+        });
 
 
         // POST route for adding a new element to the DataStore.  This will read
