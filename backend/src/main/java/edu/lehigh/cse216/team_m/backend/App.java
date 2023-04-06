@@ -168,20 +168,12 @@ public class App {
         });
 
         Spark.post("/login", (request, response) -> {
-            String idTokenString = "your-id-token-string";
-            GoogleIdToken idToken = verify(idTokenString);
-            if (idToken != null) {
-                response.status(200);
-                response.type("application/json");
-                return gson.toJson(new StructuredResponse("ok", "Login Success", idToken.toString()));
-            }
-            else{
-                response.status(404);
-                response.type("application/json");
-                return gson.toJson(new StructuredResponse("error", "Login failed", null));
-            }
+            SimpleRequest req = gson.fromJson(request.body(), SimpleRequest.class);
+            response.status(200);
+            response.type("application/json");
+            String mytoken = req.mMessage;
+            return gson.toJson(new StructuredResponse("ok", mytoken, null));
         });
-
 
         // POST route for adding a new element to the DataStore.  This will read
         // JSON from the body of the request, turn it into a SimpleRequest 
