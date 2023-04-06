@@ -3,6 +3,7 @@
 <head>
     <meta name="google-signin-client_id" content="926558226206-ppmn3bk4ckvrtaq6hun9kpi034sde366.apps.googleusercontent.com">
     <script src="https://accounts.google.com/gsi/client" async defer></script>    
+    <script src="func.js"></script>    
 </head>
 <body>
     <div id="g_id_onload"
@@ -21,16 +22,5 @@
         data-size="large"
         data-logo_alignment="left">
     </div>
-    <script>
-        function callback(response){
-            const responsePayload = decodeJwtResponse(response.credential);
-            console.log("ID: "+responsePayload.sub);
-            console.log("Email: "+responsePayload.email);
-        }
-        function decodeJwtResponse(data){
-            let tokens = data.split(".");
-            return JSON.parse(atob(tokens[1]));
-        }
-    </script>
 </body>
 </html>
