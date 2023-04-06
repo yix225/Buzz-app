@@ -1,5 +1,7 @@
 package edu.lehigh.cse216.team_m.admin;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -7,14 +9,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import java.util.ArrayList;
+
 /**
- * @author Hien Thi
- * @version 3/25/2023
+ * Class that holds and stores all DataRows
  */
 public class Database {
     /**
-     * The connection to the database.  When there is no connection, it should
-     * be null.  Otherwise, there is a valid open connection
+     * The connection to the database. When there is no connection, it should
+     * be null. Otherwise, there is a valid open connection
      */
     private Connection mConnection;
 
@@ -44,6 +46,16 @@ public class Database {
     private PreparedStatement mUpdateOne;
 
     /**
+     * A prepared statement for incrementing like on a single row in the database
+     */
+    private PreparedStatement mLikeOne;
+
+    /**
+     * A prepared statement for decrementing like on a single row in the database
+     */
+    private PreparedStatement mUnlikeOne;
+
+    /**
      * A prepared statement for creating the table in our database
      */
     private PreparedStatement mCreateTable;
@@ -53,63 +65,29 @@ public class Database {
      */
     private PreparedStatement mDropTable;
 
-    private PreparedStatement mUpdateLikes;
     /**
-     * RowData is like a struct in C: we use it to hold data, and we allow 
-     * direct access to its fields.  In the context of this Database, RowData 
+     * RowData is like a struct in C: we use it to hold data, and we allow
+     * direct access to its fields. In the context of this Database, RowData
      * represents the data we'd see in a row.
      * 
      * We make RowData a static class of Database because we don't really want
      * to encourage users to think of RowData as being anything other than an
-     * abstract representation of a row of the database.  RowData and the 
+     * abstract representation of a row of the database. RowData and the
      * Database are tightly coupled: if one changes, the other should too.
      */
-    public static class RowData {
-        /**
-         * The ID of this row of the database
-         */
-        int mId;
-        /**
-         * The subject stored in this row
-         */
-        String mSubject;
-        /**
-         * The message stored in this row
-         */
-        String mMessage;
-
-        /**
-         * The like counter stored in this row
-         */
-        int mLikes;
-        /**
-         * @param id id of row to insert
-         * @param subject string of subject for message
-         * @param message message string
-         * @param likes integer of amount of likes for id 
-         * Construct a RowData object by providing values for its fields
-         */
-        public RowData(int id, String subject, String message, int likes) {
-            mId = id;
-            mSubject = subject;
-            mMessage = message;
-            mLikes = likes;
-        }
-    }
 
     /**
-     * The Database constructor is private: we only create Database objects 
+     * The Database constructor is private: we only create Database objects
      * through the getDatabase() method.
      */
-    public Database() {
+    private Database() {
     }
-   
+
     /**
      * Get a fully-configured connection to the database
      * 
      * @param ip   The IP address of the database server
-     * @param port The port on the database server to which connection requests
-     *             should be sent
+     * @param port The port on the database server to which connection requests should be sent
      * @param user The user ID to use when connecting
      * @param pass The password to use when connecting
      * 
@@ -133,28 +111,30 @@ public class Database {
             return null;
         }
 
-        // Attempt to create all of our prepared statements.  If any of these 
+        // Attempt to create all of our prepared statements. If any of these
         // fail, the whole getDatabase() call should fail
         try {
             // NB: we can easily get ourselves in trouble here by typing the
-            //     SQL incorrectly.  We really should have things like "tblData"
-            //     as constants, and then build the strings for the statements
-            //     from those constants.
+            // SQL incorrectly. We really should have things like "tblData"
+            // as constants, and then build the strings for the statements
+            // from those constants.
 
-            // Note: no "IF NOT EXISTS" or "IF EXISTS" checks on table 
+            // Note: no "IF NOT EXISTS" or "IF EXISTS" checks on table
             // creation/deletion, so multiple executions will cause an exception
-            db.mCreateTable = db.mConnection.prepareStatement(
-                    "CREATE TABLE tblData (id SERIAL PRIMARY KEY, subject VARCHAR(50) "
-                    + "NOT NULL, message VARCHAR(1024) NOT NULL, likes INTEGER)");
+            db.mCreateTable = db.mConnection
+                    .prepareStatement("CREATE TABLE tblData (id SERIAL PRIMARY KEY, subject VARCHAR(50) NOT NULL,"
+                            + " message VARCHAR(500) NOT NULL, likes int DEFAULT 0 NOT NULL)");
             db.mDropTable = db.mConnection.prepareStatement("DROP TABLE tblData");
 
             // Standard CRUD operations
             db.mDeleteOne = db.mConnection.prepareStatement("DELETE FROM tblData WHERE id = ?");
-            db.mInsertOne = db.mConnection.prepareStatement("INSERT INTO tblData VALUES (default, ?, ?)");
-            db.mSelectAll = db.mConnection.prepareStatement("SELECT id, subject, likes FROM tblData");
+            db.mInsertOne = db.mConnection.prepareStatement("INSERT INTO tblData VALUES (default, ?, ?, ?)");
+            db.mSelectAll = db.mConnection
+                    .prepareStatement("SELECT id, subject, message, likes FROM tblData ORDER BY id");
             db.mSelectOne = db.mConnection.prepareStatement("SELECT * from tblData WHERE id=?");
             db.mUpdateOne = db.mConnection.prepareStatement("UPDATE tblData SET message = ? WHERE id = ?");
-            db.mUpdateLikes = db.mConnection.prepareStatement("UPDATE tblData SET likes = ? WHERE id = ?");
+            db.mLikeOne = db.mConnection.prepareStatement("UPDATE tblData SET likes = likes + 1 WHERE id = ?");
+            db.mUnlikeOne = db.mConnection.prepareStatement("UPDATE tblData SET likes = likes - 1 WHERE id = ?");
         } catch (SQLException e) {
             System.err.println("Error creating prepared statement");
             e.printStackTrace();
@@ -165,10 +145,101 @@ public class Database {
     }
 
     /**
+     * Get a fully-configured connection to the database
+     * 
+     * @param host The IP address or hostname of the database server
+     * @param port The port on the database server to which connection requests should be sent
+     * @param path The path to use, can be null
+     * @param user The user ID to use when connecting
+     * @param pass The password to use when connecting
+     * 
+     * @return A Database object, or null if we cannot connect properly
+     */
+    static Database getDatabase(String host, String port, String path, String user, String pass) {
+        if (path == null || "".equals(path)) {
+            path = "/";
+        }
+
+        // Create an un-configured Database object
+        Database db = new Database();
+
+        // Give the Database object a connection, fail if we cannot get one
+        try {
+            String dbUrl = "jdbc:postgresql://" + host + ':' + port + path;
+            Connection conn = DriverManager.getConnection(dbUrl, user, pass);
+            if (conn == null) {
+                System.err.println("Error: DriverManager.getConnection() returned a null object");
+                return null;
+            }
+            db.mConnection = conn;
+        } catch (SQLException e) {
+            System.err.println("Error: DriverManager.getConnection() threw a SQLException");
+            e.printStackTrace();
+            return null;
+        }
+
+        // Attempt to create all of our prepared statements. If any of these
+        // fail, the whole getDatabase() call should fail
+        try {
+            // NB: we can easily get ourselves in trouble here by typing the
+            // SQL incorrectly. We really should have things like "tblData"
+            // as constants, and then build the strings for the statements
+            // from those constants.
+
+            // Note: no "IF NOT EXISTS" or "IF EXISTS" checks on table
+            // creation/deletion, so multiple executions will cause an exception
+            db.mCreateTable = db.mConnection.prepareStatement(
+                    "CREATE TABLE tblData (id SERIAL PRIMARY KEY, subject VARCHAR(50) "
+                            + "NOT NULL, message VARCHAR(500) NOT NULL, likes int DEFAULT 0 NOT NULL)");
+            db.mDropTable = db.mConnection.prepareStatement("DROP TABLE tblData");
+
+            // Standard CRUD operations
+            db.mDeleteOne = db.mConnection.prepareStatement("DELETE FROM tblData WHERE id = ?");
+            db.mInsertOne = db.mConnection.prepareStatement("INSERT INTO tblData VALUES (default, ?, ?, ?)");
+            db.mSelectAll = db.mConnection
+                    .prepareStatement("SELECT id, subject, message, likes FROM tblData ORDER BY id");
+            db.mSelectOne = db.mConnection.prepareStatement("SELECT * from tblData WHERE id=?");
+            db.mUpdateOne = db.mConnection.prepareStatement("UPDATE tblData SET message = ? WHERE id = ?");
+            db.mLikeOne = db.mConnection.prepareStatement("UPDATE tblData SET likes = likes + 1 WHERE id = ?");
+            db.mUnlikeOne = db.mConnection.prepareStatement("UPDATE tblData SET likes = likes - 1 WHERE id = ?");
+        } catch (SQLException e) {
+            System.err.println("Error creating prepared statement");
+            e.printStackTrace();
+            db.disconnect();
+            return null;
+        }
+        return db;
+    }
+
+    /**
+     * Get a fully-configured connection to the database
+     * 
+     * @param db_url       The url to the database
+     * @param port_default port to use if absent in db_url
+     * 
+     * @return A Database object, or null if we cannot connect properly
+     */
+    static Database getDatabase(String db_url, String port_default) {
+        try {
+            URI dbUri = new URI(db_url);
+            String username = dbUri.getUserInfo().split(":")[0];
+            String password = dbUri.getUserInfo().split(":")[1];
+            String host = dbUri.getHost();
+            String path = dbUri.getPath();
+            String port = dbUri.getPort() == -1 ? port_default : Integer.toString(dbUri.getPort());
+
+            return getDatabase(host, port, path, username, password);
+        } catch (URISyntaxException s) {
+            System.out.println("URI Syntax Error");
+            return null;
+        }
+    }
+
+    /**
      * Close the current connection to the database, if one exists.
      * 
-     * NB: The connection will always be null after this call, even if an 
-     *     error occurred during the closing operation.
+     * NB: The connection will always be null after this call, even if an
+     * error occurred during the closing operation.
      * 
      * @return True if the connection was cleanly closed, false otherwise
      */
@@ -202,6 +273,7 @@ public class Database {
         try {
             mInsertOne.setString(1, subject);
             mInsertOne.setString(2, message);
+            mInsertOne.setInt(3, 0);
             count += mInsertOne.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -210,16 +282,18 @@ public class Database {
     }
 
     /**
-     * Query the database for a list of all subjects and their IDs
+     * Query the database for a list of all subjects, their IDs, content, and number
+     * of likes
      * 
      * @return All rows, as an ArrayList
      */
-    ArrayList<RowData> selectAll() {
-        ArrayList<RowData> res = new ArrayList<RowData>();
+    ArrayList<DataRow> selectAll() {
+        ArrayList<DataRow> res = new ArrayList<DataRow>();
         try {
             ResultSet rs = mSelectAll.executeQuery();
             while (rs.next()) {
-                res.add(new RowData(rs.getInt("id"), rs.getString("subject"), null, rs.getInt("likes")));
+                res.add(new DataRow(rs.getInt("id"), rs.getString("subject"), rs.getString("message"),
+                        rs.getInt("likes")));
             }
             rs.close();
             return res;
@@ -236,13 +310,14 @@ public class Database {
      * 
      * @return The data for the requested row, or null if the ID was invalid
      */
-    RowData selectOne(int id) {
-        RowData res = null;
+    DataRow selectOne(int id) {
+        DataRow res = null;
         try {
             mSelectOne.setInt(1, id);
             ResultSet rs = mSelectOne.executeQuery();
             if (rs.next()) {
-                res = new RowData(rs.getInt("id"), rs.getString("subject"), rs.getString("message"), rs.getInt("likes"));
+                res = new DataRow(rs.getInt("id"), rs.getString("subject"), rs.getString("message"),
+                        rs.getInt("likes"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -255,7 +330,7 @@ public class Database {
      * 
      * @param id The id of the row to delete
      * 
-     * @return The number of rows that were deleted.  -1 indicates an error.
+     * @return The number of rows that were deleted. -1 indicates an error.
      */
     int deleteRow(int id) {
         int res = -1;
@@ -271,10 +346,10 @@ public class Database {
     /**
      * Update the message for a row in the database
      * 
-     * @param id The id of the row to update
+     * @param id      The id of the row to update
      * @param message The new message contents
      * 
-     * @return The number of rows that were updated.  -1 indicates an error.
+     * @return The number of rows that were updated. -1 indicates an error.
      */
     int updateOne(int id, String message) {
         int res = -1;
@@ -287,54 +362,42 @@ public class Database {
         }
         return res;
     }
+
     /**
-     * Add likes to message for a row in the database
-     * 
-     * @param id The id of the row to add likes to
-     * @param likes the current amount of likes in row
-     * 
-     * @return The number of rows that were updated/added likes to. -1 indicate an error/
+     * @param id
+     * @return int
      */
-    int addLikes(int id,int likes){
+    int likeOne(int id) {
         int res = -1;
-        int tempLikes = likes;
-        try{
-            tempLikes += 1;
-            mUpdateLikes.setInt(1, tempLikes);
-            mUpdateLikes.setInt(2, id);
-            res = mUpdateLikes.executeUpdate();
-        }catch(SQLException e){
+        try {
+            mLikeOne.setInt(1, id);
+            res = mLikeOne.executeUpdate();
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return res;
     }
+
     /**
-     * Remove likes to message for a row in the database by decrementing likes counter
-     * 
-     * @param id The id of the row to add likes to
-     * @param likes the current amount of likes in row
-     * 
-     * @return The number of rows that were updated/added likes to. -1 indicate an error/
+     * @param id
+     * @return int
      */
-    int removeLikes(int id, int likes){
+    int unlikeOne(int id) {
         int res = -1;
-        int tempLikes = likes;
-        try{
-            tempLikes -= 1;
-            mUpdateLikes.setInt(1, tempLikes);
-            mUpdateLikes.setInt(2, id);
-            res = mUpdateLikes.executeUpdate();
-        }catch(SQLException e){
+        try {
+            mUnlikeOne.setInt(1, id);
+            res = mUnlikeOne.executeUpdate();
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return res;
     }
+
     /**
-     * Create tblData.  If it already exists, this will print an error
+     * Create tblData. If it already exists, this will print an error
      */
     void createTable() {
         try {
-            
             mCreateTable.execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -342,7 +405,7 @@ public class Database {
     }
 
     /**
-     * Remove tblData from the database.  If it does not exist, this will print
+     * Remove tblData from the database. If it does not exist, this will print
      * an error.
      */
     void dropTable() {
