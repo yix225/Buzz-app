@@ -136,11 +136,11 @@ public class App {
             } else if (action == 'q') {
                 break;
             } else if (action == 'T') {
-                db.createTable();
+                db.createTables();
             } else if (action == 'D') {
-                db.dropTable();
+                db.dropTables();
             } else if (action == '1') {
-                int id = getInt(in, "Enter the row ID");
+                /*int id = getInt(in, "Enter the row ID");
                 if (id == -1)
                     continue;
                 Database.RowData res = db.selectOne(id);
@@ -163,7 +163,6 @@ public class App {
                         else if(action2.equals("L")){
                             continue;
                         }
-                    
                 }
             } else if (action == '*') {
                 ArrayList<Database.RowData> res = db.selectAll();
@@ -183,22 +182,50 @@ public class App {
                 if (res == -1)
                     continue;
                 System.out.println("  " + res + " rows deleted");
+            */
             } else if (action == '+') {
-                String subject = getString(in, "Enter the subject");
-                String message = getString(in, "Enter the message");
-                if (subject.equals("") || message.equals(""))
-                    continue;
-                int res = db.insertRow(subject, message);
+                String type = getString(in, "Enter the type[user, idea, comment, like]");
+                int res = 0;
+                if(type.equals("user")){
+                    String name = getString(in, "Enter the name");
+                    String email = getString(in, "Enter the email");
+                    String genId = getString(in, "Enter the gender identity");
+                    String sexOtn = getString(in, "Enter the sexual orientation");
+                    String note = getString(in, "Enter the note");
+                    if (name.equals("") || email.equals("") || genId.equals("") || sexOtn.equals("") || note.equals(""))
+                        continue;
+                    res = db.insertUser(name, email, genId, sexOtn, note);
+                }
+                else if(type.equals("idea")) {
+                    String subject = getString(in, "Enter the subject");
+                    String message = getString(in, "Enter the message");
+                    if (subject.equals("") || message.equals(""))
+                        continue;
+                    res = db.insertIdea(subject, message, 1);
+                }
+                else if(type.equals("comment")){
+                    int ideaid = getInt(in, "Enter the ideaid");
+                    String subject = getString(in, "Enter the subject");
+                    String message = getString(in, "Enter the message");
+                    if (subject.equals("") || message.equals(""))
+                        continue;
+                    res = db.insertComment(subject, message, 1, ideaid);
+                }
+                else if(type.equals("like")){
+                    int ideaid = getInt(in, "Enter the ideaid");
+                    int commentid = getInt(in, "Enter the commentid");
+                    res = db.insertLike(ideaid, commentid, 1);
+                }
                 System.out.println(res + " rows added");
             } else if (action == '~') {
-                int id = getInt(in, "Enter the row ID :> ");
+                /*int id = getInt(in, "Enter the row ID :> ");
                 if (id == -1)
                     continue;
                 String newMessage = getString(in, "Enter the new message");
                 int res = db.updateOne(id, newMessage);
                 if (res == -1)
                     continue;
-                System.out.println("  " + res + " rows updated");
+                System.out.println("  " + res + " rows updated");*/
             }
         }
         // Always remember to disconnect from the database when the program 

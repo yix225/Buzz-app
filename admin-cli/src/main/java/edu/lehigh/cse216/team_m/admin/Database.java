@@ -9,9 +9,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.text.DateFormat;
 
 /**
- * Class that holds and stores all DataRows
+ * Class that holds and stores all DataIdeas
  */
 public class Database {
     /**
@@ -21,49 +23,199 @@ public class Database {
     private Connection mConnection;
 
     /**
-     * A prepared statement for getting all data in the database
+     * A prepared statement for getting all User data in the database
      */
-    private PreparedStatement mSelectAll;
+    private PreparedStatement mSelectUsersAll;
 
     /**
-     * A prepared statement for getting one row from the database
+     * A prepared statement for getting all Idea data in the database
      */
-    private PreparedStatement mSelectOne;
+    private PreparedStatement mSelectIdeasAll;
 
     /**
-     * A prepared statement for deleting a row from the database
+     * A prepared statement for getting all Comment data in the database
      */
-    private PreparedStatement mDeleteOne;
+    private PreparedStatement mSelectCommentsAll;
 
     /**
-     * A prepared statement for inserting into the database
+     * A prepared statement for getting all Like data in the database
      */
-    private PreparedStatement mInsertOne;
+    private PreparedStatement mSelectLikesAll;
 
     /**
-     * A prepared statement for updating a single row in the database
+     * A prepared statement for getting one User row from the database
      */
-    private PreparedStatement mUpdateOne;
+    private PreparedStatement mSelectUser;
 
     /**
-     * A prepared statement for incrementing like on a single row in the database
+     * A prepared statement for getting one Idea row from the database
      */
-    private PreparedStatement mLikeOne;
+    private PreparedStatement mSelectIdea;
 
     /**
-     * A prepared statement for decrementing like on a single row in the database
+     * A prepared statement for getting one Comment row from the database
      */
-    private PreparedStatement mUnlikeOne;
+    private PreparedStatement mSelectComment;
 
     /**
-     * A prepared statement for creating the table in our database
+     * A prepared statement for getting one Like row from the database
      */
-    private PreparedStatement mCreateTable;
+    private PreparedStatement mSelectLike;
 
     /**
-     * A prepared statement for dropping the table in our database
+     * A prepared statement for deleting a User row from the database
      */
-    private PreparedStatement mDropTable;
+    private PreparedStatement mDeleteUser;
+
+    /**
+     * A prepared statement for deleting a Idea row from the database
+     */
+    private PreparedStatement mDeleteIdea;
+    
+    /**
+     * A prepared statement for deleting a Comment row from the database
+     */
+    private PreparedStatement mDeleteComment;
+
+    /**
+     * A prepared statement for deleting a Like row from the database
+     */
+    private PreparedStatement mDeleteLike;
+
+    /**
+     * A prepared statement for inserting User into the database
+     */
+    private PreparedStatement mInsertUser;
+
+    /**
+     * A prepared statement for inserting Idea into the database
+     */
+    private PreparedStatement mInsertIdea;
+
+    /**
+     * A prepared statement for inserting Comment into the database
+     */
+    private PreparedStatement mInsertComment;
+
+    /**
+     * A prepared statement for inserting Like into the database
+     */
+    private PreparedStatement mInsertLike;
+
+    /**
+     * A prepared statement for updating a single User row in the database
+     */
+    private PreparedStatement mUpdateUser;
+
+    /**
+     * A prepared statement for updating a single Idea row in the database
+     */
+    private PreparedStatement mUpdateIdea;
+
+    /**
+     * A prepared statement for updating a single Comment row in the database
+     */
+    private PreparedStatement mUpdateComment;
+
+    /**
+     * A prepared statement for updating a single Like row in the database
+     */
+    private PreparedStatement mUpdateLike;
+
+    /**
+     * A prepared statement for incrementing like on a single Idea row in the database
+     */
+    private PreparedStatement mLikeIdea;
+
+    /**
+     * A prepared statement for incrementing like on a single Comment row in the database
+     */
+    private PreparedStatement mLikeComment;
+
+    /**
+     * A prepared statement for decrementing like on a single Idea row in the database
+     */
+    private PreparedStatement mUnlikeIdea;
+
+    /**
+     * A prepared statement for decrementing like on a single Comment row in the database
+     */
+    private PreparedStatement mUnlikeComment;
+
+    /**
+     * A prepared statement for decrementing like on a single Comment row in the database
+     */
+    private PreparedStatement mValidateUser;
+
+    /**
+     * A prepared statement for decrementing like on a single Comment row in the database
+     */
+    private PreparedStatement mInvalidateUser;
+
+    /**
+     * A prepared statement for decrementing like on a single Comment row in the database
+     */
+    private PreparedStatement mValidateIdea;
+
+    /**
+     * A prepared statement for decrementing like on a single Comment row in the database
+     */
+    private PreparedStatement mInvalidateIdea;
+
+    /**
+     * A prepared statement for decrementing like on a single Comment row in the database
+     */
+    private PreparedStatement mValidateComment;
+
+    /**
+     * A prepared statement for decrementing like on a single Comment row in the database
+     */
+    private PreparedStatement mInvalidateComment;
+
+    /**
+     * A prepared statement for creating the users table in our database
+     */
+    private PreparedStatement mCreateUsersTable;
+
+    /**
+     * A prepared statement for creating the ideas table in our database
+     */
+    private PreparedStatement mCreateIdeasTable;
+
+    /**
+     * A prepared statement for creating the comments table in our database
+     */
+    private PreparedStatement mCreateCommentsTable;
+
+    /**
+     * A prepared statement for creating the likes table in our database
+     */
+    private PreparedStatement mCreateLikesTable;
+
+    /**
+     * A prepared statement for dropping the users table in our database
+     */
+    private PreparedStatement mDropUsers;
+
+    /**
+     * A prepared statement for dropping the ideas table in our database
+     */
+    private PreparedStatement mDropIdeas;
+
+    /**
+     * A prepared statement for dropping the comments table in our database
+     */
+    private PreparedStatement mDropComments;
+
+    /**
+     * A prepared statement for dropping the likes table in our database
+     */
+    private PreparedStatement mDropLikes;
+
+    /**
+     * A prepared statement for dropping all the tables in our database
+     */
+    private PreparedStatement mDropAll;
 
     /**
      * RowData is like a struct in C: we use it to hold data, and we allow
@@ -121,20 +273,73 @@ public class Database {
 
             // Note: no "IF NOT EXISTS" or "IF EXISTS" checks on table
             // creation/deletion, so multiple executions will cause an exception
-            db.mCreateTable = db.mConnection
-                    .prepareStatement("CREATE TABLE tblData (id SERIAL PRIMARY KEY, subject VARCHAR(50) NOT NULL,"
-                            + " message VARCHAR(500) NOT NULL, likes int DEFAULT 0 NOT NULL)");
-            db.mDropTable = db.mConnection.prepareStatement("DROP TABLE tblData");
+            db.mCreateUsersTable = db.mConnection
+                    .prepareStatement("CREATE TABLE users (userid SERIAL PRIMARY KEY, name VARCHAR(50) NOT NULL,"
+                                + " email VARCHAR(250) NOT NULL, genderidentity VARCHAR(200) NOT NULL, sexualorientation VARCHAR(200)"
+                                + " NOT NULL, note VARCHAR(500) NOT NULL, creationdate TIMESTAMP NOT NULL, valid boolean DEFAULT TRUE NOT NULL,)");
+
+            db.mCreateIdeasTable = db.mConnection
+                    .prepareStatement("CREATE TABLE ideas (ideaid SERIAL PRIMARY KEY, subject VARCHAR(50) NOT NULL,"
+                                + " message VARCHAR(500) NOT NULL, userid int NOT NULL, likes int DEFAULT 0 NOT NULL,"
+                                + " comments int DEFAULT 0 NOT NULL, creationdate TIMESTAMP NOT NULL,  valid boolean DEFAULT"
+                                + " TRUE NOT NULL, FOREIGN KEY(userid) REFERENCES users(userid))");
+            
+            db.mCreateCommentsTable = db.mConnection
+                    .prepareStatement("CREATE TABLE comments (commentid SERIAL PRIMARY KEY, subject VARCHAR(50) NOT NULL,"
+                                + " message VARCHAR(500) NOT NULL, userid int NOT NULL, ideaid int NOT NULL, likes int"
+                                + " DEFAULT 0 NOT NULL, comments int DEFAULT 0 NOT NULL, creationdate TIMESTAMP NOT NULL,"
+                                + " valid boolean DEFAULT TRUE NOT NULL, FOREIGN KEY(userid) REFERENCES users(userid),"
+                                + " FOREIGN KEY(ideaid) REFERENCES ideas(ideaid))");
+
+            db.mCreateLikesTable = db.mConnection
+                    .prepareStatement("CREATE TABLE likes (ideaid int NOT NULL, commentid int, userid int NOT NULL, Status int DEFAULT 0 NOT NULL,"
+                                + " FOREIGN KEY(ideaid) REFERENCES ideas(ideaid),"
+                                + " FOREIGN KEY(userid) REFERENCES users(userid),"
+                                + " FOREIGN KEY(commentid) REFERENCES comments(commentid))");
+            
+            // Drop Operations
+            db.mDropUsers = db.mConnection.prepareStatement("DROP TABLE users CASCADE");
+            db.mDropIdeas = db.mConnection.prepareStatement("DROP TABLE ideas CASCADE"); 
+            db.mDropComments = db.mConnection.prepareStatement("DROP TABLE comments CASCADE");
+            db.mDropLikes = db.mConnection.prepareStatement("DROP TABLE likes");
+            db.mDropAll = db.mConnection.prepareStatement("DROP TABLE users, ideas, comments, likes");
 
             // Standard CRUD operations
-            db.mDeleteOne = db.mConnection.prepareStatement("DELETE FROM tblData WHERE id = ?");
-            db.mInsertOne = db.mConnection.prepareStatement("INSERT INTO tblData VALUES (default, ?, ?, ?)");
-            db.mSelectAll = db.mConnection
-                    .prepareStatement("SELECT id, subject, message, likes FROM tblData ORDER BY id");
-            db.mSelectOne = db.mConnection.prepareStatement("SELECT * from tblData WHERE id=?");
-            db.mUpdateOne = db.mConnection.prepareStatement("UPDATE tblData SET message = ? WHERE id = ?");
-            db.mLikeOne = db.mConnection.prepareStatement("UPDATE tblData SET likes = likes + 1 WHERE id = ?");
-            db.mUnlikeOne = db.mConnection.prepareStatement("UPDATE tblData SET likes = likes - 1 WHERE id = ?");
+            db.mDeleteUser = db.mConnection.prepareStatement("DELETE FROM users WHERE userid = ?");
+            db.mDeleteIdea = db.mConnection.prepareStatement("DELETE FROM ideas WHERE ideaid = ?");
+            db.mDeleteComment = db.mConnection.prepareStatement("DELETE FROM comments WHERE commentid = ? AND ideaid = ?");
+            db.mDeleteLike = db.mConnection.prepareStatement("DELETE FROM likes WHERE ideaid = ? AND commentid = ? AND userid = ?");
+
+            db.mInsertUser = db.mConnection.prepareStatement("INSERT INTO users VALUES (default, ?, ?, ?, ?, ?, ?, default)");
+            db.mInsertIdea = db.mConnection.prepareStatement("INSERT INTO ideas VALUES (default, ?, ?, ?, default, default, ?, default)");
+            db.mInsertComment = db.mConnection.prepareStatement("INSERT INTO comments VALUES (default, ?, ?, ?, ?, default, default, ?, default);"
+                                                            + " UPDATE ideas SET comments = comment + 1 WHERE ideaid = ?");
+            db.mInsertLike = db.mConnection.prepareStatement("INSERT INTO likes VALUES (?, ?, ?, default)");
+
+            db.mSelectUsersAll = db.mConnection
+                    .prepareStatement("SELECT userid, name, email, genderidentity, sexualorientation, note, creationdate, valid FROM users ORDER BY creationdate");
+            db.mSelectIdeasAll = db.mConnection
+                    .prepareStatement("SELECT ideaid, subject, message, userid, likes, comments, creationdate, valid FROM ideas ORDER BY creationdate");
+            db.mSelectCommentsAll = db.mConnection
+                    .prepareStatement("SELECT commentid, subject, message, userid, ideaid, likes, comments, creationdate, valid FROM comments ORDER BY creationdate");
+            db.mSelectLikesAll = db.mConnection
+                    .prepareStatement("SELECT ideaid, commentid, userid, status FROM likes");
+            
+            db.mSelectUser = db.mConnection.prepareStatement("SELECT * FROM users WHERE userid = ?");
+            db.mSelectIdea = db.mConnection.prepareStatement("SELECT * FROM ideas WHERE ideaid = ?");
+            db.mSelectComment = db.mConnection.prepareStatement("SELECT * FROM comments WHERE commentid = ? AND ideaid = ?");
+            db.mSelectLike = db.mConnection.prepareStatement("SELECT * FROm likes WHERE ideaid = ? AND commentid = ? AND userid = ?");
+
+            db.mUpdateUser = db.mConnection.prepareStatement("UPDATE users SET name = ?, email = ?, genderidentity = ?, sexualorientation = ?, note = ?, WHERE userid = ?");
+            db.mUpdateIdea = db.mConnection.prepareStatement("UPDATE ideas SET message = ? WHERE ideaid = ?");
+            db.mUpdateComment = db.mConnection.prepareStatement("UPDATE comments SET message = ? WHERE commentid = ? AND ideaid = ?");
+            db.mUpdateLike = db.mConnection.prepareStatement("UPDATE likes SET status = ? WHERE ideaid = ? AND commentid = ? AND userid = ?");
+
+            db.mLikeIdea = db.mConnection.prepareStatement("UPDATE ideas SET likes = likes + 1 WHERE ideaid = ?");
+            db.mLikeComment = db.mConnection.prepareStatement("UPDATE comments SET likes = likes + 1 WHERE commentid = ? AND ideaid");
+
+            db.mUnlikeIdea = db.mConnection.prepareStatement("UPDATE ideas SET likes = likes - 1 WHERE ideaid = ?");
+            db.mUnlikeComment = db.mConnection.prepareStatement("UPDATE comments SET likes = likes - 1 WHERE commentid = ? AND ideaid = ?");
         } catch (SQLException e) {
             System.err.println("Error creating prepared statement");
             e.printStackTrace();
@@ -182,26 +387,78 @@ public class Database {
         // fail, the whole getDatabase() call should fail
         try {
             // NB: we can easily get ourselves in trouble here by typing the
-            // SQL incorrectly. We really should have things like "tblData"
-            // as constants, and then build the strings for the statements
+            // SQL incorrectly. We really should have things like the table 
+            // names as constants, and then build the strings for the statements
             // from those constants.
 
             // Note: no "IF NOT EXISTS" or "IF EXISTS" checks on table
             // creation/deletion, so multiple executions will cause an exception
-            db.mCreateTable = db.mConnection.prepareStatement(
-                    "CREATE TABLE tblData (id SERIAL PRIMARY KEY, subject VARCHAR(50) "
-                            + "NOT NULL, message VARCHAR(500) NOT NULL, likes int DEFAULT 0 NOT NULL)");
-            db.mDropTable = db.mConnection.prepareStatement("DROP TABLE tblData");
+            db.mCreateUsersTable = db.mConnection
+                    .prepareStatement("CREATE TABLE users (userid SERIAL PRIMARY KEY, name VARCHAR(50) NOT NULL,"
+                                + " email VARCHAR(250) NOT NULL, genderidentity VARCHAR(200) NOT NULL, sexualorientation VARCHAR(200)"
+                                + " NOT NULL, note VARCHAR(500) NOT NULL, creationdate TIMESTAMP NOT NULL, valid boolean DEFAULT TRUE NOT NULL,)");
+
+            db.mCreateIdeasTable = db.mConnection
+                    .prepareStatement("CREATE TABLE ideas (ideaid SERIAL PRIMARY KEY, subject VARCHAR(50) NOT NULL,"
+                                + " message VARCHAR(500) NOT NULL, userid int NOT NULL, likes int DEFAULT 0 NOT NULL,"
+                                + " comments int DEFAULT 0 NOT NULL, creationdate TIMESTAMP NOT NULL,  valid boolean DEFAULT"
+                                + " TRUE NOT NULL, FOREIGN KEY(userid) REFERENCES users(userid))");
+            
+            db.mCreateCommentsTable = db.mConnection
+                    .prepareStatement("CREATE TABLE comments (commentid SERIAL PRIMARY KEY, subject VARCHAR(50) NOT NULL,"
+                                + " message VARCHAR(500) NOT NULL, userid int NOT NULL, ideaid int NOT NULL, likes int"
+                                + " DEFAULT 0 NOT NULL, comments int DEFAULT 0 NOT NULL, creationdate TIMESTAMP NOT NULL,"
+                                + " valid boolean DEFAULT TRUE NOT NULL, FOREIGN KEY(userid) REFERENCES users(userid),"
+                                + " FOREIGN KEY(ideaid) REFERENCES ideas(ideaid))");
+
+            db.mCreateLikesTable = db.mConnection
+                    .prepareStatement("CREATE TABLE likes (ideaid int NOT NULL, commentid int, userid int NOT NULL, Status int DEFAULT 0 NOT NULL,"
+                                + " FOREIGN KEY(ideaid) REFERENCES ideas(ideaid),"
+                                + " FOREIGN KEY(userid) REFERENCES users(userid),"
+                                + " FOREIGN KEY(commentid) REFERENCES comments(commentid))");
+            
+            // Drop Operations
+            db.mDropUsers = db.mConnection.prepareStatement("DROP TABLE users CASCADE");
+            db.mDropIdeas = db.mConnection.prepareStatement("DROP TABLE ideas CASCADE"); 
+            db.mDropComments = db.mConnection.prepareStatement("DROP TABLE comments CASCADE");
+            db.mDropLikes = db.mConnection.prepareStatement("DROP TABLE likes");
+            db.mDropAll = db.mConnection.prepareStatement("DROP TABLE users, ideas, comments, likes");
 
             // Standard CRUD operations
-            db.mDeleteOne = db.mConnection.prepareStatement("DELETE FROM tblData WHERE id = ?");
-            db.mInsertOne = db.mConnection.prepareStatement("INSERT INTO tblData VALUES (default, ?, ?, ?)");
-            db.mSelectAll = db.mConnection
-                    .prepareStatement("SELECT id, subject, message, likes FROM tblData ORDER BY id");
-            db.mSelectOne = db.mConnection.prepareStatement("SELECT * from tblData WHERE id=?");
-            db.mUpdateOne = db.mConnection.prepareStatement("UPDATE tblData SET message = ? WHERE id = ?");
-            db.mLikeOne = db.mConnection.prepareStatement("UPDATE tblData SET likes = likes + 1 WHERE id = ?");
-            db.mUnlikeOne = db.mConnection.prepareStatement("UPDATE tblData SET likes = likes - 1 WHERE id = ?");
+            db.mDeleteUser = db.mConnection.prepareStatement("DELETE FROM users WHERE userid = ?");
+            db.mDeleteIdea = db.mConnection.prepareStatement("DELETE FROM ideas WHERE ideaid = ?");
+            db.mDeleteComment = db.mConnection.prepareStatement("DELETE FROM comments WHERE commentid = ? AND ideaid = ?");
+            db.mDeleteLike = db.mConnection.prepareStatement("DELETE FROM likes WHERE ideaid = ? AND commentid = ? AND userid = ?");
+
+            db.mInsertUser = db.mConnection.prepareStatement("INSERT INTO users VALUES (default, ?, ?, ?, ?, ?, ?, default)");
+            db.mInsertIdea = db.mConnection.prepareStatement("INSERT INTO ideas VALUES (default, ?, ?, ?, default, default, ?, default)");
+            db.mInsertComment = db.mConnection.prepareStatement("INSERT INTO comments VALUES (default, ?, ?, ?, ?, default, default, ?, default)");
+            db.mInsertLike = db.mConnection.prepareStatement("INSERT INTO likes VALUES (?, ?, ?, default)");
+
+            db.mSelectUsersAll = db.mConnection
+                    .prepareStatement("SELECT userid, name, email, genderidentity, sexualorientation, note, creationdate, valid FROM users ORDER BY creationdate");
+            db.mSelectIdeasAll = db.mConnection
+                    .prepareStatement("SELECT ideaid, subject, message, userid, likes, comments, creationdate, valid FROM ideas ORDER BY creationdate");
+            db.mSelectCommentsAll = db.mConnection
+                    .prepareStatement("SELECT commentid, subject, message, userid, ideaid, likes, comments, creationdate, valid FROM comments ORDER BY creationdate");
+            db.mSelectLikesAll = db.mConnection
+                    .prepareStatement("SELECT ideaid, commentid, userid, status FROM likes");
+            
+            db.mSelectUser = db.mConnection.prepareStatement("SELECT * FROM users WHERE userid = ?");
+            db.mSelectIdea = db.mConnection.prepareStatement("SELECT * FROM ideas WHERE ideaid = ?");
+            db.mSelectComment = db.mConnection.prepareStatement("SELECT * FROM comments WHERE commentid = ? AND ideaid = ?");
+            db.mSelectLike = db.mConnection.prepareStatement("SELECT * FROm likes WHERE ideaid = ? AND commentid = ? AND userid = ?");
+
+            db.mUpdateUser = db.mConnection.prepareStatement("UPDATE users SET name = ?, email = ?, genderidentity = ?, sexualorientation = ?, note = ?, WHERE userid = ?");
+            db.mUpdateIdea = db.mConnection.prepareStatement("UPDATE ideas SET message = ? WHERE ideaid = ?");
+            db.mUpdateComment = db.mConnection.prepareStatement("UPDATE comments SET message = ? WHERE commentid = ? AND ideaid = ?");
+            db.mUpdateLike = db.mConnection.prepareStatement("UPDATE likes SET status = ? WHERE ideaid = ? AND commentid = ? AND userid = ?");
+
+            db.mLikeIdea = db.mConnection.prepareStatement("UPDATE ideas SET likes = likes + 1 WHERE ideaid = ?");
+            db.mLikeComment = db.mConnection.prepareStatement("UPDATE comments SET likes = likes + 1 WHERE commentid = ? AND ideaid");
+
+            db.mUnlikeIdea = db.mConnection.prepareStatement("UPDATE ideas SET likes = likes - 1 WHERE ideaid = ?");
+            db.mUnlikeComment = db.mConnection.prepareStatement("UPDATE comments SET likes = likes - 1 WHERE commentid = ? AND ideaid = ?");
         } catch (SQLException e) {
             System.err.println("Error creating prepared statement");
             e.printStackTrace();
@@ -268,13 +525,27 @@ public class Database {
      * 
      * @return The number of rows that were inserted
      */
-    int insertRow(String subject, String message) {
+    /**
+     * Insert an user into ideatable in database
+     * 
+     * @param name the name of the new user
+     * @param email the email for this new user
+     * @param genId the gender identiy of the new user
+     * @param sexOtn the sexual orientation of the new user
+     * @param note the note/description of the new user
+     * 
+     * @return the number of rows that were inserted
+     */
+    int insertUser(String name, String email, String genId, String sexOtn, String note) {
         int count = 0;
         try {
-            mInsertOne.setString(1, subject);
-            mInsertOne.setString(2, message);
-            mInsertOne.setInt(3, 0);
-            count += mInsertOne.executeUpdate();
+            mInsertUser.setString(1, name);
+            mInsertUser.setString(2, email);
+            mInsertUser.setString(3, genId);
+            mInsertUser.setString(4, sexOtn);
+            mInsertUser.setString(5, note);
+            mInsertUser.setString(6, DateFormat.getDateInstance().format(new Date()));
+            count += mInsertUser.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -282,17 +553,86 @@ public class Database {
     }
 
     /**
+     * Insert a row into the database
+     * 
+     * @param subject the subject for the new row
+     * @param message the message body for the new row
+     * @param userid the id of the user who created the idea row
+     * 
+     * @return The number of rows that were inserted
+     */
+    int insertIdea(String subject, String message, int userid) {
+        int count = 0;
+        try {
+            mInsertIdea.setString(1, subject);
+            mInsertIdea.setString(2, message);
+            mInsertIdea.setInt(3, userid);
+            mInsertIdea.setString(6, DateFormat.getDateInstance().format(new Date()));
+            count += mInsertIdea.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+
+    /**
+     * Insert a row into the database
+     * 
+     * @param subject the subject for the new row
+     * @param message the message body for the new row
+     * @param userid the id of the user who created the idea row
+     * @param ideaid the id of the idea the comment row is for
+     * 
+     * @return The number of rows that were inserted
+     */
+    int insertComment(String subject, String message, int userid, int ideaid) {
+        int count = 0;
+        try {
+            mInsertComment.setString(1, subject);
+            mInsertComment.setString(2, message);
+            mInsertComment.setInt(3, userid);
+            mInsertComment.setInt(4, ideaid);
+            mInsertComment.setString(7, DateFormat.getDateInstance().format(new Date()));
+            count += mInsertComment.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+
+    /**
+     * Insert a row into the database
+     * 
+     * @param ideaid the id of the idea for the new like row
+     * @param commentid the id of the comment for the new like row
+     * @param userid the id of the user who created the like row
+     * 
+     * @return The number of rows that were inserted
+     */
+    int insertLike(int ideaid, int commentid, int userid) {
+        int count = 0;
+        try {
+            mInsertLike.setInt(0, ideaid);
+            mInsertLike.setInt(1, commentid);
+            mInsertLike.setInt(2, userid);
+            count += mInsertComment.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+    
+    /**
      * Query the database for a list of all subjects, their IDs, content, and number
      * of likes
      * 
      * @return All rows, as an ArrayList
-     */
-    ArrayList<DataRow> selectAll() {
-        ArrayList<DataRow> res = new ArrayList<DataRow>();
+    ArrayList<DataIdea> selectAll() {
+        ArrayList<DataIdea> res = new ArrayList<DataIdea>();
         try {
             ResultSet rs = mSelectAll.executeQuery();
             while (rs.next()) {
-                res.add(new DataRow(rs.getInt("id"), rs.getString("subject"), rs.getString("message"),
+                res.add(new DataIdea(rs.getInt("id"), rs.getString("subject"), rs.getString("message"),
                         rs.getInt("likes")));
             }
             rs.close();
@@ -309,14 +649,13 @@ public class Database {
      * @param id The id of the row being requested
      * 
      * @return The data for the requested row, or null if the ID was invalid
-     */
-    DataRow selectOne(int id) {
-        DataRow res = null;
+    DataIdea selectOne(int id) {
+        DataIdea res = null;
         try {
             mSelectOne.setInt(1, id);
             ResultSet rs = mSelectOne.executeQuery();
             if (rs.next()) {
-                res = new DataRow(rs.getInt("id"), rs.getString("subject"), rs.getString("message"),
+                res = new DataIdea(rs.getInt("id"), rs.getString("subject"), rs.getString("message"),
                         rs.getInt("likes"));
             }
         } catch (SQLException e) {
@@ -331,7 +670,6 @@ public class Database {
      * @param id The id of the row to delete
      * 
      * @return The number of rows that were deleted. -1 indicates an error.
-     */
     int deleteRow(int id) {
         int res = -1;
         try {
@@ -350,7 +688,6 @@ public class Database {
      * @param message The new message contents
      * 
      * @return The number of rows that were updated. -1 indicates an error.
-     */
     int updateOne(int id, String message) {
         int res = -1;
         try {
@@ -366,7 +703,6 @@ public class Database {
     /**
      * @param id
      * @return int
-     */
     int likeOne(int id) {
         int res = -1;
         try {
@@ -381,7 +717,6 @@ public class Database {
     /**
      * @param id
      * @return int
-     */
     int unlikeOne(int id) {
         int res = -1;
         try {
@@ -396,9 +731,12 @@ public class Database {
     /**
      * Create tblData. If it already exists, this will print an error
      */
-    void createTable() {
+    void createTables() {
         try {
-            mCreateTable.execute();
+            mCreateUsersTable.execute();
+            mCreateIdeasTable.execute();
+            mCreateCommentsTable.execute();
+            mCreateLikesTable.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -408,9 +746,9 @@ public class Database {
      * Remove tblData from the database. If it does not exist, this will print
      * an error.
      */
-    void dropTable() {
+    void dropTables() {
         try {
-            mDropTable.execute();
+            mDropAll.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }

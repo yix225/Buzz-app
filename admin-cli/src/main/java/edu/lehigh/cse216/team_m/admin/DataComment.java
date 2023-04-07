@@ -27,8 +27,8 @@ public class DataComment extends DataIdea{
      * 
      * @param ideaId The id of the idea the comment is under. 
      */
-    DataComment(int id, String subject, String message, int ideaId) {
-        super(id, subject, message);
+    DataComment(int id, String subject, String message, int userId, int ideaId) {
+        super(id, subject, message, userId);
         mIdeaId = ideaId;
     }
 
@@ -46,8 +46,8 @@ public class DataComment extends DataIdea{
      * 
      * @param likes The likes of 
      */
-    DataComment(int id, String subject, String message, int likes, int comments, boolean valid, int ideaId) {
-        super(id, subject, message, likes, comments, valid);
+    DataComment(int id, String subject, String message, int userId, int likes, int comments, boolean valid, int ideaId, String created) {
+        super(id, subject, message, userId, likes, comments, valid, created);
         mIdeaId = ideaId;
     }
 

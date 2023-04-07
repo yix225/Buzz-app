@@ -1,5 +1,7 @@
 package edu.lehigh.cse216.team_m.admin;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.Date;
 
 /**
@@ -18,7 +20,7 @@ public class DataIdea {
      * we never want to change it.
      */
     public final int mId;
-
+    
     /**
      * The subject for this idea row
      */
@@ -40,15 +42,21 @@ public class DataIdea {
     public int mComments;
 
     /**
+     * The id of creator of this idea row
+     * 
+     * @see DataUser
+     */
+    public final int mUserId;
+
+    /**
      * Denotes if idea row is valid. If true, the idea can be displayed on the website/app
      */
     public boolean mValid;
 
     /**
-     * The creation date for this idea row.  Once it is set, it cannot be 
-     * changed
+     * The date for this idea row.  Once it is set, try not to change it :)
      */
-    public final Date mCreated;
+    public Date mCreated;
 
     /**
      * Default Constructor: Create a new DataIdea with the provided id and subject/message, 
@@ -61,13 +69,16 @@ public class DataIdea {
      * @param subject The subject string for this idea row
      * 
      * @param message The message string for this idea row
+     * 
+     * @param userId the id associated with the user who created the row.
      */
-    DataIdea(int id, String subject, String message) {
+    DataIdea(int id, String subject, String message, int userId) {
         mId = id;
         mSubject = subject;
         mMessage = message;
         mLikes = 0;
         mComments = 0;
+        mUserId = userId;
         mValid = true;
         mCreated = new Date();
     }
@@ -84,20 +95,28 @@ public class DataIdea {
      * 
      * @param message The message string for this idea row.
      * 
+     * @param userId the user who created this idea row
+     * 
      * @param likes The likes of this idea row.
      * 
      * @param comments The number of comments on this idea
      * 
      * @param valid The validity of the idea
      */
-    DataIdea(int id, String subject, String message, int likes, int comments, boolean valid) {
+    DataIdea(int id, String subject, String message, int userId, int likes, int comments, boolean valid, String created) {
         mId = id;
         mSubject = subject;
         mMessage = message;
         mLikes = likes;
         mComments = comments;
+        mUserId = userId;
         mValid = valid;
-        mCreated = new Date();
+        try{
+            mCreated = DateFormat.getDateInstance().parse(created);
+        }
+        catch(ParseException e){
+            mCreated = new Date();
+        }
     }
 
 
@@ -112,6 +131,7 @@ public class DataIdea {
         mMessage = data.mMessage;
         mLikes = data.mLikes;
         mComments = data.mComments;
+        mUserId = data.mUserId;
         mValid = data.mValid;
         mCreated = data.mCreated;
     }
