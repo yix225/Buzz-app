@@ -1,5 +1,7 @@
 package edu.lehigh.cse216.team_m.admin;
 
+import java.sql.Timestamp;
+
 /**
  * DataComment holds a row of information for a comment.  It has all the variables
  * from the DataIdea. Plus an identifier for the Idea the comment is under.
@@ -46,7 +48,7 @@ public class DataComment extends DataIdea{
      * 
      * @param likes The likes of 
      */
-    DataComment(int id, String subject, String message, int userId, int likes, int comments, boolean valid, int ideaId, String created) {
+    DataComment(int id, String subject, String message, int userId, int likes, int comments, boolean valid, int ideaId, Timestamp created) {
         super(id, subject, message, userId, likes, comments, valid, created);
         mIdeaId = ideaId;
     }

@@ -1,6 +1,7 @@
 package edu.lehigh.cse216.team_m.admin;
 
 import java.util.Date;
+import java.sql.Timestamp;
 
  /**
  * DataUser holds a row of information for a user. 
@@ -101,7 +102,7 @@ public class DataUser {
      * @param valid the validity of the user
      * 
      */
-    DataUser(int id, String name, String email, String genId, String sexOtn, String note, boolean valid) {
+    DataUser(int id, String name, String email, String genId, String sexOtn, String note, boolean valid, Timestamp created) {
         mId = id;
         mName = name;
         mEmail = email;
@@ -109,7 +110,7 @@ public class DataUser {
         mSexOtn = sexOtn;
         mNote = note;
         mValid = valid;
-        mCreated = new Date();
+        mCreated = new Date(created.getTime());
     }
 
 

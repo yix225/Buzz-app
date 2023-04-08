@@ -54,7 +54,7 @@ public class AppTest
      * 
      */
     public void testInputs() {
-        String actions = "TD1*-+~q?";
+        String actions = "TD1V*-+~/q?";
 
         InputStream in = new ByteArrayInputStream(actions.getBytes()); // load user input into input stream
         System.setIn(in);

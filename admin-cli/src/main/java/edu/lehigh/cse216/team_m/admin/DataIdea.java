@@ -1,8 +1,7 @@
 package edu.lehigh.cse216.team_m.admin;
 
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.util.Date;
+import java.sql.Timestamp;
 
 /**
  * DataIdea holds a row of information for an idea.  A row of information consists of
@@ -103,7 +102,7 @@ public class DataIdea {
      * 
      * @param valid The validity of the idea
      */
-    DataIdea(int id, String subject, String message, int userId, int likes, int comments, boolean valid, String created) {
+    DataIdea(int id, String subject, String message, int userId, int likes, int comments, boolean valid, Timestamp created) {
         mId = id;
         mSubject = subject;
         mMessage = message;
@@ -111,12 +110,7 @@ public class DataIdea {
         mComments = comments;
         mUserId = userId;
         mValid = valid;
-        try{
-            mCreated = DateFormat.getDateInstance().parse(created);
-        }
-        catch(ParseException e){
-            mCreated = new Date();
-        }
+        mCreated = new Date(created.getTime());
     }
 
 

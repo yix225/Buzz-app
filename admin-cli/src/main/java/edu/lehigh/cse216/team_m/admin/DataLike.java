@@ -1,6 +1,6 @@
 package edu.lehigh.cse216.team_m.admin;
 
-public class DataLikes {
+public class DataLike {
     /**
      * The id of the idea the like belongs to
      */
@@ -32,10 +32,10 @@ public class DataLikes {
      * 
      * @param status for the status of the like
      */
-    DataLikes(int ideaId, int userId, int status) {
+    DataLike(int ideaId, int userId, int status) {
         mIdeaId = ideaId;
         mUserId = ideaId;
-        mComId = -1;
+        mComId = (Integer)null;
         mStatus = status;
     }
 
@@ -50,7 +50,7 @@ public class DataLikes {
      * 
      * @param status for the status of the like
      */
-    DataLikes(int ideaId, int userId, int comId, int status) {
+    DataLike(int ideaId, int userId, int comId, int status) {
         mIdeaId = ideaId;
         mUserId = ideaId;
         mComId = comId;
@@ -61,7 +61,7 @@ public class DataLikes {
      * Copy constructor to create one datalike from another
      * @param data The dataLike you are copying from
      */
-    DataLikes(DataLikes data) {
+    DataLike(DataLike data) {
         mIdeaId = data.mIdeaId;
         mUserId = data.mUserId;
         mComId = data.mComId;
