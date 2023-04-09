@@ -63,7 +63,7 @@ public class App {
     }
 
     private static final String CLIENT_ID = "926558226206-ppmn3bk4ckvrtaq6hun9kpi034sde366.apps.googleusercontent.com";
-    // private static final String CLIENT_SECRET = "your-client-secret";
+    private static final String CLIENT_SECRET = "your-client-secret";
     // private static final String REDIRECT_URI = "your-redirect-uri";
     // public static GoogleLogin verify() {
     //     try {
