@@ -74,7 +74,7 @@ public class AppTest
         // Setting new DataRow to be equal to the one found in loop
         DataRow dr2 = db.selectOne(id);
 
-        //Checking to see if values are still the same
+        // Checking to see if values are still the same
         assertEquals(dr1.mSubject, dr2.mSubject);
         assertEquals(dr1.mMessage, dr2.mMessage);
         assertEquals(dr1.mLikes, dr2.mLikes);
