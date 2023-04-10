@@ -798,6 +798,29 @@ public class Database {
     }
 
     /**
+     * Get all data for a specific user row, by ID
+     * 
+     * @param userid The id of the row being requested
+     * 
+     * @return The data for the requested row, or null if the ID was invalid
+     */
+    DataUser selectAnotherUser(int userid) {
+        DataUser res = null;
+        try {
+            mSelectUser.setInt(1, userid);
+            ResultSet rs = mSelectUser.executeQuery();
+            if (rs.next()) {
+                res = new DataUser(rs.getInt("userid"), rs.getString("name"), rs.getString("email"),
+                        null, null, rs.getString("note"), 
+                        rs.getBoolean("valid"), rs.getTimestamp("creationdate"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
+
+    /**
      * Get all data for a specific idea row, by ID
      * 
      * @param ideaid The id of the idea row being requested
