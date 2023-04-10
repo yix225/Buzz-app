@@ -77,7 +77,7 @@ public class AppTest
         //Checking to see if values are still the same
         assertEquals(dr1.mSubject, dr2.mSubject);
         assertEquals(dr1.mMessage, dr2.mMessage);
-        //assertEquals(dr1.mLikes, 0);
+        assertEquals(dr1.mLikes, dr2.mLikes);
     }
     
     /**
