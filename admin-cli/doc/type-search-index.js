@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"edu.lehigh.cse216.team_m.admin","l":"DatabaseTest"}];updateSearchResults();

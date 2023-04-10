@@ -50,10 +50,10 @@ public class App {
     * Get an integer environment variable if it exists, and otherwise return the
     * default value.
     * 
-    * @param envar The name of the environment variable to get.
-    * @param defaultVal The integer value to use as the default if envar isn't found
+    * @envar      The name of the environment variable to get.
+    * @defaultVal The integer value to use as the default if envar isn't found
     * 
-    * @return The best answer we could come up with for a value for envar
+    * @returns The best answer we could come up with for a value for envar
     */
     static int getIntFromEnv(String envar, int defaultVal) {
         ProcessBuilder processBuilder = new ProcessBuilder();

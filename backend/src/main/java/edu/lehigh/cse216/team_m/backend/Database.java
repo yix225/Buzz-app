@@ -17,8 +17,8 @@ import java.util.Date;
  */
 public class Database {
     /**
-     * The connection to the database. When there is no connection, it should
-     * be null. Otherwise, there is a valid open connection
+     * The connection to the database.  When there is no connection, it should
+     * be null.  Otherwise, there is a valid open connection
      */
     private Connection mConnection;
 
@@ -180,28 +180,29 @@ public class Database {
     private PreparedStatement mDropAll;
 
     /**
-     * RowData is like a struct in C: we use it to hold data, and we allow
-     * direct access to its fields. In the context of this Database, RowData
+     * RowData is like a struct in C: we use it to hold data, and we allow 
+     * direct access to its fields.  In the context of this Database, RowData 
      * represents the data we'd see in a row.
      * 
      * We make RowData a static class of Database because we don't really want
      * to encourage users to think of RowData as being anything other than an
-     * abstract representation of a row of the database. RowData and the
+     * abstract representation of a row of the database.  RowData and the 
      * Database are tightly coupled: if one changes, the other should too.
      */
 
     /**
-     * The Database constructor is private: we only create Database objects
+     * The Database constructor is private: we only create Database objects 
      * through the getDatabase() method.
      */
     private Database() {
     }
 
-    /**
+/**
      * Get a fully-configured connection to the database
      * 
      * @param ip   The IP address of the database server
-     * @param port The port on the database server to which connection requests should be sent
+     * @param port The port on the database server to which connection requests
+     *             should be sent
      * @param user The user ID to use when connecting
      * @param pass The password to use when connecting
      * 
@@ -225,15 +226,15 @@ public class Database {
             return null;
         }
 
-        // Attempt to create all of our prepared statements. If any of these
+        // Attempt to create all of our prepared statements.  If any of these 
         // fail, the whole getDatabase() call should fail
         try {
             // NB: we can easily get ourselves in trouble here by typing the
-            // SQL incorrectly. We really should have things like "tblData"
-            // as constants, and then build the strings for the statements
-            // from those constants.
+            //     SQL incorrectly.  We really should have things like "tblData"
+            //     as constants, and then build the strings for the statements
+            //     from those constants.
 
-            // Note: no "IF NOT EXISTS" or "IF EXISTS" checks on table
+            // Note: no "IF NOT EXISTS" or "IF EXISTS" checks on table 
             // creation/deletion, so multiple executions will cause an exception
             db.mCreateTables = db.mConnection
                     .prepareStatement("CREATE TABLE users (userid SERIAL PRIMARY KEY, name VARCHAR(50) NOT NULL,"
@@ -324,19 +325,20 @@ public class Database {
     }
 
     /**
-     * Get a fully-configured connection to the database
-     * 
-     * @param host The IP address or hostname of the database server
-     * @param port The port on the database server to which connection requests should be sent
-     * @param path The path to use, can be null
-     * @param user The user ID to use when connecting
-     * @param pass The password to use when connecting
-     * 
-     * @return A Database object, or null if we cannot connect properly
-     */
+    * Get a fully-configured connection to the database
+    * 
+    * @param host The IP address or hostname of the database server
+    * @param port The port on the database server to which connection requests
+    *             should be sent
+    * @param path The path to use, can be null
+    * @param user The user ID to use when connecting
+    * @param pass The password to use when connecting
+    * 
+    * @return A Database object, or null if we cannot connect properly
+    */
     static Database getDatabase(String host, String port, String path, String user, String pass) {
-        if (path == null || "".equals(path)) {
-            path = "/";
+        if( path==null || "".equals(path) ){
+            path="/";
         }
 
         // Create an un-configured Database object
@@ -357,7 +359,7 @@ public class Database {
             return null;
         }
 
-        // Attempt to create all of our prepared statements. If any of these
+        // Attempt to create all of our prepared statements.  If any of these 
         // fail, the whole getDatabase() call should fail
         try {
             // NB: we can easily get ourselves in trouble here by typing the
@@ -365,7 +367,7 @@ public class Database {
             // names as constants, and then build the strings for the statements
             // from those constants.
 
-            // Note: no "IF NOT EXISTS" or "IF EXISTS" checks on table
+            // Note: no "IF NOT EXISTS" or "IF EXISTS" checks on table 
             // creation/deletion, so multiple executions will cause an exception
             db.mCreateTables = db.mConnection
                     .prepareStatement("CREATE TABLE users (userid SERIAL PRIMARY KEY, name VARCHAR(50) NOT NULL,"
@@ -453,16 +455,16 @@ public class Database {
             return null;
         }
         return db;
-    }
+    } 
 
     /**
-     * Get a fully-configured connection to the database
-     * 
-     * @param db_url       The url to the database
-     * @param port_default port to use if absent in db_url
-     * 
-     * @return A Database object, or null if we cannot connect properly
-     */
+    * Get a fully-configured connection to the database
+    * 
+    * @param db_url The url to the database
+    * @param port_default port to use if absent in db_url
+    * 
+    * @return A Database object, or null if we cannot connect properly
+    */
     static Database getDatabase(String db_url, String port_default) {
         try {
             URI dbUri = new URI(db_url);
@@ -477,13 +479,13 @@ public class Database {
             System.out.println("URI Syntax Error");
             return null;
         }
-    }
+    } 
 
     /**
      * Close the current connection to the database, if one exists.
      * 
-     * NB: The connection will always be null after this call, even if an
-     * error occurred during the closing operation.
+     * NB: The connection will always be null after this call, even if an 
+     *     error occurred during the closing operation.
      * 
      * @return True if the connection was cleanly closed, false otherwise
      */
@@ -897,7 +899,7 @@ public class Database {
      * 
      * @param userid The id of the user to delete
      * 
-     * @return The number of rows that were deleted. -1 indicates an error.
+     * @return The number of rows that were deleted.  -1 indicates an error.
      */
     int deleteUser(int userid) {
         int res = -1;
@@ -966,7 +968,7 @@ public class Database {
      * @param sexOtn the new user sexual orientation
      * @param note the new user note
      * 
-     * @return The number of rows that were updated. -1 indicates an error.
+     * @return The number of rows that were updated.  -1 indicates an error.
      */
     int updateUser(int userid, String name, String email, String genId, String sexOtn, String note) {
         int res = -1;
@@ -1182,7 +1184,7 @@ public class Database {
     }
 
     /**
-     * Create tblData. If it already exists, this will print an error
+     * Create tblData.  If it already exists, this will print an error
      */
     void createTables() {
         try {
@@ -1193,7 +1195,7 @@ public class Database {
     }
 
     /**
-     * Remove tblData from the database. If it does not exist, this will print
+     * Remove tblData from the database.  If it does not exist, this will print
      * an error.
      */
     void dropTables() {

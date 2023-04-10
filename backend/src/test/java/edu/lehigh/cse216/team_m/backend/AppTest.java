@@ -6,6 +6,7 @@ import java.util.HashMap;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import java.util.Map;
 
 /**
  * Unit test for simple App.
@@ -13,11 +14,7 @@ import junit.framework.TestSuite;
 public class AppTest 
     extends TestCase
 {
-	/**
-	 * id used for test rows
-	 */
-    private int id = -1;
-
+    
     /**
      * Create the test case
      *
@@ -36,9 +33,6 @@ public class AppTest
         return new TestSuite( AppTest.class );
     }
 
-    /**
-     * Test the app
-     */
     public void testApp()
     {
         assertTrue( true );
@@ -74,10 +68,10 @@ public class AppTest
         // Setting new DataRow to be equal to the one found in loop
         DataRow dr2 = db.selectOne(id);
 
-        //Checking to see if values are still the same
+        // Checking to see if values are still the same
         assertEquals(dr1.mSubject, dr2.mSubject);
         assertEquals(dr1.mMessage, dr2.mMessage);
-        //assertEquals(dr1.mLikes, 0);
+        assertEquals(dr1.mLikes, dr2.mLikes);
     }
     
     /**
@@ -113,7 +107,7 @@ public class AppTest
      * Tests likeOne
      */
     public void testLikeOne() {
-        // Connecting to Database . . .
+        
         String ip = "isilo.db.elephantsql.com";
         String port = Integer.toString(5432);
         String user = "gkzavwme";
@@ -121,16 +115,7 @@ public class AppTest
 
         Database db = Database.getDatabase(ip, port, user, pass);
 
-        // Inserting Row with similar Subject and Message
-        db.insertRow("LikeTest", "This is a test");
-        // Finding specific DataRow with same Subject
-        ArrayList<DataRow> arr = db.selectAll();
-        for(DataRow dr : arr ){
-            if(dr.mSubject.equals("LikeTest")){
-                id = dr.mId;
-                break;
-            }
-        }
+        int id = 3;
 
         // selects a specific row in database
         DataRow res = db.selectOne(id);
@@ -143,12 +128,9 @@ public class AppTest
         // should be equal after likes added
         assertEquals(res.mLikes, likes);
     }
-    
-    /**
-     * Tests unLikeOne
-     */
+
     public void testunlikeOne() {
-        // Connecting to Database . . .
+        
         String ip = "isilo.db.elephantsql.com";
         String port = Integer.toString(5432);
         String user = "gkzavwme";
@@ -156,14 +138,7 @@ public class AppTest
 
         Database db = Database.getDatabase(ip, port, user, pass);
 
-        // Finding specific DataRow with same Subject
-        ArrayList<DataRow> arr = db.selectAll();
-        for(DataRow dr : arr ){
-            if(dr.mSubject.equals("LikeTest")){
-                id = dr.mId;
-                break;
-            }
-        }
+        int id = 3;
 
         // selects a specific row in database
         DataRow res = db.selectOne(id);
@@ -175,9 +150,24 @@ public class AppTest
 
         // should be equal after likes added
         assertEquals(res.mLikes, likes);
+    }
+    public void testHashTable() {
+        // Create a new hash map to store the user ID and session key
+        HashMap<String, HashMap<String, String>> usersMap = new HashMap<>();
+        HashMap<String, String> testUser = new HashMap<>();
+        testUser.put("name", "David");
+        testUser.put("email", "jiw324@lehigh.com");
+        testUser.put("gender identity", "Male");
+        testUser.put("sexual orientation", "Heterosexual");
+        testUser.put("note", "Backend dev");
+        usersMap.put("test1", testUser);
 
-        // deleting the last test Row
-        db.deleteRow(id);
+        HashMap<String, String> ret = usersMap.get("test1"); 
+        assertEquals(ret.get("name"), "David");
+        assertEquals(ret.get("email"), "jiw324@lehigh.com");
+        assertEquals(ret.get("gender identity"), "Male");
+        assertEquals(ret.get("sexual orientation"), "Heterosexual");
+        assertEquals(ret.get("note"), "Backend dev");
     }
     public void testHashTable() {
         // Create a new hash map to store the user ID and session key

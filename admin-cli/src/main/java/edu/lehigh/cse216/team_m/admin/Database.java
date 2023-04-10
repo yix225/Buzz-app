@@ -7,7 +7,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import java.util.ArrayList;
-
+/**
+ * @author Hien Thi
+ * @version 3/25/2023
+ */
 public class Database {
     /**
      * The connection to the database.  When there is no connection, it should
@@ -80,7 +83,10 @@ public class Database {
          */
         int mLikes;
         /**
-         * 
+         * @param id id of row to insert
+         * @param subject string of subject for message
+         * @param message message string
+         * @param likes integer of amount of likes for id 
          * Construct a RowData object by providing values for its fields
          */
         public RowData(int id, String subject, String message, int likes) {
@@ -281,7 +287,14 @@ public class Database {
         }
         return res;
     }
-
+    /**
+     * Add likes to message for a row in the database
+     * 
+     * @param id The id of the row to add likes to
+     * @param likes the current amount of likes in row
+     * 
+     * @return The number of rows that were updated/added likes to. -1 indicate an error/
+     */
     int addLikes(int id,int likes){
         int res = -1;
         int tempLikes = likes;
@@ -295,7 +308,14 @@ public class Database {
         }
         return res;
     }
-
+    /**
+     * Remove likes to message for a row in the database by decrementing likes counter
+     * 
+     * @param id The id of the row to add likes to
+     * @param likes the current amount of likes in row
+     * 
+     * @return The number of rows that were updated/added likes to. -1 indicate an error/
+     */
     int removeLikes(int id, int likes){
         int res = -1;
         int tempLikes = likes;
