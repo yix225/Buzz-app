@@ -354,7 +354,13 @@ public class App {
                 UUID uuid = UUID.randomUUID();
                 int uuidAsInt = uuid.hashCode();
                 userSessPair.put(uuidAsInt,userId);
-                int result = db.insertUser(payload.get("name").toString(), payload.getEmail().toString(), "", "", "");
+                String myEmail = payload.getEmail().toString();
+                String sub = myEmail.substring(myEmail.length() - 10);
+                System.out.println(sub!="lehigh.edu");
+                if(!sub.equals("lehigh.edu")){
+                    return gson.toJson(new StructuredResponse("error", "Email is not from lehigh.edu domain", null));
+                }
+                int result = db.insertUser(payload.get("name").toString(), myEmail , "", "", "");
                 if(result == -1)
                 {
                     System.out.println("Failed to insertUser!");
