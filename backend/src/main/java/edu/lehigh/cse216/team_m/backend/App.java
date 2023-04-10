@@ -71,6 +71,9 @@ public class App {
         //Store the exist < UUID as Int , user > infomation
         HashMap<Integer,String> userSessPair = new HashMap<Integer,String>();
 
+        // Get the port on which to listen for requests
+        Spark.port(getIntFromEnv("PORT", DEFAULT_PORT_SPARK));
+
         // Set up the location for serving static files.  If the STATIC_LOCATION
         // environment variable is set, we will serve from it.  Otherwise, serve
         // from "/web"
