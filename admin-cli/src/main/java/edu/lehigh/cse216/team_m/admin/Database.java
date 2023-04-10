@@ -1182,7 +1182,7 @@ public class Database {
     }
 
     /**
-     * Create tblData. If it already exists, this will print an error
+     * Creates all tables. If it already exists, this will print an error
      */
     void createTables() {
         try {
@@ -1193,7 +1193,7 @@ public class Database {
     }
 
     /**
-     * Remove tblData from the database. If it does not exist, this will print
+     * Remove all tables from the database. If it does not exist, this will print
      * an error.
      */
     void dropTables() {
