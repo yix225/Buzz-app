@@ -1,5 +1,6 @@
 import React, { useState,useEffect } from 'react';
 import axios from 'axios';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import './MessageList.css';
 
 /**
@@ -186,47 +187,11 @@ const likeMessage = async (index) => {
   }
 };
 
-
-
-  // const dislikeMessage = async(index) => {
-  //   const likeCount = messages[index].mLikes-1;
-  //   const messageId = messages[index].mId;
-  //   const updatedMessages = [...messages];
-  //   const updatedMessage = {
-  //     ...messages[index],
-  //     mLikes: likeCount,
-      
-  //   };
-  //   //console.log(updatedMessage); 
-  //   updatedMessages[index] = updatedMessage;
-  //   // const updatedMessages = messages.map((message) =>
-  //   //   message.mId === messageId ? updatedMessage : message
-  //   // );
-  //   console.log(updatedMessages);
-  //     try {
-  //       const response = await axios.put(
-  //         `http://2023sp-team-m.dokku.cse.lehigh.edu/messages/${messageId}`,
-  //         updatedMessage
-  //       );
-  //       console.log(`message ${messageId} liked`);
-  //       console.log(updatedMessages);
-  //       console.log(response.data);
-  //       setMessages(updatedMessages); // Update state with updatedMessages
-  //       //getMessages();
-  //       console.log('Message updated successfully!');
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  // };
-
-/**
- * the formate of each function, the message box, send button
- * edit, delete, like button
- */
   return (
 
     <div>
-
+      <script src="https://accounts.google.com/gsi/client" async defer></script>
+      <script src="func.js"></script>
       <form onSubmit={handleSubmit}>
         <div className="message-box">
           <label htmlFor="subject">Subject:</label>
@@ -248,7 +213,22 @@ const likeMessage = async (index) => {
           </div>
         </div>
       </form>
-      
+      <div id="g_id_onload"
+     data-client_id="926558226206-ppmn3bk4ckvrtaq6hun9kpi034sde366.apps.googleusercontent.com"
+     data-context="signin"
+     data-ux_mode="popup"
+     data-callback="callback"
+     data-auto_prompt="false">
+</div>
+
+{/* <div className="g_id_signin"
+     data-type="standard"
+     data-shape="rectangular"
+     data-theme="outline"
+     data-text="signin_with"
+     data-size="large"
+     data-logo_alignment="left">
+</div> */}
       <ul className = "message-list">
       {messages.map((message, index) => (
           <li key={message.mId} className = "message-input">
@@ -259,7 +239,6 @@ const likeMessage = async (index) => {
               {/* <button onClick={() => dislikeMessage(index)}>Dislike</button>  */}
               <button onClick={() => deleteMessage(message.mId)}>Delete</button>
               <button onClick={() => editMessage(index, prompt('Enter new text:'))}>Edit</button>
-       
             </div>
           </li>
         ))}
