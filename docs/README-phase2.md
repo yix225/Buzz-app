@@ -105,7 +105,7 @@ __________
 
 ------------
 ### **ROUTES**
-![](https://i.ibb.co/JkgRXhq/Screenshot-6.png)
+![](https://i.ibb.co/DwxkH6c/Screenshot-5.png)
 __________
 __________
 __________
