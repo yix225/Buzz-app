@@ -4,7 +4,7 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import { GoogleLogin } from "@react-oauth/google";
 import { useNavigate } from "react-router-dom";
 import Profile from "./Profile";
-import Messages from "./Messages"; // Import the Messages component
+import Messages from "./component/Messages"; // Import the Messages component
 
 //import ProfileBar from "./ProfileBar"; // Import the ProfileBar component
 
@@ -49,7 +49,7 @@ function Main() {
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/messages" element={<Messages />} />
+        <Route path="/GetAllIdea" element={<Messages />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>

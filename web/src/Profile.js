@@ -28,7 +28,7 @@ function Profile() {
   };
 
   const handleViewMessagesClick = () => {
-    navigate("/messages");
+    navigate("/GetAllIdea");
   };
 
   const handleSignOutClick = () => {
