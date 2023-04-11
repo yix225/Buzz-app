@@ -3,6 +3,7 @@ import 'package:english_words/english_words.dart';
 import 'package:flutter_application_1/insert_message.dart';
 import 'package:flutter_application_1/message.dart';
 import 'package:flutter_application_1/my_function.dart';
+import 'package:flutter_application_1/user.dart';
 import 'dart:developer' as developer;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -15,27 +16,9 @@ import 'package:provider/provider.dart';
 import 'dart:io';
 import 'package:device_info/device_info.dart';
 
-Future<void> main() async {
-  // int apiLevel = -1;
-  // print("Hello");
-  // if (Platform.isAndroid) {
-  //   AndroidDeviceInfo androidInfo = await DeviceInfoPlugin().androidInfo;
-  //   apiLevel = androidInfo.version.sdkInt;
-  // } else if (Platform.isIOS) {
-  //   IosDeviceInfo iosInfo = await DeviceInfoPlugin().iosInfo;
-  //   List<String> versionComponents = iosInfo.systemVersion.split('.');
-  //   apiLevel = int.parse(versionComponents[0]);
-  // } else if (Platform.isMacOS) {
-  //   apiLevel = 10; // macOS 10.x is roughly equivalent to iOS 13.x
-  // } else if (Platform.isWindows) {
-  //   apiLevel = 10; // Windows 10.x is roughly equivalent to Android 10.x
-  // }
+import 'myDrawer.dart';
 
-  // if (apiLevel == -1) {
-  //   print('Unsupported platform');
-  // } else {
-  //   print('Current API level: $apiLevel');
-  // }
+Future<void> main() async {
   runApp(
     ChangeNotifierProvider<UserData>(
         create: (context) => UserData(), child: const MyApp()),
@@ -142,6 +125,9 @@ class _MyHomePageState extends State<MyHomePage> {
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
+      ),
+      drawer: const myDrawer(
+        selectedPage: 'Profile',
       ),
       body: const Center(
         // Center is a layout widget. It takes a single child and positions it
@@ -290,3 +276,28 @@ Future<List<mLine>> fetchmLines() async {
     throw Exception('Did not receive success status code from request.');
   }
 }
+
+// Future<List<User>> fetchUsers() async {
+//   final response = await http
+//       .get(Uri.parse('http://2023sp-team-m.dokku.cse.lehigh.edu/messages'));
+//   if (response.statusCode == 200) {
+//     final List<User> returnUser;
+//     var res = jsonDecode(response.body);
+//     List<dynamic> mData = res['mData'];
+//     // ignore: unnecessary_type_check
+//     if (mData is List) {
+//       returnUser = (mData).map((x) => mLine.fromJson(x)).toList();
+//     } else if (mData is Map) {
+//       returnUser = <User>[User.fromJson(mData as Map<String, dynamic>)];
+//     } else {
+//       developer
+//           .log('ERROR: Unexpected json response type (was not a List or Map).');
+//       returnData = List.empty();
+//     }
+//     return returnData;
+//   } else {
+//     // If the server did not return a 200 OK response,
+//     // then throw an exception.
+//     throw Exception('Did not receive success status code from request.');
+//   }
+// }

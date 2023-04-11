@@ -41,7 +41,6 @@ android {
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
-
     defaultConfig {
         manifestPlaceholders += [
             'appAuthRedirectScheme':'926558226206-ppmn3bk4ckvrtaq6hun9kpi034sde366.apps.googleusercontent.com']
@@ -54,9 +53,16 @@ android {
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
-
+    // signingConfigs{ 
+    //     debug{
+    //         keyAlias 'androiddebugkey' 
+    //         keyPassword 'Xuyinuo20030908'
+    //         storeFile file('mykey.jks')
+    //         storePassword 'Xuyinuo20030908'
+    //     }
+    // }
     buildTypes {
-        release {
+        debug {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.debug

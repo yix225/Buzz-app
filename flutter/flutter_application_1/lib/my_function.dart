@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'package:flutter_application_1/user.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 
 void addMessage(String mySubject, String myMessage) async {
   DateTime now = DateTime.now();
@@ -10,6 +12,7 @@ void addMessage(String mySubject, String myMessage) async {
     'mSubject': mySubject,
     'mMessage': myMessage,
     'mLikes': 0,
+    //'mUnlikes':0,
     'mCreated': currentTime
   };
   final response = await http.post(
@@ -38,4 +41,99 @@ void update_unLikes(int myid) async {
   if (response.statusCode != 200) {
     throw Exception('Failed to update like.');
   }
+}
+
+void addComment(String myComment) async {
+  DateTime now = DateTime.now();
+  String currentTime = now.toString();
+  Map<String, String> headers = {'Content-Type': 'application/json'};
+  Map<String, dynamic> payload = {
+    'mId': 0,
+    'mComment': myComment,
+    'mLikes': 0,
+    'mCreated': currentTime
+  };
+  final response = await http.post(
+    Uri.parse('http://2023sp-team-m.dokku.cse.lehigh.edu/messages'),
+    headers: headers,
+    body: jsonEncode(payload),
+  );
+  if (response.statusCode != 200) {
+    throw Exception('Failed to update like.');
+  }
+}
+
+Future<String?> addSexOri(String? sexOri) async {
+  Map<String, String> headers = {'Content-Type': 'application/json'};
+  Map<String, dynamic> payload = {
+    'oriSex': sexOri,
+  };
+  final response = await http.post(
+    Uri.parse('http://2023sp-team-m.dokku.cse.lehigh.edu/messages'),
+    headers: headers,
+    body: jsonEncode(payload),
+  );
+  if (response.statusCode != 200) {
+    throw Exception('Failed to update like.');
+  }
+  return User(
+          avatarUrl: '',
+          email: '',
+          name: '',
+          token: '',
+          identity: '',
+          sexOri: '',
+          id: '',
+          description: '')
+      .sexOri;
+}
+
+Future<String?> addGender(String? identity) async {
+  Map<String, String> headers = {'Content-Type': 'application/json'};
+  Map<String, dynamic> payload = {
+    'identity': identity,
+  };
+  final response = await http.post(
+    Uri.parse('http://2023sp-team-m.dokku.cse.lehigh.edu/messages'),
+    headers: headers,
+    body: jsonEncode(payload),
+  );
+  if (response.statusCode != 200) {
+    throw Exception('Failed to update like.');
+  }
+  return User(
+          avatarUrl: '',
+          email: '',
+          name: '',
+          token: '',
+          identity: '',
+          sexOri: '',
+          id: '',
+          description: '')
+      .identity;
+}
+
+Future<String?> addDescription(String? description) async {
+  Map<String, String> headers = {'Content-Type': 'application/json'};
+  Map<String, dynamic> payload = {
+    'description': description,
+  };
+  final response = await http.post(
+    Uri.parse('http://2023sp-team-m.dokku.cse.lehigh.edu/messages'),
+    headers: headers,
+    body: jsonEncode(payload),
+  );
+  if (response.statusCode != 200) {
+    throw Exception('Failed to update like.');
+  }
+  return User(
+          avatarUrl: '',
+          email: '',
+          name: '',
+          token: '',
+          identity: '',
+          sexOri: '',
+          id: '',
+          description: '')
+      .identity;
 }
