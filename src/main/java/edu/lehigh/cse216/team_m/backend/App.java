@@ -457,7 +457,6 @@ public class App {
             response.header("Access-Control-Allow-Origin", origin);
             response.header("Access-Control-Request-Method", methods);
             response.header("Access-Control-Allow-Headers", headers);
-            response.type("application/json");
         });
     }
 }
