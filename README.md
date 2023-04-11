@@ -1,14 +1,13 @@
 ### **TEAM M** | **TEAM 10**
 
 
-| NAMES | EMAILS | PHONE NUMBERS | ROLE |
+| NAMES | EMAILS | PHONE NUMBERS | 
 | --- | --- | --- |
-| Tamilore Adegbaye	| Email: doa325@lehigh.edu | Phone #: 215-558-8231 | Web Developer
-| David Wang         | Email: jiw324@lehigh.edu | Phone #: 669-307-3008 | Backend Developer
-| Hien Thi 			| Email: hnt224@lehigh.edu | Phone #: 215-609-5838 | Product Manager
-| Selase Dzathor 	| Email: skd225@lehigh.edu | Phone #: 601-760-5029 | Admin-Cli Developer
-| Yinuo Xu 			| Email: yix225@lehigh.edu | Phone #: 484-934-7389 | Mobile Developer
-
+| Tamilore Adegbaye (Web Developer)	| Email: doa325@lehigh.edu | Phone #: 215-558-8231 |
+| David Wang (Backend Developer)         | Email: jiw324@lehigh.edu | Phone #: 669-307-3008 |
+| Hien Thi (Product Manager) 			| Email: hnt224@lehigh.edu | Phone #: 215-609-5838 |
+| Selase Dzathor (Admin-Cli Developer) 	| Email: skd225@lehigh.edu | Phone #: 601-760-5029 |
+| Yinuo Xu (Mobile Developer) 			| Email: yix225@lehigh.edu | Phone #: 484-934-7389 |
 
 
 
@@ -21,6 +20,17 @@
 - On your local host, run this command : sh local-deploy.sh in the web branch of your web folder
 
 
+#### Backend & Admin
+	1. Run  "mvn clean; mvn package; PORT=8998 DATABASE_URL=postgres://<User>:<Pass>@<Url> mvn exec:java" on respective branches
+	
+#### Web
+	1. View the web front end by running npm start in your terminal in the web folder of our team repository
+	2. During testing and development, we can make changes/view the web front end code by pointing our browser to http://localhost:3000/
+	
+#### Mobile
+	1. Navigate to flutter_application_1 folder
+	2. Type "flutter run" in comment line in terminal
+	3. Run Android Emulator and go to Debug mode.
 --- 
 
 
