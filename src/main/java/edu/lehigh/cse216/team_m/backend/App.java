@@ -436,7 +436,7 @@ public class App {
      * @param headers The headers that can be sent with a request from the above
      *                origin
      */
-    private static void enableCORS(String origin, String methods, String headers) {
+    private static void enableCORS(String origin, String methods, String headers) {        
         // Create an OPTIONS route that reports the allowed CORS headers and methods
         Spark.options("/*", (request, response) -> {
             String accessControlRequestHeaders = request.headers("Access-Control-Request-Headers");
@@ -457,6 +457,7 @@ public class App {
             response.header("Access-Control-Allow-Origin", origin);
             response.header("Access-Control-Request-Method", methods);
             response.header("Access-Control-Allow-Headers", headers);
+            response.type("application/json");
         });
     }
 }
