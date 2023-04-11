@@ -10,18 +10,18 @@ function decodeJwtResponse(data){
 }
 function send_req(responsePayload){
     console.log("Yes");
-    const url = 'http://2023sp-team-m.dokku.cse.lehigh.edu/login'; // Replace with your own API endpoint
-    const data = {
-      mysubject: 'mysubject',
-      mymessage: responsePayload.sub,
+    const url = 'http://2023sp-team-m.dokku.cse.lehigh.edu/login';
+    // const data = {
+    //   mysubject: 'mysubject',
+    //   mymessage: responsePayload.sub,
       
-    }; // Replace with the data you want to send
+    // }; // Replace with the data you want to send
     fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(responsePayload.sub)
     })
       .then(response => {
         console.log("Yess");
