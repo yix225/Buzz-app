@@ -73,5 +73,6 @@ public class DataRowTest extends TestCase {
         assertTrue(d2.mLikes == d.mLikes);
         assertTrue(d2.mId == d.mId);
         assertTrue(d2.mCreated.equals(d.mCreated));
+        
     }
 }
