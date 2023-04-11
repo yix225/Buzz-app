@@ -84,6 +84,13 @@ public class App {
             Spark.staticFiles.externalLocation(static_location_override);
         }
 
+        if ("True".equalsIgnoreCase(System.getenv("CORS_ENABLED"))) {
+            final String acceptCrossOriginRequestsFrom = "*";
+            final String acceptedCrossOriginRoutes = "GET,PUT,POST,DELETE,OPTIONS";
+            final String supportedRequestHeaders = "Content-Type,Authorization,X-Requested-With,Content-Length,Accept,Origin";
+            enableCORS(acceptCrossOriginRequestsFrom, acceptedCrossOriginRoutes, supportedRequestHeaders);
+        }
+
         // gson provides us with a way to turn JSON into objects, and objects
         // into JSON.
         //
