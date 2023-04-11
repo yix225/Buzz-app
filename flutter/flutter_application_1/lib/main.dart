@@ -255,7 +255,9 @@ class _HttpReqWordsState extends State<HttpReqWords> {
 Future<List<mLine>> fetchmLines() async {
   final response = await http
       .get(Uri.parse('http://2023sp-team-m.dokku.cse.lehigh.edu/messages'));
-  if (response.statusCode == 200) {
+  // print(response.statusCode);
+  // print(response.body);
+  if (response.statusCode == 301) {
     final List<mLine> returnData;
     var res = jsonDecode(response.body);
     List<dynamic> mData = res['mData'];

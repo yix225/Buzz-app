@@ -16,7 +16,7 @@ void addMessage(String mySubject, String myMessage) async {
     'mCreated': currentTime
   };
   final response = await http.post(
-    Uri.parse('http://2023sp-team-m.dokku.cse.lehigh.edu/messages'),
+    Uri.parse('http://2023sp-team-m.dokku.cse.lehigh.edu/insertIdea/:SessID'),
     headers: headers,
     body: jsonEncode(payload),
   );
@@ -54,7 +54,8 @@ void addComment(String myComment) async {
     'mCreated': currentTime
   };
   final response = await http.post(
-    Uri.parse('http://2023sp-team-m.dokku.cse.lehigh.edu/messages'),
+    Uri.parse(
+        'http://2023sp-team-m.dokku.cse.lehigh.edu//insertComment/:IdeaId/:SessId'),
     headers: headers,
     body: jsonEncode(payload),
   );
@@ -69,7 +70,8 @@ Future<String?> addSexOri(String? sexOri) async {
     'oriSex': sexOri,
   };
   final response = await http.post(
-    Uri.parse('http://2023sp-team-m.dokku.cse.lehigh.edu/messages'),
+    Uri.parse(
+        'http://2023sp-team-m.dokku.cse.lehigh.edu/profile/:SessID/:name/:email/:genId/:sexOtn/:note'),
     headers: headers,
     body: jsonEncode(payload),
   );
@@ -94,7 +96,8 @@ Future<String?> addGender(String? identity) async {
     'identity': identity,
   };
   final response = await http.post(
-    Uri.parse('http://2023sp-team-m.dokku.cse.lehigh.edu/messages'),
+    Uri.parse(
+        'http://2023sp-team-m.dokku.cse.lehigh.edu/profile/:SessID/:name/:email/:genId/:sexOtn/:note'),
     headers: headers,
     body: jsonEncode(payload),
   );
@@ -119,7 +122,8 @@ Future<String?> addDescription(String? description) async {
     'description': description,
   };
   final response = await http.post(
-    Uri.parse('http://2023sp-team-m.dokku.cse.lehigh.edu/messages'),
+    Uri.parse(
+        'http://2023sp-team-m.dokku.cse.lehigh.edu/profile/:SessID/:name/:email/:genId/:sexOtn/:note'),
     headers: headers,
     body: jsonEncode(payload),
   );

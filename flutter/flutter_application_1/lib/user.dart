@@ -23,11 +23,11 @@ class User {
     return User(
         token: json['token'] as String,
         avatarUrl: json['avatarUrl'] as String,
-        name: json['name'] as String,
-        email: json['email'] as String,
-        sexOri: json['sexOri'] as String,
-        identity: json['identity'] as String,
-        description: json['description'] as String,
+        name: json['mName'] as String,
+        email: json['mEmail'] as String,
+        sexOri: json['mSexOrn'] as String,
+        identity: json['mGenId'] as String,
+        description: json['mNote'] as String,
         id: json['mId'] as String);
   }
   Map<String, dynamic> toJson() {
@@ -36,10 +36,11 @@ class User {
     user['mData'] = {
       'token': token,
       'avatarUrl': avatarUrl,
-      'name': name,
-      'sexOri': sexOri,
-      'identity': identity,
-      'description': description,
+      'mName': name,
+      'mEmail': email,
+      'mSexOrn': sexOri,
+      'mGenId': identity,
+      'mNote': description,
       'id': id
     };
     print(jsonEncode(user));
