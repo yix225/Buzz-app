@@ -1,14 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
+import 'package:flutter_application_1/insert_message.dart';
+import 'package:flutter_application_1/message.dart';
+import 'package:flutter_application_1/my_function.dart';
+import 'package:flutter_application_1/user.dart';
 import 'dart:developer' as developer;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
+import 'package:flutter_application_1/SignInScreen.dart';
 
-void main() {
-  runApp(const MyApp());
+import 'package:flutter_application_1/UserData.dart';
+import 'package:provider/provider.dart';
+
+import 'dart:io';
+import 'package:device_info/device_info.dart';
+
+import 'myDrawer.dart';
+
+Future<void> main() async {
+  runApp(
+    ChangeNotifierProvider<UserData>(
+        create: (context) => UserData(), child: const MyApp()),
+  );
+  //runApp(GoogleSignIn());
 }
-
 
 /// Create object from data like: {mId: 124, mSubject: testing dokku, mMessage: please work, mLikes: 0, mCreated: Mar 10, 2023 8:10:10 PM}
 class mLine {
@@ -24,7 +40,6 @@ class mLine {
     required this.mLikes,
     required this.mCreated,
   });
-
 
   factory mLine.fromJson(Map<String, dynamic> json) {
     return mLine(
@@ -51,8 +66,6 @@ class mLine {
   }
 }
 
-//{"mStatus":"ok","mData":{"mId":3,"mSubject":"Test Test","mMessage":"Hello","mLikes":9,"mCreated":"Mar 11, 2023 2:37:31 AM"}}
-//{"mStatus":"ok","mData":{"mId":3,"mSubject":"Test Test","mMessage":"Hello","mLikes":9,"mCreated":"Mar 11, 2023 2:41:02 AM"}}
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -74,38 +87,34 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.deepPurple,
       ),
       home: const MyHomePage(title: 'Team M Flutter App'),
+      routes: {
+        '/insert': (context) => insert_message(),
+        '/mymessage': (context) => message(),
+        '/SignInScreen': (context) => SignInScreen(),
+      },
     );
   }
 }
 
-
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
-
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
   // how it looks.
 
-
   // This class is the configuration for the state. It holds the values (in this
   // case the title) provided by the parent (in this case the App widget) and
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
-
-
   final String title;
-
-
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-   
     // This method is rerun every time setState is called
     //
     // The Flutter framework has been optimized to make rerunning build methods
@@ -117,6 +126,9 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
+      drawer: const myDrawer(
+        selectedPage: 'Profile',
+      ),
       body: const Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
@@ -126,22 +138,18 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-
 class HttpReqWords extends StatefulWidget {
   const HttpReqWords({Key? key}) : super(key: key);
-
 
   @override
   State<HttpReqWords> createState() => _HttpReqWordsState();
 }
-
 
 class _HttpReqWordsState extends State<HttpReqWords> {
   late Future<List<mLine>> _future_list_numword_pairs;
   late Timer _timer;
 
   final _biggerFont = const TextStyle(fontSize: 18);
-
 
   @override
   void initState() {
@@ -153,19 +161,17 @@ class _HttpReqWordsState extends State<HttpReqWords> {
     });
   }
 
-
   void _retry() {
     setState(() {
       _future_list_numword_pairs = fetchmLines();
     });
   }
 
-
   void reload() {
-    setState(() {
-    });
+    setState(() {});
   }
-final TextEditingController _controller = TextEditingController();
+
+  final TextEditingController _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -174,7 +180,7 @@ final TextEditingController _controller = TextEditingController();
       builder: (BuildContext context, AsyncSnapshot<List<mLine>> snapshot) {
         Widget child;
         if (snapshot.hasData) {
-          child=Column(
+          child = Column(
             children: <Widget>[
               Expanded(
                 child: ListView.builder(
@@ -185,15 +191,29 @@ final TextEditingController _controller = TextEditingController();
                       children: <Widget>[
                         ListTile(
                           title: Text(
-                            "id=${snapshot.data![i].mId} | ${snapshot.data![i].mMessage} | ${snapshot.data![i].mLikes}",
+                            "${snapshot.data![i].mMessage} | Like:${snapshot.data![i].mLikes}",
                             style: _biggerFont,
                           ),
                           trailing: ElevatedButton(
                             onPressed: () {
-                              updateLikes(snapshot.data![i].mId);
-                              _retry();
+                              //updateLikes(snapshot.data![i].mId);
+                              //_retry();
+                              List<String> myarg = [];
+                              myarg.add((snapshot.data![i].mId).toString());
+                              myarg
+                                  .add((snapshot.data![i].mSubject).toString());
+                              myarg
+                                  .add((snapshot.data![i].mMessage).toString());
+                              myarg.add((snapshot.data![i].mLikes).toString());
+                              myarg
+                                  .add((snapshot.data![i].mCreated).toString());
+                              Navigator.pushNamed(
+                                context,
+                                '/mymessage',
+                                arguments: myarg,
+                              );
                             },
-                            child: Text('Like'),
+                            child: Text('>>'),
                           ),
                         ),
                         Divider(height: 1.0),
@@ -202,25 +222,22 @@ final TextEditingController _controller = TextEditingController();
                   },
                 ),
               ),
-              Container(
-                padding: const EdgeInsets.all(16.0),
-                child: TextField(
-                  // ignore: prefer_const_constructors
-                  decoration: InputDecoration(
-                    hintText: 'Enter new a message',
-                  ),
-                  onSubmitted: (String value) {
-                    _retry();
-                    reload();
-                    addMessage(value);
-                    _retry();
-                    reload();
-                  },
-                ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/insert');
+                },
+                child: Text('Add a message'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/SignInScreen');
+                },
+                child: Text('Log in'),
               ),
             ],
           );
-        } else if (snapshot.hasError) { // newly added
+        } else if (snapshot.hasError) {
+          // newly added
           child = Text('${snapshot.error}');
         } else {
           // awaiting snapshot data, return simple text widget
@@ -231,7 +248,6 @@ final TextEditingController _controller = TextEditingController();
       },
     );
 
-
     return fb;
   }
 }
@@ -239,17 +255,20 @@ final TextEditingController _controller = TextEditingController();
 Future<List<mLine>> fetchmLines() async {
   final response = await http
       .get(Uri.parse('http://2023sp-team-m.dokku.cse.lehigh.edu/messages'));
-  if (response.statusCode == 200) {
+  // print(response.statusCode);
+  // print(response.body);
+  if (response.statusCode == 301) {
     final List<mLine> returnData;
     var res = jsonDecode(response.body);
     List<dynamic> mData = res['mData'];
     // ignore: unnecessary_type_check
-    if( mData is List ){
-      returnData = (mData).map( (x) => mLine.fromJson(x) ).toList();
-    }else if( mData is Map ){
-      returnData = <mLine>[mLine.fromJson(mData as Map<String,dynamic>)];
-    }else{
-      developer.log('ERROR: Unexpected json response type (was not a List or Map).');
+    if (mData is List) {
+      returnData = (mData).map((x) => mLine.fromJson(x)).toList();
+    } else if (mData is Map) {
+      returnData = <mLine>[mLine.fromJson(mData as Map<String, dynamic>)];
+    } else {
+      developer
+          .log('ERROR: Unexpected json response type (was not a List or Map).');
       returnData = List.empty();
     }
     return returnData;
@@ -260,30 +279,27 @@ Future<List<mLine>> fetchmLines() async {
   }
 }
 
-
-void updateLikes(int myid) async {
-  // Update the mLikes field of the message object.
-  final response = await http.put(
-    Uri.parse('http://2023sp-team-m.dokku.cse.lehigh.edu/messages/${myid}/like')
-  );
-  if (response.statusCode != 200) {
-    throw Exception('Failed to update like.');
-  }
-}
-
-void addMessage(String myMessage) async {
-  DateTime now = DateTime.now();
-  String currentTime = now.toString();
-  String msub = 'a';
-  //mLine message = mLine(mId: 100, mSubject: msub, mMessage: myMessage, mLikes: 0, mCreated: currentTime);
-  Map<String, String> headers = {'Content-Type': 'application/json'};
-  Map<String, dynamic> payload = {'mId': 0, 'mSubject': 'a', 'mMessage': myMessage, 'mLikes': 0, 'mCreated': currentTime};
-  final response = await http.post(
-    Uri.parse('http://2023sp-team-m.dokku.cse.lehigh.edu/messages'),
-    headers: headers,
-    body: jsonEncode(payload),
-  );
-  if (response.statusCode != 200) {
-    throw Exception('Failed to update like.');
-  }
-}
+// Future<List<User>> fetchUsers() async {
+//   final response = await http
+//       .get(Uri.parse('http://2023sp-team-m.dokku.cse.lehigh.edu/messages'));
+//   if (response.statusCode == 200) {
+//     final List<User> returnUser;
+//     var res = jsonDecode(response.body);
+//     List<dynamic> mData = res['mData'];
+//     // ignore: unnecessary_type_check
+//     if (mData is List) {
+//       returnUser = (mData).map((x) => mLine.fromJson(x)).toList();
+//     } else if (mData is Map) {
+//       returnUser = <User>[User.fromJson(mData as Map<String, dynamic>)];
+//     } else {
+//       developer
+//           .log('ERROR: Unexpected json response type (was not a List or Map).');
+//       returnData = List.empty();
+//     }
+//     return returnData;
+//   } else {
+//     // If the server did not return a 200 OK response,
+//     // then throw an exception.
+//     throw Exception('Did not receive success status code from request.');
+//   }
+// }
