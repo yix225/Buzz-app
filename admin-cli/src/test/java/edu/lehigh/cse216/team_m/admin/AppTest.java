@@ -88,16 +88,5 @@ public class AppTest
         String pass = "5TWc-gVQdICuVD1rE-cCgdBQFBH-xH6g";
 
         Database db = Database.getDatabase(ip, port, user, pass);
-
-        /*int id = 1;
-
-        Database.RowData res = db.selectOne(id);
-        int likes = res.mLikes;
-
-        assertEquals(res.mLikes, likes);
-        // remove a like and should be equal after
-        db.removeLikes(id, res.mLikes);
-
-        assertEquals(res.mLikes, likes);*/
     }
 }
