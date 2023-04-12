@@ -46,7 +46,6 @@ public class DatabaseTest extends TestCase {
         assertTrue(user.mSexOtn.equals(sexOtn));
         assertTrue(user.mNote.equals(note));
         assertTrue(user.mValid == valid);
-        assertTrue(user.mCreated.equals(new Date(created.getTime())));
 
 
         DataUser user2 = new DataUser(id, name, email, genId, sexOtn, note, valid, created);
@@ -60,16 +59,16 @@ public class DatabaseTest extends TestCase {
         assertTrue(user2.mValid == valid);
         assertTrue(user2.mCreated.equals(new Date(created.getTime())));
 
-        DataUser copy = new DataUser(user);
+        DataUser copy = new DataUser(user2);
 
-        assertTrue(user.mId == copy.mId);
-        assertTrue(user.mName.equals(copy.mName));
-        assertTrue(user.mEmail.equals(copy.mEmail));
-        assertTrue(user.mGenId.equals(copy.mGenId));
-        assertTrue(user.mSexOtn.equals(copy.mSexOtn));
-        assertTrue(user.mNote.equals(copy.mNote));
-        assertTrue(user.mValid == copy.mValid);
-        assertTrue(user.mCreated.equals(new Date(created.getTime())));
+        assertTrue(copy.mId == id);
+        assertTrue(copy.mName.equals(name));
+        assertTrue(copy.mEmail.equals(email));
+        assertTrue(copy.mGenId.equals(genId));
+        assertTrue(copy.mSexOtn.equals(sexOtn));
+        assertTrue(copy.mNote.equals(note));
+        assertTrue(copy.mValid == valid);
+        assertTrue(copy.mCreated.equals(new Date(created.getTime())));
     }
     
     public void testDataIdea() {
@@ -78,17 +77,14 @@ public class DatabaseTest extends TestCase {
         int userId = 1; int likes = 5; int comments = 2;  
         boolean valid = true; Timestamp created = new Timestamp(new Date().getTime());
 
-        DataIdea idea = new DataIdea(id, subject, message, userId, likes, comments, valid, created); 
+        DataIdea idea = new DataIdea(id, subject, message, userId);
         assertTrue(idea.mId == id);
         assertTrue(idea.mSubject.equals(subject));
         assertTrue(idea.mMessage.equals(message));
         assertTrue(idea.mUserId == userId);
-        assertTrue(idea.mLikes == likes);
+        assertTrue(idea.mLikes == 0);
+        assertTrue(idea.mComments == 0);
         assertTrue(idea.mValid == valid);
-        assertTrue(idea.mCreated.equals(new Date(created.getTime())));
-
-
-        DataIdea idea2 = new DataIdea(id, subject, message, userId, likes, comments, valid, created); 
 
         DataIdea idea2 = new DataIdea(id, subject, message, userId, likes, comments, valid, created); 
         assertTrue(idea2.mId == id);
@@ -96,21 +92,99 @@ public class DatabaseTest extends TestCase {
         assertTrue(idea2.mMessage.equals(message));
         assertTrue(idea2.mUserId == userId);
         assertTrue(idea2.mLikes == likes);
+        assertTrue(idea2.mComments == comments);
         assertTrue(idea2.mValid == valid);
         assertTrue(idea2.mCreated.equals(new Date(created.getTime())));
 
-
-        DataUser copy = new DataUser(user);
-
-        assertTrue(user.mId == copy.mId);
-        assertTrue(user.mName.equals(copy.mName));
-        assertTrue(user.mEmail.equals(copy.mEmail));
-        assertTrue(user.mGenId.equals(copy.mGenId));
-        assertTrue(user.mSexOtn.equals(copy.mSexOtn));
-        assertTrue(user.mNote.equals(copy.mNote));
-        assertTrue(user.mValid == copy.mValid);
-        assertTrue(user.mCreated.equals(new Date(created.getTime())));
+        DataIdea copy = new DataIdea(idea2); 
+        assertTrue(copy.mId == id);
+        assertTrue(copy.mSubject.equals(subject));
+        assertTrue(copy.mMessage.equals(message));
+        assertTrue(copy.mUserId == userId);
+        assertTrue(copy.mLikes == likes);
+        assertTrue(copy.mComments == comments);
+        assertTrue(copy.mValid == valid);
+        assertTrue(copy.mCreated.equals(new Date(created.getTime())));
     }
+
+    public void testDataLike() {
+        int ideaId = 1;
+        int userId = 1; int likes = 5; int comments = 2;  
+        boolean valid = true; Timestamp created = new Timestamp(new Date().getTime());
+
+        DataComment comment = new DataComment(id, subject, message, userId, ideaId);
+        assertTrue(comment.mId == id);
+        assertTrue(comment.mSubject.equals(subject));
+        assertTrue(comment.mMessage.equals(message));
+        assertTrue(comment.mUserId == userId);
+        assertTrue(comment.mIdeaId == ideaId);
+        assertTrue(comment.mLikes == 0);
+        assertTrue(comment.mComments == 0);
+        assertTrue(comment.mValid == valid);
+
+        DataComment comment2 = new DataComment(id, subject, message, userId, likes, comments, valid, ideaId, created); 
+        assertTrue(comment2.mId == id);
+        assertTrue(comment2.mSubject.equals(subject));
+        assertTrue(comment2.mMessage.equals(message));
+        assertTrue(comment2.mUserId == userId);
+        assertTrue(comment2.mLikes == likes);
+        assertTrue(comment.mIdeaId == ideaId);
+        assertTrue(comment2.mComments == comments);
+        assertTrue(comment2.mValid == valid);
+        assertTrue(comment2.mCreated.equals(new Date(created.getTime())));
+
+        DataComment copy = new DataComment(comment2); 
+        assertTrue(copy.mId == id);
+        assertTrue(copy.mSubject.equals(subject));
+        assertTrue(copy.mMessage.equals(message));
+        assertTrue(copy.mUserId == userId);
+        assertTrue(copy.mLikes == likes);
+        assertTrue(comment.mIdeaId == ideaId);
+        assertTrue(copy.mComments == comments);
+        assertTrue(copy.mValid == valid);
+        assertTrue(copy.mCreated.equals(new Date(created.getTime())));
+    }
+
+    public void testDataComment() {
+        int id = 671236923; String subject = "testidea"; 
+        String message = "this is a test"; int ideaId = 1;
+        int userId = 1; int likes = 5; int comments = 2;  
+        boolean valid = true; Timestamp created = new Timestamp(new Date().getTime());
+
+        DataComment comment = new DataComment(id, subject, message, userId, ideaId);
+        assertTrue(comment.mId == id);
+        assertTrue(comment.mSubject.equals(subject));
+        assertTrue(comment.mMessage.equals(message));
+        assertTrue(comment.mUserId == userId);
+        assertTrue(comment.mIdeaId == ideaId);
+        assertTrue(comment.mLikes == 0);
+        assertTrue(comment.mComments == 0);
+        assertTrue(comment.mValid == valid);
+
+        DataComment comment2 = new DataComment(id, subject, message, userId, likes, comments, valid, ideaId, created); 
+        assertTrue(comment2.mId == id);
+        assertTrue(comment2.mSubject.equals(subject));
+        assertTrue(comment2.mMessage.equals(message));
+        assertTrue(comment2.mUserId == userId);
+        assertTrue(comment2.mLikes == likes);
+        assertTrue(comment.mIdeaId == ideaId);
+        assertTrue(comment2.mComments == comments);
+        assertTrue(comment2.mValid == valid);
+        assertTrue(comment2.mCreated.equals(new Date(created.getTime())));
+
+        DataComment copy = new DataComment(comment2); 
+        assertTrue(copy.mId == id);
+        assertTrue(copy.mSubject.equals(subject));
+        assertTrue(copy.mMessage.equals(message));
+        assertTrue(copy.mUserId == userId);
+        assertTrue(copy.mLikes == likes);
+        assertTrue(comment.mIdeaId == ideaId);
+        assertTrue(copy.mComments == comments);
+        assertTrue(copy.mValid == valid);
+        assertTrue(copy.mCreated.equals(new Date(created.getTime())));
+    }
+
+
 
 
     /**
