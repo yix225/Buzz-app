@@ -68,12 +68,12 @@ public class App {
      * @version 4/2/2023
      */
     public static <GoogleSignInResponse> void main(String[] args) {
-        //Store the exist < UUID as Int , user > infomation
-        HashMap<Integer,String> userSessPair = new HashMap<Integer,String>();
-
         // Get the port on which to listen for requests
         Spark.port(getIntFromEnv("PORT", DEFAULT_PORT_SPARK));
 
+        //Store the exist < UUID as Int , user > infomation
+        HashMap<Integer,String> userSessPair = new HashMap<Integer,String>();
+        
         // Set up the location for serving static files.  If the STATIC_LOCATION
         // environment variable is set, we will serve from it.  Otherwise, serve
         // from "/web"
@@ -91,7 +91,7 @@ public class App {
         //
         // NB: Gson is thread-safe.  See 
         // https://stackoverflow.com/questions/10380835/is-it-ok-to-use-gson-instance-as-a-static-field-in-a-model-bean-reuse
-        Gson gson = new Gson();
+        final Gson gson = new Gson();
         // NB: every time we shut down the server, we will lose all data, and 
         //     every time we start the server, we'll have an empty dataStore,
         //     with IDs starting over from 0.
@@ -108,16 +108,16 @@ public class App {
         // the data, embed it in a StructuredResponse, turn it into JSON, and 
         // return it.  If there's no data, we return "[]", so there's no need 
         // for error handling.
-        Spark.get("/GetAllIdea/:SessID", (request, response) -> {
-            int mSessID = Integer.parseInt(request.params("SessID"));
-            if(userSessPair.containsKey(mSessID))
-            {
+        Spark.get("/GetAllIdea", (request, response) -> {
+            // int mSessID = Integer.parseInt(request.params("SessID"));
+            // if(userSessPair.containsKey(mSessID))
+            // {
                 // ensure status 200 OK, with a MIME type of JSON
                 response.status(200);
                 response.type("application/json");
                 return gson.toJson(new StructuredResponse("ok", null, db.selectIdeasAll()));
-            }
-            return gson.toJson(new StructuredResponse("error", "Invalid SessID", null));
+            // }
+            // return gson.toJson(new StructuredResponse("error", "Invalid SessID", null));
         });
 
         // GET route that returns everything for a single row in the DataStore.
