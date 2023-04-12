@@ -35,9 +35,29 @@ public class DatabaseTest extends TestCase {
         int id = 1231241351; String name = "testname"; 
         String email = "test@gmail.com"; String genId = "test Gender"; 
         String sexOtn = "test Orientation"; String note = "test note"; 
-        boolean valid = true; Date created = new Date();
+        boolean valid = true; Timestamp created = new Timestamp(new Date().getTime());
 
+        DataUser user = new DataUser(id, name, email, genId, sexOtn, note, valid, created);
 
+        assertTrue(user.mId == id);
+        assertTrue(user.mName.equals(name));
+        assertTrue(user.mEmail.equals(email));
+        assertTrue(user.mGenId.equals(genId));
+        assertTrue(user.mSexOtn.equals(sexOtn));
+        assertTrue(user.mNote.equals(note));
+        assertTrue(user.mValid == valid);
+        assertTrue(user.mCreated.equals(new Date(created.getTime())));
+
+        DataUser copy = new DataUser(user);
+
+        assertTrue(user.mId == copy.mId);
+        assertTrue(user.mName.equals(copy.mName));
+        assertTrue(user.mEmail.equals(copy.mEmail));
+        assertTrue(user.mGenId.equals(copy.mGenId));
+        assertTrue(user.mSexOtn.equals(copy.mSexOtn));
+        assertTrue(user.mNote.equals(copy.mNote));
+        assertTrue(user.mValid == copy.mValid);
+        assertTrue(user.mCreated.equals(new Date(created.getTime())));
     }
 
 
