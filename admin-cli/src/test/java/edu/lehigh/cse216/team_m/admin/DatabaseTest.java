@@ -37,7 +37,7 @@ public class DatabaseTest extends TestCase {
         String sexOtn = "test Orientation"; String note = "test note"; 
         boolean valid = true; Timestamp created = new Timestamp(new Date().getTime());
 
-        DataUser user = new DataUser(id, name, email, genId, sexOtn, note, valid, created);
+        DataUser user = new DataUser(id, name, email, genId, sexOtn, note);
 
         assertTrue(user.mId == id);
         assertTrue(user.mName.equals(name));
@@ -47,6 +47,18 @@ public class DatabaseTest extends TestCase {
         assertTrue(user.mNote.equals(note));
         assertTrue(user.mValid == valid);
         assertTrue(user.mCreated.equals(new Date(created.getTime())));
+
+
+        DataUser user2 = new DataUser(id, name, email, genId, sexOtn, note, valid, created);
+
+        assertTrue(user2.mId == id);
+        assertTrue(user2.mName.equals(name));
+        assertTrue(user2.mEmail.equals(email));
+        assertTrue(user2.mGenId.equals(genId));
+        assertTrue(user2.mSexOtn.equals(sexOtn));
+        assertTrue(user2.mNote.equals(note));
+        assertTrue(user2.mValid == valid);
+        assertTrue(user2.mCreated.equals(new Date(created.getTime())));
 
         DataUser copy = new DataUser(user);
 
@@ -59,7 +71,6 @@ public class DatabaseTest extends TestCase {
         assertTrue(user.mValid == copy.mValid);
         assertTrue(user.mCreated.equals(new Date(created.getTime())));
     }
-
 
     /**
      * Test to see if inserted id, subject, message and likes match up with the row in the database
