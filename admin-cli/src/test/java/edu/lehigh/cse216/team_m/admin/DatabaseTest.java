@@ -71,6 +71,47 @@ public class DatabaseTest extends TestCase {
         assertTrue(user.mValid == copy.mValid);
         assertTrue(user.mCreated.equals(new Date(created.getTime())));
     }
+    
+    public void testDataIdea() {
+        int id = 671236923; String subject = "testidea"; 
+        String message = "this is a test"; 
+        int userId = 1; int likes = 5; int comments = 2;  
+        boolean valid = true; Timestamp created = new Timestamp(new Date().getTime());
+
+        DataIdea idea = new DataIdea(id, subject, message, userId, likes, comments, valid, created); 
+        assertTrue(idea.mId == id);
+        assertTrue(idea.mSubject.equals(subject));
+        assertTrue(idea.mMessage.equals(message));
+        assertTrue(idea.mUserId == userId);
+        assertTrue(idea.mLikes == likes);
+        assertTrue(idea.mValid == valid);
+        assertTrue(idea.mCreated.equals(new Date(created.getTime())));
+
+
+        DataIdea idea2 = new DataIdea(id, subject, message, userId, likes, comments, valid, created); 
+
+        DataIdea idea2 = new DataIdea(id, subject, message, userId, likes, comments, valid, created); 
+        assertTrue(idea2.mId == id);
+        assertTrue(idea2.mSubject.equals(subject));
+        assertTrue(idea2.mMessage.equals(message));
+        assertTrue(idea2.mUserId == userId);
+        assertTrue(idea2.mLikes == likes);
+        assertTrue(idea2.mValid == valid);
+        assertTrue(idea2.mCreated.equals(new Date(created.getTime())));
+
+
+        DataUser copy = new DataUser(user);
+
+        assertTrue(user.mId == copy.mId);
+        assertTrue(user.mName.equals(copy.mName));
+        assertTrue(user.mEmail.equals(copy.mEmail));
+        assertTrue(user.mGenId.equals(copy.mGenId));
+        assertTrue(user.mSexOtn.equals(copy.mSexOtn));
+        assertTrue(user.mNote.equals(copy.mNote));
+        assertTrue(user.mValid == copy.mValid);
+        assertTrue(user.mCreated.equals(new Date(created.getTime())));
+    }
+
 
     /**
      * Test to see if inserted id, subject, message and likes match up with the row in the database
