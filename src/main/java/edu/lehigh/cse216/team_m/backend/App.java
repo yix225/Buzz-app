@@ -38,12 +38,20 @@ public class App {
         if( System.getenv("DATABASE_URL") != null ){
             return Database.getDatabase(System.getenv("DATABASE_URL"), DEFAULT_PORT_DB);
         }
-
-        Map<String, String> env = System.getenv();
-        String ip = env.get("POSTGRES_IP");
-        String port = env.get("POSTGRES_PORT");
-        String user = env.get("POSTGRES_USER");
-        String pass = env.get("POSTGRES_PASS");
+        String ip = "isilo.db.elephantsql.com";
+        String port = Integer.toString(5432);
+        String user = "gkzavwme";
+        String pass = "5TWc-gVQdICuVD1rE-cCgdBQFBH-xH6g";
+        //Map<String, String> env = System.getenv();
+        // String ip = env.get("POSTGRES_IP");
+        // String port = env.get("POSTGRES_PORT");
+        // String user = env.get("POSTGRES_USER");
+        // String pass = env.get("POSTGRES_PASS");
+        // String ip = env.get("POSTGRES_IP");
+        // String port = env.get("POSTGRES_PORT");
+        // String user = env.get("POSTGRES_USER");
+        // String pass = env.get("POSTGRES_PASS");
+        
         return Database.getDatabase(ip, port, "", user, pass);
     } 
     /**
