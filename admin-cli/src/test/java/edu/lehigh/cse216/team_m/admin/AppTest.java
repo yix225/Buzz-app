@@ -6,9 +6,8 @@ import junit.framework.TestSuite;
 import java.io.*;
 import java.io.BufferedReader;
 import java.util.Scanner;
-
 import java.util.ArrayList;
-import java.util.Map;
+
 
 /**
  * Unit test for simple App.
@@ -51,7 +50,6 @@ public class AppTest
 
     /**
      * Test all possible inputs user can type
-     * 
      */
     public void testInputs() {
         String actions = "TD1V*-+~/q?";
@@ -67,14 +65,12 @@ public class AppTest
 
     /**
      * Hardcode an input of '?' to test if it works with menu
-     * 
      */
     public void testPrompt() { // tests that users can input stuff
-        App testApp = new App();
         String input = "?\n";
         InputStream inputStream = new ByteArrayInputStream(input.getBytes());
         BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
-        char result = testApp.prompt(in);
+        char result = App.prompt(in);
         assertEquals('?', result);
     }
 
@@ -89,15 +85,97 @@ public class AppTest
 
         Database db = Database.getDatabase(ip, port, user, pass);
 
-        /*int id = 1;
+        DataIdea idea = db.selectIdea(5);
+        int likes = idea.mLikes;
+        db.unlikeIdea(5, 1, 0);
+        idea = db.selectIdea(5);
+        assertTrue(idea.mLikes == (likes-1));
 
-        Database.RowData res = db.selectOne(id);
-        int likes = res.mLikes;
+        DataComment comment = db.selectComment(5,8);
+        likes = comment.mLikes;
+        db.unlikeComment(5, 1, 0, 8);
+        comment = db.selectComment(5,8);
+        assertTrue(comment.mLikes == (likes-1));
+    }
 
-        assertEquals(res.mLikes, likes);
-        // remove a like and should be equal after
-        db.removeLikes(id, res.mLikes);
+    /**
+     * Connect to database and test if like does increase the like counter
+     */
+    public void testLike() {
+        String ip = "isilo.db.elephantsql.com";
+        String port = Integer.toString(5432);
+        String user = "gkzavwme";
+        String pass = "5TWc-gVQdICuVD1rE-cCgdBQFBH-xH6g";
 
-        assertEquals(res.mLikes, likes);*/
+        Database db = Database.getDatabase(ip, port, user, pass);
+        
+        DataIdea idea = db.selectIdea(5);
+        int likes = idea.mLikes;
+        db.likeIdea(5, 1, 0);
+        idea = db.selectIdea(5);
+        assertTrue(idea.mLikes == (likes+1));
+
+        DataComment comment = db.selectComment(5,8);
+        likes = comment.mLikes;
+        db.likeComment(5, 1, 0, 8);
+        comment = db.selectComment(5,8);
+        assertTrue(comment.mLikes == (likes+1));
+    }
+
+    /**
+     * Connect to database and test if toggle changes the valid
+     */
+    public void testToggle() {
+        String ip = "isilo.db.elephantsql.com";
+        String port = Integer.toString(5432);
+        String user = "gkzavwme";
+        String pass = "5TWc-gVQdICuVD1rE-cCgdBQFBH-xH6g";
+
+        Database db = Database.getDatabase(ip, port, user, pass);
+        
+        DataIdea idea = db.selectIdea(5);
+        boolean valid = idea.mValid;
+        db.toggleIdea(5);
+        idea = db.selectIdea(5);
+        assertTrue(idea.mValid == (!valid));
+
+        DataComment comment = db.selectComment(5,8);
+        valid = comment.mValid;
+        db.toggleComment(5, 8);
+        comment = db.selectComment(5,8);
+        assertTrue(comment.mValid == (!valid));
+
+        DataUser users = db.selectUser(3);
+        valid = users.mValid;
+        db.toggleUser(3);
+        users = db.selectUser(3);
+        assertTrue(users.mValid == (!valid));
+    }
+
+    /**
+     * Connect to database and test if database returns only valid data
+     */
+    public void testShowValid() {
+        String ip = "isilo.db.elephantsql.com";
+        String port = Integer.toString(5432);
+        String user = "gkzavwme";
+        String pass = "5TWc-gVQdICuVD1rE-cCgdBQFBH-xH6g";
+
+        Database db = Database.getDatabase(ip, port, user, pass);
+        
+        ArrayList<DataIdea> ideas = db.selectIdeasValid();
+        for(DataIdea rw : ideas){
+            assertEquals(true, rw.mValid);
+        }
+
+        ArrayList<DataComment> comments = db.selectCommentsValid();
+        for(DataComment rw : comments){
+            assertEquals(true, rw.mValid);
+        }
+
+        ArrayList<DataUser> users = db.selectUsersValid();
+        for(DataUser rw : users){
+            assertEquals(true, rw.mValid);
+        }
     }
 }

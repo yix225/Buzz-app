@@ -9,7 +9,7 @@ public class DataLike {
     /**
      * the id of the comment the like belongs to
      */
-    public final int mComId;
+    public final Integer mComId;
     
     /**
      * The id of the user who the like belongs to
@@ -35,7 +35,7 @@ public class DataLike {
     DataLike(int ideaId, int userId, int status) {
         mIdeaId = ideaId;
         mUserId = ideaId;
-        mComId = (Integer)null;
+        mComId = null;
         mStatus = status;
     }
 

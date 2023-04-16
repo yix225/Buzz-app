@@ -125,6 +125,7 @@ public class DataUser {
         mGenId = data.mGenId;
         mSexOtn = data.mSexOtn;
         mNote = data.mNote;
+        mValid = data.mValid;
         mCreated = data.mCreated;
     }
 }
