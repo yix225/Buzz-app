@@ -122,7 +122,7 @@ public class App {
         // the data, embed it in a StructuredResponse, turn it into JSON, and 
         // return it.  If there's no data, we return "[]", so there's no need 
         // for error handling.
-        Spark.get("/GetAllIdeaa", (request, response) -> {
+        Spark.get("/GetAllIdea", (request, response) -> {
             // int mSessID = Integer.parseInt(request.params("SessID"));
             // if(userSessPair.containsKey(mSessID))
             // {
