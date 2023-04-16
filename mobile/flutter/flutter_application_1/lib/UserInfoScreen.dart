@@ -60,7 +60,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserData>(context);
-
+    //final List<String> users = ModalRoute.of(context)!.settings.arguments as List<String>;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile'),
@@ -120,7 +120,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                   genderTextControl, //TextEditingController(text: user.userIdentity),
               onChanged: (newValue) {
                 // When the user changes the value of the TextField, update the userIdentity value in the UserData object and in the database.
-                add_gender(newValue);
+                add_gender(newValue, user.userId);
               },
             ),
             const SizedBox(
@@ -136,7 +136,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                   sexOriTextControl, //TextEditingController(text: user.userSexOri),
               onChanged: (newValue) {
                 // When the user changes the value of the TextField, update the userIdentity value in the UserData object and in the database.
-                add_sexOri(newValue);
+                add_sexOri(newValue, user.userId);
               },
             ),
             TextField(
@@ -148,7 +148,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
               controller: TextEditingController(),
               onChanged: (newValue) {
                 // When the user changes the value of the TextField, update the userIdentity value in the UserData object and in the database.
-                add_description(newValue);
+                add_description(newValue, user.userId);
               },
             ),
             ElevatedButton(
@@ -177,15 +177,15 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
     );
   }
 
-  void add_sexOri(String firstInput) {
-    addSexOri(firstInput);
+  void add_sexOri(String firstInput, String sessId) {
+    addSexOri(firstInput, sessId);
   }
 
-  void add_gender(String secondInput) {
-    addGender(secondInput);
+  void add_gender(String secondInput, String sessId) {
+    addGender(secondInput, sessId);
   }
 
-  void add_description(String thirdInput) {
-    addDescription(thirdInput);
+  void add_description(String thirdInput, String sessId) {
+    addDescription(thirdInput, sessId);
   }
 }

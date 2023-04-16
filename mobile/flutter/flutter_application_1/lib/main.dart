@@ -19,6 +19,7 @@ import 'package:device_info/device_info.dart';
 import 'myDrawer.dart';
 
 Future<void> main() async {
+  HttpOverrides.global = MyHttpOverrides();
   runApp(
     ChangeNotifierProvider<UserData>(
         create: (context) => UserData(), child: const MyApp()),
@@ -253,11 +254,12 @@ class _HttpReqWordsState extends State<HttpReqWords> {
 }
 
 Future<List<mLine>> fetchmLines() async {
+  //print("1");
   final response = await http
-      .get(Uri.parse('http://2023sp-team-m.dokku.cse.lehigh.edu/messages'));
+      .get(Uri.parse('https://2023sp-team-m.dokku.cse.lehigh.edu/GetAllIdea'));
   // print(response.statusCode);
   // print(response.body);
-  if (response.statusCode == 301) {
+  if (response.statusCode == 200) {
     final List<mLine> returnData;
     var res = jsonDecode(response.body);
     List<dynamic> mData = res['mData'];
@@ -279,11 +281,11 @@ Future<List<mLine>> fetchmLines() async {
   }
 }
 
-// Future<List<User>> fetchUsers() async {
+// Future<List<User>> fetchComment() async {
 //   final response = await http
-//       .get(Uri.parse('http://2023sp-team-m.dokku.cse.lehigh.edu/messages'));
+//       .get(Uri.parse('http://2023sp-team-m.dokku.cse.lehigh.edu/'));
 //   if (response.statusCode == 200) {
-//     final List<User> returnUser;
+//     final Comment<User> returnComment;
 //     var res = jsonDecode(response.body);
 //     List<dynamic> mData = res['mData'];
 //     // ignore: unnecessary_type_check
@@ -303,3 +305,11 @@ Future<List<mLine>> fetchmLines() async {
 //     throw Exception('Did not receive success status code from request.');
 //   }
 // }
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+  }
+}

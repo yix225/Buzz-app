@@ -16,7 +16,7 @@ void addMessage(String mySubject, String myMessage) async {
     'mCreated': currentTime
   };
   final response = await http.post(
-    Uri.parse('http://2023sp-team-m.dokku.cse.lehigh.edu/insertIdea/:SessID'),
+    Uri.parse('http://2023sp-team-m.dokku.cse.lehigh.edu/insertIdea'),
     headers: headers,
     body: jsonEncode(payload),
   );
@@ -34,7 +34,7 @@ void update_Likes(int myid) async {
   }
 }
 
-void update_unLikes(int myid) async {
+void update_disLikes(int myid) async {
   // Update the mLikes field of the message object.
   final response = await http.put(Uri.parse(
       'http://2023sp-team-m.dokku.cse.lehigh.edu/messages/${myid}/unlike'));
@@ -64,14 +64,14 @@ void addComment(String myComment) async {
   }
 }
 
-Future<String?> addSexOri(String? sexOri) async {
+Future<String?> addSexOri(String? sexOri, String sessId) async {
   Map<String, String> headers = {'Content-Type': 'application/json'};
   Map<String, dynamic> payload = {
     'oriSex': sexOri,
   };
   final response = await http.post(
     Uri.parse(
-        'http://2023sp-team-m.dokku.cse.lehigh.edu/profile/:SessID/:name/:email/:genId/:sexOtn/:note'),
+        'http://2023sp-team-m.dokku.cse.lehigh.edu/profile/:${sessId}/:name/:email/:genId/:sexOtn/:note'),
     headers: headers,
     body: jsonEncode(payload),
   );
@@ -90,14 +90,14 @@ Future<String?> addSexOri(String? sexOri) async {
       .sexOri;
 }
 
-Future<String?> addGender(String? identity) async {
+Future<String?> addGender(String? identity, String sessId) async {
   Map<String, String> headers = {'Content-Type': 'application/json'};
   Map<String, dynamic> payload = {
     'identity': identity,
   };
   final response = await http.post(
     Uri.parse(
-        'http://2023sp-team-m.dokku.cse.lehigh.edu/profile/:SessID/:name/:email/:genId/:sexOtn/:note'),
+        'http://2023sp-team-m.dokku.cse.lehigh.edu/profile/:${sessId}/:name/:email/:genId/:sexOtn/:note'),
     headers: headers,
     body: jsonEncode(payload),
   );
@@ -116,14 +116,14 @@ Future<String?> addGender(String? identity) async {
       .identity;
 }
 
-Future<String?> addDescription(String? description) async {
+Future<String?> addDescription(String? description, String sessId) async {
   Map<String, String> headers = {'Content-Type': 'application/json'};
   Map<String, dynamic> payload = {
     'description': description,
   };
   final response = await http.post(
     Uri.parse(
-        'http://2023sp-team-m.dokku.cse.lehigh.edu/profile/:SessID/:name/:email/:genId/:sexOtn/:note'),
+        'http://2023sp-team-m.dokku.cse.lehigh.edu/profile/:${sessId}/:name/:email/:genId/:sexOtn/:note'),
     headers: headers,
     body: jsonEncode(payload),
   );

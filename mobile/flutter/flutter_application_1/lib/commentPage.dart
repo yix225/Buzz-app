@@ -17,8 +17,6 @@ class commentPage extends StatelessWidget {
   void dispose() {
     CommentTextControl.dispose();
   }
-//   const comment({super.key, required this.post});
-//   final Post post;
 //   @override
 //   State<comment> createState() => _commentState(); // create the state
 // }

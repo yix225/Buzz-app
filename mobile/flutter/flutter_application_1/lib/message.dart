@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/UserInfoScreen.dart';
 import 'package:flutter_application_1/my_function.dart';
 
+import 'commentList.dart';
 import 'commentPage.dart';
+// import 'commentList.dart';
 
 class message extends StatelessWidget {
   @override
@@ -37,7 +39,7 @@ class message extends StatelessWidget {
 
   void _onButtonPressed2(int mid) {
     _isButtonPressed = false;
-    update_unLikes(mid);
+    update_disLikes(mid);
     print('You unlike this message');
   }
 
@@ -111,6 +113,17 @@ class message extends StatelessWidget {
                 child: Text('add the comment'),
               ),
             ),
+            /* Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pushReplacement(
+                      // go to the profile page
+                      MaterialPageRoute(builder: (context) => commentList()));
+                  //_onButtonPressed(int.parse(message[0]));
+                },
+                child: Text('Comments List'),
+              ),
+            ), */
           ],
         ),
       ),

@@ -2,7 +2,7 @@ import 'dart:convert';
 
 class User {
 // the variable we will use in the following files
-  final String id;
+  late String id;
   late String token;
   late String avatarUrl;
   late String name;

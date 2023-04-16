@@ -14,7 +14,11 @@ class UserData extends ChangeNotifier {
         "926558226206-ppmn3bk4ckvrtaq6hun9kpi034sde366.apps.googleusercontent.com",
     // redirectUrl(),
     // issuer: GOOGLE_ISSUER,
-    //scopes: ['email', 'profile'],
+    //tmessi2023@gmail.com
+    /*  scopes: [
+      'https://www.googleapis.com/auth/userinfo.email',
+      'https://www.googleapis.com/auth/userinfo.profile'
+    ], */
   );
   User? get user => _user;
 
@@ -39,6 +43,7 @@ class UserData extends ChangeNotifier {
   String? get userEmail => _user?.email;
   String? get userIdentity => _user?.identity;
   String? get userSexOri => _user?.sexOri;
+  String get userId => _user!.id;
 
   bool get isLogin => _user != null;
 
@@ -66,13 +71,18 @@ class UserData extends ChangeNotifier {
     if (googleAuth.idToken != null) {
       print(googleAuth.idToken);
       final response = await http.post(
-        Uri.parse('http://2023sp-team-m.dokku.cse.lehigh.edu/messages'),
+        Uri.parse('https://2023sp-team-m.dokku.cse.lehigh.edu/login'),
         body: {
           'idToken': googleAuth.idToken,
         },
       );
-      print("yes3");
+      //print("yes3");
+      // final sessId = await http
+      //     .get(Uri.parse('https://2023sp-team-m.dokku.cse.lehigh.edu/login'));
+      //print(response.body);
+      //print(jsonDecode(response.body));
       print(response.statusCode);
+      final sessId = response.body;
       if (response.statusCode == 500) {
         // Get the user's profile information
         final googleUser = await _googleSignIn.signInSilently();
@@ -93,7 +103,8 @@ class UserData extends ChangeNotifier {
             ..avatarUrl = googleUser.photoUrl?.split('=')[0] ?? ''
             ..sexOri = ''
             ..identity = ''
-            ..token = "_googleUser"); // store user basic data
+            ..token = "_googleUser"
+            ..id = sessId); // store user basic data
           print("yes3");
           return googleUser;
         }
