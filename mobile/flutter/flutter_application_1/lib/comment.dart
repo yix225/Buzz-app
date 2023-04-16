@@ -28,7 +28,7 @@ class Comment {
       'mId': mId,
       'mContents': mContents,
       'mLikes': mLikes,
-      'mCrested': mCreated,
+      'mCreated': mCreated,
     };
     print(jsonEncode(comment));
     return comment;
