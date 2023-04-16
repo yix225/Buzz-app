@@ -122,16 +122,16 @@ public class App {
         // the data, embed it in a StructuredResponse, turn it into JSON, and 
         // return it.  If there's no data, we return "[]", so there's no need 
         // for error handling.
-        Spark.get("/GetAllIdea/:SessID", (request, response) -> {
-            int mSessID = Integer.parseInt(request.params("SessID"));
-            if(userSessPair.containsKey(mSessID))
-            {
+        Spark.get("/GetAllIdea", (request, response) -> {
+            // int mSessID = Integer.parseInt(request.params("SessID"));
+            // if(userSessPair.containsKey(mSessID))
+            // {
                 // ensure status 200 OK, with a MIME type of JSON
                 response.status(200);
                 response.type("application/json");
                 return gson.toJson(new StructuredResponse("ok", null, db.selectIdeasAll()));
-            }
-            return gson.toJson(new StructuredResponse("error", "Invalid SessID", null));
+            // }
+            // return gson.toJson(new StructuredResponse("error", "Invalid SessID", null));
         });
 
         // GET route that returns everything for a single row in the DataStore.
