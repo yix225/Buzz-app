@@ -8,8 +8,8 @@ import java.util.UUID;
 
 // import org.omg.CORBA.CODESET_INCOMPATIBLE;
 
-import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
-import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
+// import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
+// import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
@@ -17,7 +17,7 @@ import java.util.HashMap;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
-import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
+// import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 import com.google.api.client.json.JsonFactory;
 /**
  * For now, our app creates an HTTP server that can only get and add data.
@@ -465,50 +465,5 @@ public class App {
             response.header("Access-Control-Request-Method", methods);
             response.header("Access-Control-Allow-Headers", headers);
         });
-        
-        //Update User Info
-        Spark.put("/profile/:SessID/:name/:email/:genId/:sexOtn/:note", (request, response) -> {
-            int mSessID = Integer.parseInt(request.params("SessID"));
-            if(userSessPair.containsKey(mSessID))
-            {
-                String mName = request.params("name");
-                String mEmail = request.params("email");
-                String mGenId = request.params("genId");
-                String mSexOtn = request.params("sexOtn");
-                String mNote = request.params("note");
-                // ensure status 200 OK, with a MIME type of JSON
-                response.status(200);
-                response.type("application/json");
-                int result = db.updateUser(mSessID,mName,mEmail,mGenId,mSexOtn,mNote);
-                if (result == -1) {
-                    return gson.toJson(new StructuredResponse("error", "unable to update User", null));
-                } else {
-                    return gson.toJson(new StructuredResponse("ok", "Successfully update User info", null));
-                }
-            }
-            return gson.toJson(new StructuredResponse("error", "Invalid SessID", null));
-        });
-       
-         //Get User Info (myself)
-         Spark.get("/getProfile/:SessID/:User", (request, response) -> {
-            int mSessID = Integer.parseInt(request.params("SessID"));
-            String mUser = request.params("SessID");
-            if(userSessPair.containsKey(mSessID))
-            {
-                String logUser = userSessPair.get(mSessID);
-                if(!logUser.equals(mUser)){
-                    response.status(200);
-                    response.type("application/json");
-                    return gson.toJson(new StructuredResponse("ok", "", db.selectAnotherUser(mSessID)));
-                }
-                else{
-                    response.status(200);
-                    response.type("application/json");
-                    return gson.toJson(new StructuredResponse("ok", "", db.selectUser(mSessID)));
-                }
-            }
-            return gson.toJson(new StructuredResponse("error", "Invalid SessID", null));
-        });
-       
     }
 }
