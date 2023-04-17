@@ -54,7 +54,10 @@ public class App {
         
         return Database.getDatabase(ip, port, "", user, pass);
     } 
+<<<<<<< HEAD
     //
+=======
+>>>>>>> 49c32c61ef3467218e5c844eef12bc8dd4babccb
     /**
     * Get an integer environment variable if it exists, and otherwise return the
     * default value.
@@ -71,12 +74,20 @@ public class App {
         }
         return defaultVal;
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 49c32c61ef3467218e5c844eef12bc8dd4babccb
     /**
      * @author David
      * @version 4/2/2023
      */
+<<<<<<< HEAD
     //public static <GoogleSignInResponse> void main(String[] args) {
     public static void main(String[] args) {
+=======
+    public static <GoogleSignInResponse> void main(String[] args) {
+>>>>>>> 49c32c61ef3467218e5c844eef12bc8dd4babccb
         //Store the exist < UUID as Int , user > infomation
         HashMap<Integer,String> userSessPair = new HashMap<Integer,String>();
 
@@ -106,7 +117,11 @@ public class App {
         //
         // NB: Gson is thread-safe.  See 
         // https://stackoverflow.com/questions/10380835/is-it-ok-to-use-gson-instance-as-a-static-field-in-a-model-bean-reuse
+<<<<<<< HEAD
         final Gson gson = new Gson();
+=======
+        Gson gson = new Gson();
+>>>>>>> 49c32c61ef3467218e5c844eef12bc8dd4babccb
         // NB: every time we shut down the server, we will lose all data, and 
         //     every time we start the server, we'll have an empty dataStore,
         //     with IDs starting over from 0.
@@ -117,21 +132,37 @@ public class App {
             res.redirect("/index.html");
             return "";
         });
+<<<<<<< HEAD
        
+=======
+
+>>>>>>> 49c32c61ef3467218e5c844eef12bc8dd4babccb
         // GET route that returns all message titles and Ids.  All we do is get 
         // the data, embed it in a StructuredResponse, turn it into JSON, and 
         // return it.  If there's no data, we return "[]", so there's no need 
         // for error handling.
+<<<<<<< HEAD
         Spark.get("/GetAllIdea", (request, response) -> {
             // int mSessID = Integer.parseInt(request.params("SessID"));
             // if(userSessPair.containsKey(mSessID))
             // {
+=======
+        Spark.get("/GetAllIdea/:SessID", (request, response) -> {
+            int mSessID = Integer.parseInt(request.params("SessID"));
+            if(userSessPair.containsKey(mSessID))
+            {
+>>>>>>> 49c32c61ef3467218e5c844eef12bc8dd4babccb
                 // ensure status 200 OK, with a MIME type of JSON
                 response.status(200);
                 response.type("application/json");
                 return gson.toJson(new StructuredResponse("ok", null, db.selectIdeasAll()));
+<<<<<<< HEAD
             // }
             // return gson.toJson(new StructuredResponse("error", "Invalid SessID", null));
+=======
+            }
+            return gson.toJson(new StructuredResponse("error", "Invalid SessID", null));
+>>>>>>> 49c32c61ef3467218e5c844eef12bc8dd4babccb
         });
 
         // GET route that returns everything for a single row in the DataStore.
@@ -162,7 +193,11 @@ public class App {
         // JSON from the body of the request, turn it into a SimpleRequest 
         // object, extract the title and message, insert them, and return the 
         // ID of the newly created row.
+<<<<<<< HEAD
         Spark.post("/insertIdea:/SessID", (request, response) -> {
+=======
+        Spark.post("/insertIdea/:SessID", (request, response) -> {
+>>>>>>> 49c32c61ef3467218e5c844eef12bc8dd4babccb
             int mSessID = Integer.parseInt(request.params("SessID"));
             if(userSessPair.containsKey(mSessID))
             {
@@ -175,7 +210,11 @@ public class App {
                 response.status(200);
                 response.type("application/json");
                 // NB: createEntry checks for null title and message
+<<<<<<< HEAD
                 int newId = db.insertIdea(req.mSubject, req.mMessage, 1);
+=======
+                int newId = db.insertIdea(req.mSubject, req.mMessage, mSessID);
+>>>>>>> 49c32c61ef3467218e5c844eef12bc8dd4babccb
                 if (newId == -1) {
                     return gson.toJson(new StructuredResponse("error", "error performing insertion", null));
                 } 
@@ -204,7 +243,11 @@ public class App {
                 response.status(200);
                 response.type("application/json");
                 // NB: createEntry checks for null title and message
+<<<<<<< HEAD
                 int newId = db.insertComment(req.mSubject, req.mMessage, 1, idx);
+=======
+                int newId = db.insertComment(req.mSubject, req.mMessage, mSessID, idx);
+>>>>>>> 49c32c61ef3467218e5c844eef12bc8dd4babccb
                 if (newId == -1) {
                     return gson.toJson(new StructuredResponse("error", "error performing insertion", null));
                 } 
@@ -271,9 +314,15 @@ public class App {
                 // ensure status 200 OK, with a MIME type of JSON
                 response.status(200);
                 response.type("application/json");
+<<<<<<< HEAD
                 DataLike mIdea = db.selectLikeIdea(idx, 1);
                 int status = mIdea.mStatus;
                 int result = db.likeIdea(idx,1,status);
+=======
+                DataLike mIdea = db.selectLikeIdea(idx, mSessID);
+                int status = mIdea.mStatus;
+                int result = db.likeIdea(idx,mSessID,status);
+>>>>>>> 49c32c61ef3467218e5c844eef12bc8dd4babccb
                 if (result == -1) {
                     return gson.toJson(new StructuredResponse("error", "unable to like row " + idx, null));
                 } else {
@@ -294,9 +343,15 @@ public class App {
                 // ensure status 200 OK, with a MIME type of JSON
                 response.status(200);
                 response.type("application/json");
+<<<<<<< HEAD
                 DataLike mIdea = db.selectLikeIdea(idx, 1);
                 int status = mIdea.mStatus;
                 int result = db.unlikeIdea(idx,1,status);
+=======
+                DataLike mIdea = db.selectLikeIdea(idx, mSessID);
+                int status = mIdea.mStatus;
+                int result = db.unlikeIdea(idx,mSessID,status);
+>>>>>>> 49c32c61ef3467218e5c844eef12bc8dd4babccb
                 if (result == -1) {
                     return gson.toJson(new StructuredResponse("error", "unable to unlike row " + idx, null));
                 } else {
@@ -318,14 +373,83 @@ public class App {
                 // ensure status 200 OK, with a MIME type of JSON
                 response.status(200);
                 response.type("application/json");
+<<<<<<< HEAD
                 DataLike mComment = db.selectLikeComment(idx, 1,cidx);
                 int status = mComment.mStatus;
                 int result = db.likeComment(idx,1,status,cidx);
+=======
+                DataLike mComment = db.selectLikeComment(idx, mSessID,cidx);
+                int status = mComment.mStatus;
+                int result = db.likeComment(idx,mSessID,status,cidx);
+>>>>>>> 49c32c61ef3467218e5c844eef12bc8dd4babccb
                 if (result == -1) {
                     return gson.toJson(new StructuredResponse("error", "unable to like comment ", null));
                 } else {
                     return gson.toJson(new StructuredResponse("ok", null, result));
                 }
+<<<<<<< HEAD
+=======
+            }
+            return gson.toJson(new StructuredResponse("error", "Invalid SessID", null));
+        });
+
+        // PUT route for unliking a comment.
+        Spark.put("/unlikeComment/:Ideaid/:id/:SessID", (request, response) -> {
+            int mSessID = Integer.parseInt(request.params("SessID"));
+            if(userSessPair.containsKey(mSessID))
+            {
+                // If we can't get an ID or can't parse the JSON, Spark will send
+                // a status 500
+                int idx = Integer.parseInt(request.params("Ideaid"));
+                int cidx = Integer.parseInt(request.params("id"));
+                // ensure status 200 OK, with a MIME type of JSON
+                response.status(200);
+                response.type("application/json");
+                DataLike mComment = db.selectLikeComment(idx, mSessID,cidx);
+                int status = mComment.mStatus;
+                int result = db.unlikeComment(idx,mSessID,status,cidx);
+                if (result == -1) {
+                    return gson.toJson(new StructuredResponse("error", "unable to unlike comment ", null));
+                } else {
+                    return gson.toJson(new StructuredResponse("ok", null, result));
+                }
+            }
+            return gson.toJson(new StructuredResponse("error", "Invalid SessID", null));
+        });
+
+        Spark.post("/login", (request, response) -> {
+            String CLIENT_ID = "926558226206-ppmn3bk4ckvrtaq6hun9kpi034sde366.apps.googleusercontent.com";
+            HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
+            JsonFactory JSON_FACTORY = new JacksonFactory();
+            GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(HTTP_TRANSPORT, JSON_FACTORY)
+                .setAudience(Collections.singletonList(CLIENT_ID))
+                .build();
+            GoogleIdToken idToken = verifier.verify(request.body());
+            if (idToken != null){
+                Payload payload = idToken.getPayload();
+                String userId = payload.getSubject();
+                UUID uuid = UUID.randomUUID();
+                int uuidAsInt = uuid.hashCode();
+                userSessPair.put(uuidAsInt,userId);
+                String myEmail = payload.getEmail().toString();
+                String sub = myEmail.substring(myEmail.length() - 10);
+                System.out.println(sub!="lehigh.edu");
+                if(!sub.equals("lehigh.edu")){
+                    return gson.toJson(new StructuredResponse("error", "Email is not from lehigh.edu domain", null));
+                }
+                int result = db.insertUser(payload.get("name").toString(), myEmail , "", "", "");
+                if(result == -1)
+                {
+                    System.out.println("Failed to insertUser!");
+                }
+                response.status(200);
+                response.redirect("/index.html");
+                response.type("application/json");
+                return gson.toJson(new StructuredResponse("ok", null, uuidAsInt));
+            }
+            else{
+                return gson.toJson(new StructuredResponse("error", "Invalid Google Token!", null));
+>>>>>>> 49c32c61ef3467218e5c844eef12bc8dd4babccb
             }
             return gson.toJson(new StructuredResponse("error", "Invalid SessID", null));
         });
@@ -465,5 +589,50 @@ public class App {
             response.header("Access-Control-Request-Method", methods);
             response.header("Access-Control-Allow-Headers", headers);
         });
+        
+        //Update User Info
+        Spark.put("/profile/:SessID/:name/:email/:genId/:sexOtn/:note", (request, response) -> {
+            int mSessID = Integer.parseInt(request.params("SessID"));
+            if(userSessPair.containsKey(mSessID))
+            {
+                String mName = request.params("name");
+                String mEmail = request.params("email");
+                String mGenId = request.params("genId");
+                String mSexOtn = request.params("sexOtn");
+                String mNote = request.params("note");
+                // ensure status 200 OK, with a MIME type of JSON
+                response.status(200);
+                response.type("application/json");
+                int result = db.updateUser(mSessID,mName,mEmail,mGenId,mSexOtn,mNote);
+                if (result == -1) {
+                    return gson.toJson(new StructuredResponse("error", "unable to update User", null));
+                } else {
+                    return gson.toJson(new StructuredResponse("ok", "Successfully update User info", null));
+                }
+            }
+            return gson.toJson(new StructuredResponse("error", "Invalid SessID", null));
+        });
+       
+         //Get User Info (myself)
+         Spark.get("/getProfile/:SessID/:User", (request, response) -> {
+            int mSessID = Integer.parseInt(request.params("SessID"));
+            String mUser = request.params("SessID");
+            if(userSessPair.containsKey(mSessID))
+            {
+                String logUser = userSessPair.get(mSessID);
+                if(!logUser.equals(mUser)){
+                    response.status(200);
+                    response.type("application/json");
+                    return gson.toJson(new StructuredResponse("ok", "", db.selectAnotherUser(mSessID)));
+                }
+                else{
+                    response.status(200);
+                    response.type("application/json");
+                    return gson.toJson(new StructuredResponse("ok", "", db.selectUser(mSessID)));
+                }
+            }
+            return gson.toJson(new StructuredResponse("error", "Invalid SessID", null));
+        });
+       
     }
 }
