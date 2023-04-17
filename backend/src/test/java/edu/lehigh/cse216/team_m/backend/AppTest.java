@@ -170,40 +170,4 @@ public class AppTest
             assertTrue(true);
         }
     }
-    public void testHashTable() {
-        // Create a new hash map to store the user ID and session key
-        HashMap<String, HashMap<String, String>> usersMap = new HashMap<>();
-        HashMap<String, String> testUser = new HashMap<>();
-        testUser.put("name", "David");
-        testUser.put("email", "jiw324@lehigh.com");
-        testUser.put("gender identity", "Male");
-        testUser.put("sexual orientation", "Heterosexual");
-        testUser.put("note", "Backend dev");
-        usersMap.put("test1", testUser);
-
-        HashMap<String, String> ret = usersMap.get("test1"); 
-        assertEquals(ret.get("name"), "David");
-        assertEquals(ret.get("email"), "jiw324@lehigh.com");
-        assertEquals(ret.get("gender identity"), "Male");
-        assertEquals(ret.get("sexual orientation"), "Heterosexual");
-        assertEquals(ret.get("note"), "Backend dev");
-    }
-    public void testHashTable() {
-        // Create a new hash map to store the user ID and session key
-        HashMap<String, HashMap<String, String>> usersMap = new HashMap<>();
-        HashMap<String, String> testUser = new HashMap<>();
-        testUser.put("name", "David");
-        testUser.put("email", "jiw324@lehigh.com");
-        testUser.put("gender identity", "Male");
-        testUser.put("sexual orientation", "Heterosexual");
-        testUser.put("note", "Backend dev");
-        usersMap.put("test1", testUser);
-
-        HashMap<String, String> ret = usersMap.get("test1"); 
-        assertEquals(ret.get("name"), "David");
-        assertEquals(ret.get("email"), "jiw324@lehigh.com");
-        assertEquals(ret.get("gender identity"), "Male");
-        assertEquals(ret.get("sexual orientation"), "Heterosexual");
-        assertEquals(ret.get("note"), "Backend dev");
-    }
 }
