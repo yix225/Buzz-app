@@ -8,8 +8,8 @@ import java.util.UUID;
 
 // import org.omg.CORBA.CODESET_INCOMPATIBLE;
 
-import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
-import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
+// import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
+// import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
@@ -17,7 +17,7 @@ import java.util.HashMap;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
-import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
+// import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 import com.google.api.client.json.JsonFactory;
 /**
  * For now, our app creates an HTTP server that can only get and add data.
