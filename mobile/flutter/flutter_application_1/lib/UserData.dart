@@ -43,7 +43,7 @@ class UserData extends ChangeNotifier {
   String? get userEmail => _user?.email;
   String? get userIdentity => _user?.identity;
   String? get userSexOri => _user?.sexOri;
-  String get userId => _user!.id;
+  int get userId => _user!.id;
 
   bool get isLogin => _user != null;
 
@@ -96,7 +96,7 @@ class UserData extends ChangeNotifier {
               name: '',
               identity: '',
               sexOri: '',
-              id: '',
+              id: 0,
               description: '')
             ..email = googleUser.email
             ..name = googleUser.displayName ?? ''
@@ -104,7 +104,7 @@ class UserData extends ChangeNotifier {
             ..sexOri = ''
             ..identity = ''
             ..token = "_googleUser"
-            ..id = sessId); // store user basic data
+            ..id = 0); // store user basic data
           print("yes3");
           return googleUser;
         }
@@ -124,7 +124,7 @@ class UserData extends ChangeNotifier {
           name: '',
           identity: '',
           sexOri: '',
-          id: '',
+          id: 0,
           description: '')
         ..email = _googleUser!.email
         ..name = _googleUser!.displayName ?? ''

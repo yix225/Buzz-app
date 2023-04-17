@@ -11,8 +11,8 @@ import 'myDrawer.dart';
 import 'my_function.dart';
 
 class commentList extends StatefulWidget {
-  const commentList({super.key, required this.comment});
-  final Comment comment;
+  //const commentList({super.key, required this.comment});
+  //final Comment comment;
 
   // void _startTimer() {
   //   // Start a timer for 5 seconds
@@ -97,6 +97,12 @@ class _commentListState extends State<commentList> {
                 //child: Text('Down Vote'),
                 //child: Image.asset('images/downvote.png'),
               ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/message');
+              },
+              child: const Text("<<"),
             ),
           ],
         ),

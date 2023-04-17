@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 class Comment {
-  late int mId;
-  late String mContents;
-  late int mLikes;
-  late String mCreated;
+  late String? mId;
+  late String? mContents;
+  late int? mLikes;
+  late String? mCreated;
 
   Comment({
     required this.mId,

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/UserInfoScreen.dart';
 import 'package:flutter_application_1/my_function.dart';
 
+import 'comment.dart';
 import 'commentList.dart';
 import 'commentPage.dart';
 // import 'commentList.dart';
@@ -13,6 +14,7 @@ import 'commentPage.dart';
 class message extends StatelessWidget {
   @override
   late Timer _timer;
+  late final Comment _comment;
   bool _isButtonPressed = false;
 
   // void _startTimer() {
@@ -45,6 +47,8 @@ class message extends StatelessWidget {
 
   Widget build(BuildContext context) {
     final List<String> message =
+        ModalRoute.of(context)!.settings.arguments as List<String>;
+    final List<String> comment =
         ModalRoute.of(context)!.settings.arguments as List<String>;
     return Scaffold(
       appBar: AppBar(
@@ -107,13 +111,15 @@ class message extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context).pushReplacement(
                       // go to the profile page
-                      MaterialPageRoute(builder: (context) => commentPage()));
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              commentPage(mid: message[0] as String)));
                   //_onButtonPressed(int.parse(message[0]));
                 },
                 child: Text('add the comment'),
               ),
             ),
-            /* Center(
+            Center(
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).pushReplacement(
@@ -123,7 +129,7 @@ class message extends StatelessWidget {
                 },
                 child: Text('Comments List'),
               ),
-            ), */
+            ),
           ],
         ),
       ),

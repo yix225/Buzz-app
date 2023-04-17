@@ -177,15 +177,15 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
     );
   }
 
-  void add_sexOri(String firstInput, String sessId) {
+  void add_sexOri(String firstInput, int sessId) {
     addSexOri(firstInput, sessId);
   }
 
-  void add_gender(String secondInput, String sessId) {
+  void add_gender(String secondInput, int sessId) {
     addGender(secondInput, sessId);
   }
 
-  void add_description(String thirdInput, String sessId) {
+  void add_description(String thirdInput, int sessId) {
     addDescription(thirdInput, sessId);
   }
 }

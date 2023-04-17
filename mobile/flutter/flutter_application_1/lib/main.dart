@@ -16,6 +16,7 @@ import 'package:provider/provider.dart';
 import 'dart:io';
 import 'package:device_info/device_info.dart';
 
+import 'comment.dart';
 import 'myDrawer.dart';
 
 Future<void> main() async {
@@ -33,12 +34,18 @@ class mLine {
   final String mSubject;
   String mMessage;
   int mLikes;
+  int mComments;
+  final int mUserId;
+  //final bool mValid;
   final String mCreated;
   mLine({
     required this.mId,
     required this.mSubject,
     required this.mMessage,
     required this.mLikes,
+    required this.mComments,
+    required this.mUserId,
+    //required this.mValid,
     required this.mCreated,
   });
 
@@ -48,6 +55,9 @@ class mLine {
       mSubject: json['mSubject'],
       mMessage: json['mMessage'],
       mLikes: json['mLikes'],
+      mComments: json['mComments'],
+      mUserId: json['mUserId'],
+      //mValid: json['mVlid'],
       mCreated: json['mCreated'],
     );
   }
@@ -60,6 +70,9 @@ class mLine {
       'mSubject': this.mSubject,
       'mMessage': this.mMessage,
       'mLikes': this.mLikes,
+      'mComments': this.mComments,
+      'mUserId': this.mUserId,
+      //'mValid': this.mValid,
       'mCreated': this.mCreated
     };
     print(jsonEncode(data));
@@ -281,30 +294,33 @@ Future<List<mLine>> fetchmLines() async {
   }
 }
 
-// Future<List<User>> fetchComment() async {
-//   final response = await http
-//       .get(Uri.parse('http://2023sp-team-m.dokku.cse.lehigh.edu/'));
-//   if (response.statusCode == 200) {
-//     final Comment<User> returnComment;
-//     var res = jsonDecode(response.body);
-//     List<dynamic> mData = res['mData'];
-//     // ignore: unnecessary_type_check
-//     if (mData is List) {
-//       returnUser = (mData).map((x) => mLine.fromJson(x)).toList();
-//     } else if (mData is Map) {
-//       returnUser = <User>[User.fromJson(mData as Map<String, dynamic>)];
-//     } else {
-//       developer
-//           .log('ERROR: Unexpected json response type (was not a List or Map).');
-//       returnData = List.empty();
-//     }
-//     return returnData;
-//   } else {
-//     // If the server did not return a 200 OK response,
-//     // then throw an exception.
-//     throw Exception('Did not receive success status code from request.');
-//   }
-// }
+Future<List<Comment>> fetchComment() async {
+  final response =
+      await http.get(Uri.parse('http://2023sp-team-m.dokku.cse.lehigh.edu/'));
+  if (response.statusCode == 200) {
+    final List<Comment> returnComment;
+    var res = jsonDecode(response.body);
+    List<dynamic> mData = res['mData'];
+    // ignore: unnecessary_type_check
+    if (mData is List) {
+      returnComment = (mData).map((x) => Comment.fromJson(x)).toList();
+    } else if (mData is Map) {
+      returnComment = <Comment>[
+        Comment.fromJson(mData as Map<String, dynamic>)
+      ];
+    } else {
+      developer
+          .log('ERROR: Unexpected json response type (was not a List or Map).');
+      returnComment = List.empty();
+    }
+    return returnComment;
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Did not receive success status code from request.');
+  }
+}
+
 class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
