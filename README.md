@@ -38,6 +38,11 @@
 
 #### **CONCISE DESCRIPTION OF THE FUNCTIONALITY IN THIS TAGGED RELEASE**
 The Buzz app is a social messaging platform that enables users to post anonymous messages, like and unlike messages posted by other users, as well as edit or delete each other's messages. Users are able to use the application without having to create an account or log in order to maintain the anonymous nature of the platform. It allows users to share their thoughts and opinions without revealing their identity.
+Now, new users can sign in with Google authentication, and this will allow them to fill out their profile information. In addition, users can also comment under someone's idea in order to express their opinions. 
+
+#### **MISSING FUNCTIONALITIES**
+1. Launching web to dokku
+2. Google authorization on mobile
 
 #### **Developer Documentation**
 * backend
