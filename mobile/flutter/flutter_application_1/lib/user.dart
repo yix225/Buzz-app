@@ -2,7 +2,7 @@ import 'dart:convert';
 
 class User {
 // the variable we will use in the following files
-  late String id;
+  late int id;
   late String token;
   late String avatarUrl;
   late String name;
@@ -28,7 +28,7 @@ class User {
         sexOri: json['mSexOrn'] as String,
         identity: json['mGenId'] as String,
         description: json['mNote'] as String,
-        id: json['mId'] as String);
+        id: json['mId']);
   }
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> user = new Map<String, dynamic>();

@@ -10,6 +10,9 @@ void main() {
       "mSubject": "testing dokku",
       "mMessage": "please work",
       "mLikes": 0,
+      "mComments": 2,
+      "mUserId": 1,
+      // "mValid": true,
       "mCreated": "Mar 10, 2023 8:10:10 PM"
     };
     final mline = mLine.fromJson(jsonData);
@@ -17,6 +20,9 @@ void main() {
     expect(mline.mSubject, equals('testing dokku'));
     expect(mline.mMessage, equals('please work'));
     expect(mline.mLikes, equals(0));
+    expect(mline.mComments, equals(2));
+    expect(mline.mUserId, equals(1));
+    //expect(mline.mValid, equals(true));
     expect(mline.mCreated, equals('Mar 10, 2023 8:10:10 PM'));
   });
 
@@ -27,6 +33,9 @@ void main() {
       mMessage: 'Hello',
       mLikes: 9,
       mCreated: 'Mar 11, 2023 2:41:02 AM',
+      mComments: 2,
+      mUserId: 1,
+      //mValid: true,
     );
     final jsonData = mline.toJson();
     expect(jsonData['mStatus'], equals('ok'));
@@ -36,6 +45,9 @@ void main() {
     expect(mData['mSubject'], equals('Test Test'));
     expect(mData['mMessage'], equals('Hello'));
     expect(mData['mLikes'], equals(9));
+    expect(mData['mComments'], equals(2));
+    expect(mData['mUserId'], equals(1));
+    expect(mData['mValid'], equals(true));
     expect(mData['mCreated'], equals('Mar 11, 2023 2:41:02 AM'));
   });
 
@@ -45,10 +57,10 @@ void main() {
       "avatarUrl": " ",
       "mName": "tmessi",
       "mEmail": "tmessi2023@gmail.com",
-      "mSexOrn": " ",
-      "mGenId": " ",
-      "mNote": " ",
-      "id": "  "
+      "mSexOrn": "Female",
+      "mGenId": "Female ",
+      "mNote": "nice ",
+      "id": 1
     };
     final user = User.fromJson(jsonData);
     expect(user.name, equals('tmessi'));
@@ -67,7 +79,7 @@ void main() {
       email: 'tmessi2023@gmail.com',
       identity: ' ',
       name: 'tmessi',
-      id: ' ',
+      id: 0,
       token: ' ',
       sexOri: ' ',
     );
@@ -83,30 +95,30 @@ void main() {
   });
   test('mUser should be created from json data', () {
     final jsonData = {
-      "mContents": 'good',
+      "mId": 125,
+      "mContents": null,
       "mLike": 1,
-      "mCreate": "April 16, 2023 2:41:02 AM ",
-      "mId": 125
+      "mCreate": "April 16, 2023 2:41:02 AM "
     };
     final comment = Comment.fromJson(jsonData);
     expect(comment.mId, equals(125));
-    expect(comment.mContents, equals('good'));
+    expect(comment.mContents, equals(null));
     expect(comment.mLikes, equals(1));
     expect(comment.mCreated, equals('April 16, 2023 2:41:02 AM'));
   });
   test('mLine should be encoded to json', () {
     final comment = Comment(
-      mContents: 'good',
-      mCreated: 'April 16, 2023 2:41:02 AM',
-      mId: 125,
+      mId: '125',
+      mContents: '',
       mLikes: 1,
+      mCreated: 'April 16, 2023 2:41:02 AM',
     );
     final jsonData = comment.toJson();
     expect(jsonData['mStatus'], equals('ok'));
     expect(jsonData['mData'], isNotNull);
     final mData = jsonData['mData'];
     expect(mData['mId'], equals(125));
-    expect(mData['mCotents'], equals('good'));
+    expect(mData['mCotents'], equals(null));
     expect(mData['mLikes'], equals(1));
     expect(mData['mCreated'], equals('April 16, 2023 2:41:02 AM'));
   });

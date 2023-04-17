@@ -8,20 +8,25 @@ import 'main.dart';
 import 'myDrawer.dart';
 import 'my_function.dart';
 
-class commentPage extends StatelessWidget {
-  //const commentPage({super.key, required this.post});
+class commentPage extends StatefulWidget {
+  const commentPage({required this.mid, Key? key}) : super(key: key);
+  final String mid;
 
-  //final Post post;
+  //const commentPage(String message, {super.key, required this.comment});
+
+  //final Comment comment;
+
+  @override
+  State<commentPage> createState() => _commentPageState(); // create the state
+}
+
+class _commentPageState extends State<commentPage> {
   TextEditingController CommentTextControl = TextEditingController();
 
   void dispose() {
     CommentTextControl.dispose();
   }
-//   @override
-//   State<comment> createState() => _commentState(); // create the state
-// }
 
-// class _commentState extends State<comment> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -44,7 +49,7 @@ class commentPage extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 String input = CommentTextControl.text;
-                add_comment(input);
+                add_comment(input, widget.mid);
                 Navigator.pushNamed(context, '/');
               },
               child: const Text('Add'),
@@ -76,6 +81,6 @@ class commentPage extends StatelessWidget {
   }
 }
 
-void add_comment(String input) {
-  addComment(input);
+void add_comment(String input, String mId) {
+  addComment(input, mId);
 }

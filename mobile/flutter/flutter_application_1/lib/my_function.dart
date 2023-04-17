@@ -12,6 +12,9 @@ void addMessage(String mySubject, String myMessage) async {
     'mSubject': mySubject,
     'mMessage': myMessage,
     'mLikes': 0,
+    'mComments': 0,
+    'mUserId': 0,
+    //'mValid': true,
     //'mUnlikes':0,
     'mCreated': currentTime
   };
@@ -43,7 +46,7 @@ void update_disLikes(int myid) async {
   }
 }
 
-void addComment(String myComment) async {
+void addComment(String myComment, String myId) async {
   DateTime now = DateTime.now();
   String currentTime = now.toString();
   Map<String, String> headers = {'Content-Type': 'application/json'};
@@ -53,9 +56,10 @@ void addComment(String myComment) async {
     'mLikes': 0,
     'mCreated': currentTime
   };
+  print(myId);
   final response = await http.post(
     Uri.parse(
-        'http://2023sp-team-m.dokku.cse.lehigh.edu//insertComment/:IdeaId/:SessId'),
+        'http://2023sp-team-m.dokku.cse.lehigh.edu//insertComment/:${myId}'),
     headers: headers,
     body: jsonEncode(payload),
   );
@@ -64,14 +68,15 @@ void addComment(String myComment) async {
   }
 }
 
-Future<String?> addSexOri(String? sexOri, String sessId) async {
+Future<String?> addSexOri(String? sexOri, int sessId) async {
   Map<String, String> headers = {'Content-Type': 'application/json'};
   Map<String, dynamic> payload = {
     'oriSex': sexOri,
   };
   final response = await http.post(
     Uri.parse(
-        'http://2023sp-team-m.dokku.cse.lehigh.edu/profile/:${sessId}/:name/:email/:genId/:sexOtn/:note'),
+        'http://2023sp-team-m.dokku.cse.lehigh.edu/profile/:name/:email/:genId/:sexOtn/:note'),
+    //'http://2023sp-team-m.dokku.cse.lehigh.edu/profile/:${sessId}/:name/:email/:genId/:sexOtn/:note'),
     headers: headers,
     body: jsonEncode(payload),
   );
@@ -85,19 +90,20 @@ Future<String?> addSexOri(String? sexOri, String sessId) async {
           token: '',
           identity: '',
           sexOri: '',
-          id: '',
+          id: 0,
           description: '')
       .sexOri;
 }
 
-Future<String?> addGender(String? identity, String sessId) async {
+Future<String?> addGender(String? identity, intsessId) async {
   Map<String, String> headers = {'Content-Type': 'application/json'};
   Map<String, dynamic> payload = {
     'identity': identity,
   };
   final response = await http.post(
     Uri.parse(
-        'http://2023sp-team-m.dokku.cse.lehigh.edu/profile/:${sessId}/:name/:email/:genId/:sexOtn/:note'),
+        'http://2023sp-team-m.dokku.cse.lehigh.edu/profile/:name/:email/:genId/:sexOtn/:note'),
+    //'http://2023sp-team-m.dokku.cse.lehigh.edu/profile/:${sessId}/:name/:email/:genId/:sexOtn/:note'),
     headers: headers,
     body: jsonEncode(payload),
   );
@@ -111,19 +117,20 @@ Future<String?> addGender(String? identity, String sessId) async {
           token: '',
           identity: '',
           sexOri: '',
-          id: '',
+          id: 0,
           description: '')
       .identity;
 }
 
-Future<String?> addDescription(String? description, String sessId) async {
+Future<String?> addDescription(String? description, int sessId) async {
   Map<String, String> headers = {'Content-Type': 'application/json'};
   Map<String, dynamic> payload = {
     'description': description,
   };
   final response = await http.post(
     Uri.parse(
-        'http://2023sp-team-m.dokku.cse.lehigh.edu/profile/:${sessId}/:name/:email/:genId/:sexOtn/:note'),
+        'http://2023sp-team-m.dokku.cse.lehigh.edu/profile/:name/:email/:genId/:sexOtn/:note'),
+    //'http://2023sp-team-m.dokku.cse.lehigh.edu/profile/:${sessId}/:name/:email/:genId/:sexOtn/:note'),
     headers: headers,
     body: jsonEncode(payload),
   );
@@ -137,7 +144,7 @@ Future<String?> addDescription(String? description, String sessId) async {
           token: '',
           identity: '',
           sexOri: '',
-          id: '',
+          id: 0,
           description: '')
       .identity;
 }
