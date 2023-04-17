@@ -38,14 +38,23 @@ public class App {
         if( System.getenv("DATABASE_URL") != null ){
             return Database.getDatabase(System.getenv("DATABASE_URL"), DEFAULT_PORT_DB);
         }
-
-        Map<String, String> env = System.getenv();
-        String ip = env.get("POSTGRES_IP");
-        String port = env.get("POSTGRES_PORT");
-        String user = env.get("POSTGRES_USER");
-        String pass = env.get("POSTGRES_PASS");
+        String ip = "isilo.db.elephantsql.com";
+        String port = Integer.toString(5432);
+        String user = "gkzavwme";
+        String pass = "5TWc-gVQdICuVD1rE-cCgdBQFBH-xH6g";
+        //Map<String, String> env = System.getenv();
+        // String ip = env.get("POSTGRES_IP");
+        // String port = env.get("POSTGRES_PORT");
+        // String user = env.get("POSTGRES_USER");
+        // String pass = env.get("POSTGRES_PASS");
+        // String ip = env.get("POSTGRES_IP");
+        // String port = env.get("POSTGRES_PORT");
+        // String user = env.get("POSTGRES_USER");
+        // String pass = env.get("POSTGRES_PASS");
+        
         return Database.getDatabase(ip, port, "", user, pass);
     } 
+    //
     /**
     * Get an integer environment variable if it exists, and otherwise return the
     * default value.
@@ -62,12 +71,12 @@ public class App {
         }
         return defaultVal;
     }
-
     /**
      * @author David
      * @version 4/2/2023
      */
-    public static <GoogleSignInResponse> void main(String[] args) {
+    //public static <GoogleSignInResponse> void main(String[] args) {
+    public static void main(String[] args) {
         //Store the exist < UUID as Int , user > infomation
         HashMap<Integer,String> userSessPair = new HashMap<Integer,String>();
 
@@ -84,6 +93,12 @@ public class App {
             Spark.staticFiles.externalLocation(static_location_override);
         }
 
+        if ("True".equalsIgnoreCase(System.getenv("CORS_ENABLED"))) {
+            final String acceptCrossOriginRequestsFrom = "*";
+            final String acceptedCrossOriginRoutes = "GET,PUT,POST,DELETE,OPTIONS";
+            final String supportedRequestHeaders = "Content-Type,Authorization,X-Requested-With,Content-Length,Accept,Origin";
+            enableCORS(acceptCrossOriginRequestsFrom, acceptedCrossOriginRoutes, supportedRequestHeaders);
+        }
         // gson provides us with a way to turn JSON into objects, and objects
         // into JSON.
         //
@@ -91,33 +106,32 @@ public class App {
         //
         // NB: Gson is thread-safe.  See 
         // https://stackoverflow.com/questions/10380835/is-it-ok-to-use-gson-instance-as-a-static-field-in-a-model-bean-reuse
-        Gson gson = new Gson();
+        final Gson gson = new Gson();
         // NB: every time we shut down the server, we will lose all data, and 
         //     every time we start the server, we'll have an empty dataStore,
         //     with IDs starting over from 0.
         //final DataStore dataStore = new DataStore();
         Database db = getDatabaseConnection();
-
         // Set up a route for serving the main page
         Spark.get("/", (req, res) -> {
             res.redirect("/index.html");
             return "";
         });
-
+       
         // GET route that returns all message titles and Ids.  All we do is get 
         // the data, embed it in a StructuredResponse, turn it into JSON, and 
         // return it.  If there's no data, we return "[]", so there's no need 
         // for error handling.
-        Spark.get("/GetAllIdea/:SessID", (request, response) -> {
-            int mSessID = Integer.parseInt(request.params("SessID"));
-            if(userSessPair.containsKey(mSessID))
-            {
+        Spark.get("/GetAllIdea", (request, response) -> {
+            // int mSessID = Integer.parseInt(request.params("SessID"));
+            // if(userSessPair.containsKey(mSessID))
+            // {
                 // ensure status 200 OK, with a MIME type of JSON
                 response.status(200);
                 response.type("application/json");
                 return gson.toJson(new StructuredResponse("ok", null, db.selectIdeasAll()));
-            }
-            return gson.toJson(new StructuredResponse("error", "Invalid SessID", null));
+            // }
+            // return gson.toJson(new StructuredResponse("error", "Invalid SessID", null));
         });
 
         // GET route that returns everything for a single row in the DataStore.
@@ -148,7 +162,7 @@ public class App {
         // JSON from the body of the request, turn it into a SimpleRequest 
         // object, extract the title and message, insert them, and return the 
         // ID of the newly created row.
-        Spark.post("/insertIdea/:SessID", (request, response) -> {
+        Spark.post("/insertIdea:/SessID", (request, response) -> {
             int mSessID = Integer.parseInt(request.params("SessID"));
             if(userSessPair.containsKey(mSessID))
             {
@@ -161,7 +175,7 @@ public class App {
                 response.status(200);
                 response.type("application/json");
                 // NB: createEntry checks for null title and message
-                int newId = db.insertIdea(req.mSubject, req.mMessage, mSessID);
+                int newId = db.insertIdea(req.mSubject, req.mMessage, 1);
                 if (newId == -1) {
                     return gson.toJson(new StructuredResponse("error", "error performing insertion", null));
                 } 
@@ -190,7 +204,7 @@ public class App {
                 response.status(200);
                 response.type("application/json");
                 // NB: createEntry checks for null title and message
-                int newId = db.insertComment(req.mSubject, req.mMessage, mSessID, idx);
+                int newId = db.insertComment(req.mSubject, req.mMessage, 1, idx);
                 if (newId == -1) {
                     return gson.toJson(new StructuredResponse("error", "error performing insertion", null));
                 } 
@@ -257,9 +271,9 @@ public class App {
                 // ensure status 200 OK, with a MIME type of JSON
                 response.status(200);
                 response.type("application/json");
-                DataLike mIdea = db.selectLikeIdea(idx, mSessID);
+                DataLike mIdea = db.selectLikeIdea(idx, 1);
                 int status = mIdea.mStatus;
-                int result = db.likeIdea(idx,mSessID,status);
+                int result = db.likeIdea(idx,1,status);
                 if (result == -1) {
                     return gson.toJson(new StructuredResponse("error", "unable to like row " + idx, null));
                 } else {
@@ -280,9 +294,9 @@ public class App {
                 // ensure status 200 OK, with a MIME type of JSON
                 response.status(200);
                 response.type("application/json");
-                DataLike mIdea = db.selectLikeIdea(idx, mSessID);
+                DataLike mIdea = db.selectLikeIdea(idx, 1);
                 int status = mIdea.mStatus;
-                int result = db.unlikeIdea(idx,mSessID,status);
+                int result = db.unlikeIdea(idx,1,status);
                 if (result == -1) {
                     return gson.toJson(new StructuredResponse("error", "unable to unlike row " + idx, null));
                 } else {
@@ -304,9 +318,9 @@ public class App {
                 // ensure status 200 OK, with a MIME type of JSON
                 response.status(200);
                 response.type("application/json");
-                DataLike mComment = db.selectLikeComment(idx, mSessID,cidx);
+                DataLike mComment = db.selectLikeComment(idx, 1,cidx);
                 int status = mComment.mStatus;
-                int result = db.likeComment(idx,mSessID,status,cidx);
+                int result = db.likeComment(idx,1,status,cidx);
                 if (result == -1) {
                     return gson.toJson(new StructuredResponse("error", "unable to like comment ", null));
                 } else {
@@ -328,9 +342,9 @@ public class App {
                 // ensure status 200 OK, with a MIME type of JSON
                 response.status(200);
                 response.type("application/json");
-                DataLike mComment = db.selectLikeComment(idx, mSessID,cidx);
+                DataLike mComment = db.selectLikeComment(idx, 1,cidx);
                 int status = mComment.mStatus;
-                int result = db.unlikeComment(idx,mSessID,status,cidx);
+                int result = db.unlikeComment(idx,1,status,cidx);
                 if (result == -1) {
                     return gson.toJson(new StructuredResponse("error", "unable to unlike comment ", null));
                 } else {
@@ -373,6 +387,83 @@ public class App {
             else{
                 return gson.toJson(new StructuredResponse("error", "Invalid Google Token!", null));
             }
+        });
+        
+        //Update User Info
+        Spark.put("/profile/:SessID/:name/:email/:genId/:sexOtn/:note", (request, response) -> {
+            int mSessID = Integer.parseInt(request.params("SessID"));
+            if(userSessPair.containsKey(mSessID))
+            {
+                String mName = request.params("name");
+                String mEmail = request.params("email");
+                String mGenId = request.params("genId");
+                String mSexOtn = request.params("sexOtn");
+                String mNote = request.params("note");
+                // ensure status 200 OK, with a MIME type of JSON
+                response.status(200);
+                response.type("application/json");
+                int result = db.updateUser(1,mName,mEmail,mGenId,mSexOtn,mNote);
+                if (result == -1) {
+                    return gson.toJson(new StructuredResponse("error", "unable to update User", null));
+                } else {
+                    return gson.toJson(new StructuredResponse("ok", "Successfully update User info", null));
+                }
+            }
+            return gson.toJson(new StructuredResponse("error", "Invalid SessID", null));
+        });
+       
+         //Get User Info (myself)
+         Spark.get("/getProfile/:User/:SessID", (request, response) -> {
+            int mSessID = Integer.parseInt(request.params("SessID"));
+            String mUser = request.params("SessID");
+            if(userSessPair.containsKey(mSessID))
+            {
+                String logUser = userSessPair.get(1);
+                if(!logUser.equals(mUser)){
+                    response.status(200);
+                    response.type("application/json");
+                    return gson.toJson(new StructuredResponse("ok", "", db.selectAnotherUser(1)));
+                }
+                else{
+                    response.status(200);
+                    response.type("application/json");
+                    return gson.toJson(new StructuredResponse("ok", "", db.selectUser(1)));
+                }
+            }
+            return gson.toJson(new StructuredResponse("error", "Invalid SessID", null));
+        });
+       
+    }
+    /**
+     * Set up CORS headers for the OPTIONS verb, and for every response that the
+     * server sends. This only needs to be called once.
+     * 
+     * @param origin  The server that is allowed to send requests to this server
+     * @param methods The allowed HTTP verbs from the above origin
+     * @param headers The headers that can be sent with a request from the above
+     *                origin
+     */
+    private static void enableCORS(String origin, String methods, String headers) {        
+        // Create an OPTIONS route that reports the allowed CORS headers and methods
+        Spark.options("/*", (request, response) -> {
+            String accessControlRequestHeaders = request.headers("Access-Control-Request-Headers");
+            if (accessControlRequestHeaders != null) {
+                response.header("Access-Control-Allow-Headers", accessControlRequestHeaders);
+            }
+            String accessControlRequestMethod = request.headers("Access-Control-Request-Method");
+            if (accessControlRequestMethod != null) {
+                response.header("Access-Control-Allow-Methods", accessControlRequestMethod);
+            }
+            return "OK";
+        });
+
+        // 'before' is a decorator, which will run before any
+        // get/post/put/delete. In our case, it will put three extra CORS
+        // headers into the response
+        Spark.before((request, response) -> {
+            response.header("Access-Control-Allow-Origin", origin);
+            response.header("Access-Control-Request-Method", methods);
+            response.header("Access-Control-Allow-Headers", headers);
         });
         
         //Update User Info
