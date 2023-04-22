@@ -118,7 +118,7 @@ public class App {
             return "";
         });
        
-        // GET route that returns all message titles and Ids.  All we do is get 
+         // GET route that returns all message titles and Ids.  All we do is get 
         // the data, embed it in a StructuredResponse, turn it into JSON, and 
         // return it.  If there's no data, we return "[]", so there's no need 
         // for error handling.
@@ -129,10 +129,11 @@ public class App {
                 // ensure status 200 OK, with a MIME type of JSON
                 response.status(200);
                 response.type("application/json");
-                return gson.toJson(new StructuredResponse("ok", null, db.selectIdeasAll()));
+                return gson.toJson(new StructuredResponse("ok", null, db.selectIdeasValid()));
             // }
             // return gson.toJson(new StructuredResponse("error", "Invalid SessID", null));
         });
+
 
         // GET route that returns everything for a single row in the DataStore.
         // The ":id" suffix in the first parameter to get() becomes 
