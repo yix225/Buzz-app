@@ -141,52 +141,55 @@ __________
 
 #### `DESCRIPTION OF TESTS FOR EACH ROLE`
 **BACKEND:**
-- OBJECTIVE:
-    Backend should be able to create routes that would allow for the uploading of a picture or video under a person’s idea. It should allow for users to send optional media and to return those medias. 
-- CASE: 
-    Front-end sends the type of media it is, picture or video.
-- CRITERIA: 
-    Verify if the video or picture is saved in Google Drive on a Google services account and use MemCachier to manage the media by sending it for display on the web and mobile.
-- STEPS: 
-    Implement routes methods for accepting new media depending on the type it is. Also, implement MemCachier for management of frequently used data.
+- OBJECTIVE: Backend should be able to create routes that would allow for the uploading of a picture or video under a person’s idea. It should allow for users to send optional media and to return those medias. 
+
+- CASE: Front-end sends the type of media it is, picture or video.
+
+- CRITERIA: Verify if the video or picture is saved in Google Drive on a Google services account and use MemCachier to manage the media by sending it for display on the web and mobile.
+
+- STEPS: Implement routes methods for accepting new media depending on the type it is. Also, implement MemCachier for management of frequently used data.
 
 
 
 **WEB:**
-- OBJECTIVE: 
-    Web app should support to display text-only comments for ideas, handle login/logout, up/down votes, and a user profile page. Users should be able to attach files and links to their ideas or comments.
+- OBJECTIVE: Web app should support to display text-only comments for ideas, handle login/logout, up/down votes, and a user profile page. Users should be able to attach files and links to their ideas or comments.
+
 - CASE: user attaches a file 
-- CRITERIA: 
-    Verify that a user can attach a file, that the file is saved inside that database and that if the file is an image/gif it displays on the website
-- STEPS:
-    Implement the attach button on your mobile application, sending the change back to the back-end server the base64 information of the file                                                          
-- CRITERIA: 
-    Image/gifs appear on the website on the message. File data is saved in the backend
-CASE: user attaches a link
-- CRITERIA: 
-    Verify that a user can attach a link, the link can be clicked and redirects the user to the website.
-- STEPS:
-    Implement the attach button on your mobile application, sending the link to the back-end server                                                          
-CRITERIA: link redirects user to the website
+
+- CRITERIA: Verify that a user can attach a file, that the file is saved inside that database and that if the file is an image/gif it displays on the website
+
+- STEPS: Implement the attach button on your mobile application, sending the change back to the back-end server the base64 information of the file   
+
+- CRITERIA: Image/gifs appear on the website on the message. File data is saved in the backend
+
+- CASE: user attaches a link
+
+- CRITERIA: Verify that a user can attach a link, the link can be clicked and redirects the user to the website.
+
+- STEPS:Implement the attach button on your mobile application, sending the link to the back-end server                                                          
+- CRITERIA: link redirects user to the website
 
 
 
 **MOBILE:**
-- OBJECTIVE: 
-    mobile app should support to display text-only comments for ideas, handle login/logout, up/down votes, and a user profile page. Users should be able to attach files and links to their ideas or comments.
+- OBJECTIVE:  mobile app should support to display text-only comments for ideas, handle login/logout, up/down votes, and a user profile page. Users should be able to attach files and links to their ideas or comments.
+
 - CASE: user attaches a file 
-- CRITERIA: 
-    Verify that a user can attach a file, that the file is saved inside that database and that if the file is an image/gif it displays on the website
+
+- CRITERIA: Verify that a user can attach a file, that the file is saved inside that database and that if the file is an image/gif it displays on the website
+
 - STEPS: 
     Implement the attach button on your mobile application, sending the change back to the back-end server the base64 information of the file 
+
 - CRITERIA: 
     Image/gifs appear on the website on the message. File data is saved in the backend
 
 - CASE: user attaches a link
-- CRITERIA: 
-    Verify that a user can attach a link, the link can be clicked and redirects the user to the website.
-- STEPS:
-    Implement the attach button on your mobile application, sending the link to the back-end server
+
+- CRITERIA: Verify that a user can attach a link, the link can be clicked and redirects the user to the website.
+
+- STEPS:Implement the attach button on your mobile application, sending the link to the back-end server
+
 - CRITERIA: link redirects user to the website
 
 
