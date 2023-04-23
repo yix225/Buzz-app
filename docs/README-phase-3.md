@@ -141,6 +141,7 @@ __________
 
 #### `DESCRIPTION OF TESTS FOR EACH ROLE`
 **BACKEND:**
+
 - OBJECTIVE: Backend should be able to create routes that would allow for the uploading of a picture or video under a person’s idea. It should allow for users to send optional media and to return those medias. 
 
 - CASE: Front-end sends the type of media it is, picture or video.
@@ -152,6 +153,7 @@ __________
 
 
 **WEB:**
+
 - OBJECTIVE: Web app should support to display text-only comments for ideas, handle login/logout, up/down votes, and a user profile page. Users should be able to attach files and links to their ideas or comments.
 
 - CASE: user attaches a file 
@@ -172,6 +174,7 @@ __________
 
 
 **MOBILE:**
+
 - OBJECTIVE:  mobile app should support to display text-only comments for ideas, handle login/logout, up/down votes, and a user profile page. Users should be able to attach files and links to their ideas or comments.
 
 - CASE: user attaches a file 
