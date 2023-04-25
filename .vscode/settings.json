@@ -1,5 +1,0 @@
-{
-    "cmake.sourceDirectory": "${workspaceFolder}/flutter/flutter_application_1/linux",
-    "java.configuration.updateBuildConfiguration": "interactive",
-    "java.compile.nullAnalysis.mode": "automatic"
-}
