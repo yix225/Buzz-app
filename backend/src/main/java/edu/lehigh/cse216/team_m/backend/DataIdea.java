@@ -57,6 +57,13 @@ public class DataIdea {
      */
     public Date mCreated;
 
+    //public String mfilePath;
+
+    public String mfileDescription;
+
+    public String mfileName;
+
+    public string mfileType;
     /**
      * Default Constructor: Create a new DataIdea with the provided id and subject/message, 
      * and a creation date based on the system clock at the time the constructor was
@@ -113,7 +120,16 @@ public class DataIdea {
         mCreated = new Date(created.getTime());
     }
 
-
+    DataIdea(int id, String fileDescription, String filePath, int userId, int likes, int comments, boolean valid, Timestamp created){
+        mId = id;
+        mSubject = fileDescription;
+        mMessage = filePath;
+        mLikes = likes;
+        mComments = comments;
+        mUserId = userId;
+        mValid = valid;
+        mCreated = new Date(created.getTime());
+    }
     /**
      * Copy constructor to create one dataidea from another
      * @param data The dataIdea you are copying from
@@ -129,4 +145,6 @@ public class DataIdea {
         mValid = data.mValid;
         mCreated = data.mCreated;
     }
+
+   
 }

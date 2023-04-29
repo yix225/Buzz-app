@@ -451,7 +451,7 @@ public class App {
                 response.status(200);
                 response.type("application/json");
                 // NB: createEntry checks for null title and message
-                int newId = db.InsertCommentFile(req.mSubject, req.mMessage, 1, idx);
+                int newId = db.InsertCommentFile(req.mMessage,1, idx, req.mSubject);
                 if (newId == -1) {
                     return gson.toJson(new StructuredResponse("error", "error performing insertion", null));
                 } 
