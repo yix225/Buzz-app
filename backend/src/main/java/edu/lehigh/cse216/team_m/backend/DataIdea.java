@@ -57,13 +57,6 @@ public class DataIdea {
      */
     public Date mCreated;
 
-    //public String mfilePath;
-
-    public String mfileDescription;
-
-    public String mfileName;
-
-    public String mfileType;
     /**
      * Default Constructor: Create a new DataIdea with the provided id and subject/message, 
      * and a creation date based on the system clock at the time the constructor was
@@ -135,4 +128,6 @@ public class DataIdea {
         mValid = data.mValid;
         mCreated = data.mCreated;
     }
+
+   
 }

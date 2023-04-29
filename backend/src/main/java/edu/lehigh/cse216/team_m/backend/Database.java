@@ -277,7 +277,7 @@ public class Database {
             db.mInsertIdea = db.mConnection.prepareStatement("INSERT INTO ideas VALUES (default, ?, ?, ?, default, default, ?, default)");
             db.mInsertComment = db.mConnection.prepareStatement("INSERT INTO comments VALUES (default, ?, ?, ?, ?, default, default, ?, default);"
                                                             + " UPDATE ideas SET comments = comments + 1 WHERE ideaid = ?");
-            db.mInsertCommentFile = db.mConnection.prepareStatement("INSERT INTO comments VALUES (default, ?, default, default, ?, ?, ?, ?)"
+            db.mInsertCommentFile = db.mConnection.prepareStatement("INSERT INTO files VALUES (default, ?, default, default, ?, ?, ?, ?)"
                                                             + "UPDATE ideas SET comments = comments + 1 WHERE ideaid = ?");
             db.mInsertLike = db.mConnection.prepareStatement("INSERT INTO likes VALUES (?, ?, ?, default)");
 

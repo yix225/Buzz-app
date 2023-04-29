@@ -15,7 +15,6 @@ public class DataComment extends DataIdea{
      */
     public final int mIdeaId;
 
-
     /**
      * Default Constructor: Create a new DataComment with the provided id, subject/message
      * and ideaId, and a creation date based on the system clock at the time the constructor 
@@ -54,7 +53,7 @@ public class DataComment extends DataIdea{
         mIdeaId = ideaId;
     }
 
- 
+
     /**
      * Copy constructor to create one datacomment from another
      * @param data The dataComment you are copying from
@@ -63,5 +62,5 @@ public class DataComment extends DataIdea{
         super(data);
         mIdeaId = data.mIdeaId;
     }
-   
+    
 }

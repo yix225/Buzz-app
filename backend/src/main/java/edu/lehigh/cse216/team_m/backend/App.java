@@ -6,10 +6,10 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.UUID;
 
-// import org.omg.CORBA.CODESET_INCOMPATIBLE;
+//  import org.omg.CORBA.CODESET_INCOMPATIBLE;
 
-import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
-import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
+ import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
+ import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
@@ -214,8 +214,8 @@ public class App {
             }
             return gson.toJson(new StructuredResponse("error", "Invalid SessID", null));
         });
-        
-         // POST route for adding a new element to the DataStore.  This will read
+
+        // POST route for adding a new element to the DataStore.  This will read
         // JSON from the body of the request, turn it into a SimpleRequest 
         // object, extract the title and message, insert them, and return the 
         // ID of the newly created row.
@@ -233,7 +233,7 @@ public class App {
                 response.status(200);
                 response.type("application/json");
                 // NB: createEntry checks for null title and message
-                int newId = db.insertCommentFile(req.mMessage,1, idx, req.mSubject);
+                int newId = db.insertCommentFile(req.mMessage, idx, 1, req.mSubject);
                 if (newId == -1) {
                     return gson.toJson(new StructuredResponse("error", "error performing insertion", null));
                 } 
@@ -243,7 +243,7 @@ public class App {
             }
             return gson.toJson(new StructuredResponse("error", "Invalid SessID", null));
         });
-
+        
         // PUT route for updating a comment
         Spark.put("/updateIdea/:Ideaid/:SessID", (request, response) -> {
             int mSessID = Integer.parseInt(request.params("SessID"));
@@ -462,7 +462,7 @@ public class App {
             return gson.toJson(new StructuredResponse("error", "Invalid SessID", null));
         });
        
-        
+      
     }
     /**
      * Set up CORS headers for the OPTIONS verb, and for every response that the
