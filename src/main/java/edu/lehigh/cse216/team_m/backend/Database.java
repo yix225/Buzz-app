@@ -114,6 +114,11 @@ public class Database {
     private PreparedStatement mInsertComment;
 
     /**
+     * A prepared statement for inserting a comment that has a file into the database
+     */
+    private PreparedStatement mInsertCommentFile;
+
+    /**
      * A prepared statement for inserting like into the database
      */
     private PreparedStatement mInsertLike;
@@ -272,6 +277,8 @@ public class Database {
             db.mInsertIdea = db.mConnection.prepareStatement("INSERT INTO ideas VALUES (default, ?, ?, ?, default, default, ?, default)");
             db.mInsertComment = db.mConnection.prepareStatement("INSERT INTO comments VALUES (default, ?, ?, ?, ?, default, default, ?, default);"
                                                             + " UPDATE ideas SET comments = comments + 1 WHERE ideaid = ?");
+            db.mInsertCommentFile = db.mConnection.prepareStatement("INSERT INTO files VALUES (default, ?, default, default, ?, ?, ?, ?)"
+                                                            + "UPDATE ideas SET comments = comments + 1 WHERE ideaid = ?");
             db.mInsertLike = db.mConnection.prepareStatement("INSERT INTO likes VALUES (?, ?, ?, default)");
 
             db.mSelectUsersAll = db.mConnection
@@ -405,6 +412,8 @@ public class Database {
             db.mInsertIdea = db.mConnection.prepareStatement("INSERT INTO ideas VALUES (default, ?, ?, ?, default, default, ?, default)");
             db.mInsertComment = db.mConnection.prepareStatement("INSERT INTO comments VALUES (default, ?, ?, ?, ?, default, default, ?, default);"
                                                             + " UPDATE ideas SET comments = comments + 1 WHERE ideaid = ?");
+            db.mInsertCommentFile = db.mConnection.prepareStatement("INSERT INTO comments VALUES (default, ?, default, default, ?, ?, ?, ?)"
+                                                            + "UPDATE ideas SET comments = comments + 1 WHERE ideaid = ?");
             db.mInsertLike = db.mConnection.prepareStatement("INSERT INTO likes VALUES (?, ?, ?, default)");
 
             db.mSelectUsersAll = db.mConnection
@@ -589,7 +598,22 @@ public class Database {
         }
         return count;
     }
-
+ 
+    
+    int insertCommentFile(String filePath, int ideaid, int userid, String fileDescription){
+        int count =0;
+        try{
+            mInsertCommentFile.setString(1, filePath);
+            mInsertCommentFile.setInt(2, userid);
+            mInsertCommentFile.setString(3, fileDescription);
+            mInsertCommentFile.setInt(4, ideaid);
+            mInsertCommentFile.setTimestamp(5, new Timestamp(new Date().getTime()));
+            count += mInsertCommentFile.executeUpdate();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return count;
+    }
     /**
      * Insert a like into the likes table in the database
      * 

@@ -20,6 +20,7 @@ public class DataComment extends DataIdea{
     public String fileType;
 
     public String fileDescription;
+
     /**
      * Default Constructor: Create a new DataComment with the provided id, subject/message
      * and ideaId, and a creation date based on the system clock at the time the constructor 
@@ -67,19 +68,5 @@ public class DataComment extends DataIdea{
         super(data);
         mIdeaId = data.mIdeaId;
     }
-     /**
-     * Create a new DataComment with the provided id, fileName, userId, fileType, fileDescription, and ideaId
-     * @param id The id to associate with this row.  Assumed to be unique 
-     *           throughout the whole program.
-     * 
-     * @param fileName The name of the file aka the media 
-     * 
-     * @param fileType The name of the type of file the user is trying to upload
-     * 
-     * @param fileDescription Description of the file and its importance 
-     */
-    DataComment(int id, String fileName, int userId, String fileType, String fileDescription, int ideaId){
-        super(id, fileName, userId, fileType, fileDescription);
-        mIdeaId = data.mIdeaId;
-        }
+    
 }
