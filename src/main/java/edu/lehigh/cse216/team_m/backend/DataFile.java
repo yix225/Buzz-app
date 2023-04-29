@@ -19,7 +19,7 @@ public class DataFile extends DataIdea {
     /**
      * Copy constructor to create one datacomment from another
      * 
-     * @param data The dataComment you are copying from
+     * @param data The dataComment you are copying from d
      */
     DataFile(DataFile data) {
         super(data);
