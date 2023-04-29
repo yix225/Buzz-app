@@ -12,13 +12,6 @@ class UserData extends ChangeNotifier {
   final GoogleSignIn _googleSignIn = GoogleSignIn(
     clientId:
         "926558226206-ppmn3bk4ckvrtaq6hun9kpi034sde366.apps.googleusercontent.com",
-    // redirectUrl(),
-    // issuer: GOOGLE_ISSUER,
-    //tmessi2023@gmail.com
-    /*  scopes: [
-      'https://www.googleapis.com/auth/userinfo.email',
-      'https://www.googleapis.com/auth/userinfo.profile'
-    ], */
   );
   User? get user => _user;
 
@@ -29,10 +22,6 @@ class UserData extends ChangeNotifier {
     //notifyListeners(); // check the any change
   }
 
-  // String? get userName => _user != null ? _user!.name : '';
-  // String? get userEmail => _user != null ? _user!.email : '';
-  // String? get userIdentity => _user != null ? _user!.identity : '';
-  // String? get userSexOri => _user != null ? _user!.sexOri : '';
   ImageProvider get userAvatar => _user != null
       ? _user!.avatarUrl != ''
           ? NetworkImage(_user!.avatarUrl) as ImageProvider
@@ -70,47 +59,47 @@ class UserData extends ChangeNotifier {
     final String accessToken = googleAuth.accessToken ?? '';
     if (googleAuth.idToken != null) {
       print(googleAuth.idToken);
-      final response = await http.post(
-        Uri.parse('https://2023sp-team-m.dokku.cse.lehigh.edu/login'),
-        body: {
-          'idToken': googleAuth.idToken,
-        },
-      );
-      //print("yes3");
-      // final sessId = await http
-      //     .get(Uri.parse('https://2023sp-team-m.dokku.cse.lehigh.edu/login'));
-      //print(response.body);
-      //print(jsonDecode(response.body));
-      print(response.statusCode);
-      final sessId = response.body;
-      if (response.statusCode == 500) {
-        // Get the user's profile information
-        final googleUser = await _googleSignIn.signInSilently();
-
-        if (googleUser != null) {
-          print("yes4");
-          saveUser(User(
-              avatarUrl: '',
-              token: '',
-              email: '',
-              name: '',
-              identity: '',
-              sexOri: '',
-              id: 0,
-              description: '')
-            ..email = googleUser.email
-            ..name = googleUser.displayName ?? ''
-            ..avatarUrl = googleUser.photoUrl?.split('=')[0] ?? ''
-            ..sexOri = ''
-            ..identity = ''
-            ..token = "_googleUser"
-            ..id = 0); // store user basic data
-          print("yes3");
-          return googleUser;
+      try {
+        final response = await http.post(
+          Uri.parse('https://2023sp-team-m.dokku.cse.lehigh.edu/login'),
+          body: googleAuth.idToken,
+        );
+        print(response.statusCode);
+        print(response.body);
+        print(jsonDecode(response.body));
+        print(response.body);
+        final sessId = response.body;
+        print(sessId);
+        if (response.statusCode == 500) {
+          // Get the user's profile information
+          final googleUser = await _googleSignIn.signInSilently();
+          if (googleUser != null) {
+            print("yes4");
+            saveUser(User(
+                avatarUrl: '',
+                token: '',
+                email: '',
+                name: '',
+                identity: '',
+                sexOri: '',
+                id: 0,
+                description: '')
+              ..email = googleUser.email
+              ..name = googleUser.displayName ?? ''
+              ..avatarUrl = googleUser.photoUrl?.split('=')[0] ?? ''
+              ..sexOri = ''
+              ..identity = ''
+              ..token = "_googleUser"
+              ..id = 0); // store user basic data
+            print("yes3");
+            return googleUser;
+          }
+        } else {
+          // Authentication failed, return null
+          return null;
         }
-      } else {
-        // Authentication failed, return null
-        return null;
+      } catch (e) {
+        print(e);
       }
     }
     print("hello2");

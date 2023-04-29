@@ -36,7 +36,6 @@ class mLine {
   int mLikes;
   int mComments;
   final int mUserId;
-  //final bool mValid;
   final String mCreated;
   mLine({
     required this.mId,
@@ -45,7 +44,6 @@ class mLine {
     required this.mLikes,
     required this.mComments,
     required this.mUserId,
-    //required this.mValid,
     required this.mCreated,
   });
 
@@ -57,7 +55,6 @@ class mLine {
       mLikes: json['mLikes'],
       mComments: json['mComments'],
       mUserId: json['mUserId'],
-      //mValid: json['mVlid'],
       mCreated: json['mCreated'],
     );
   }
@@ -72,7 +69,6 @@ class mLine {
       'mLikes': this.mLikes,
       'mComments': this.mComments,
       'mUserId': this.mUserId,
-      //'mValid': this.mValid,
       'mCreated': this.mCreated
     };
     print(jsonEncode(data));
@@ -100,7 +96,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.deepPurple,
       ),
-      home: const MyHomePage(title: 'Team M Flutter App'),
+      home: const MyHomePage(title: 'The Buzz'),
       routes: {
         '/insert': (context) => insert_message(),
         '/mymessage': (context) => message(),
@@ -205,32 +201,28 @@ class _HttpReqWordsState extends State<HttpReqWords> {
                       children: <Widget>[
                         ListTile(
                           title: Text(
-                            "${snapshot.data![i].mMessage} | Like:${snapshot.data![i].mLikes}",
+                            "${snapshot.data![i].mUserId}\n"
+                            "${snapshot.data![i].mSubject}",
                             style: _biggerFont,
                           ),
-                          trailing: ElevatedButton(
-                            onPressed: () {
-                              //updateLikes(snapshot.data![i].mId);
-                              //_retry();
-                              List<String> myarg = [];
-                              myarg.add((snapshot.data![i].mId).toString());
-                              myarg
-                                  .add((snapshot.data![i].mSubject).toString());
-                              myarg
-                                  .add((snapshot.data![i].mMessage).toString());
-                              myarg.add((snapshot.data![i].mLikes).toString());
-                              myarg
-                                  .add((snapshot.data![i].mCreated).toString());
-                              Navigator.pushNamed(
-                                context,
-                                '/mymessage',
-                                arguments: myarg,
-                              );
-                            },
-                            child: Text('>>'),
-                          ),
+                          trailing: Text("\n${snapshot.data![i].mCreated}\n"
+                              "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tLikes:${snapshot.data![i].mLikes}\n"),
+                          subtitle: Text("${snapshot.data![i].mMessage}"),
+                          onTap: () {
+                            List<String> myarg = [];
+                            myarg.add((snapshot.data![i].mUserId).toString());
+                            myarg.add((snapshot.data![i].mSubject).toString());
+                            myarg.add((snapshot.data![i].mCreated).toString());
+                            myarg.add((snapshot.data![i].mLikes).toString());
+                            myarg.add((snapshot.data![i].mMessage).toString());
+                            Navigator.pushNamed(
+                              context,
+                              '/mymessage',
+                              arguments: myarg,
+                            );
+                          },
                         ),
-                        Divider(height: 1.0),
+                        Divider(height: 2.0),
                       ],
                     );
                   },

@@ -69,9 +69,14 @@ class message extends StatelessWidget {
                 },
                 child: ListTile(
                   title: Text(
-                    "id = ${message[0]}\nSubject = ${message[1]}\nMessage = ${message[2]}\nLikes = ${message[3]}\nCreated = ${message[4]}\n",
-                    style: TextStyle(fontSize: 18),
-                  ),
+                            "${message[0]}\n"
+                            "${message[1]}", 
+                            style: TextStyle(fontSize: 18),
+                          ),
+                          trailing: Text(
+                            "\n${message[2]}\n"
+                            "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tLikes:${message[3]}\n"),
+                          subtitle: Text("${message[4]}"),
                 ),
               ),
             ),
