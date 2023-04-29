@@ -434,6 +434,35 @@ public class App {
         });
        
     }
+     // POST route for adding a new element to the DataStore.  This will read
+        // JSON from the body of the request, turn it into a SimpleRequest 
+        // object, extract the title and message, insert them, and return the 
+        // ID of the newly created row.
+        Spark.post("/insertComment/:IdeaId/:MediaLink", (request, response) -> {
+            int mSessID = Integer.parseInt(request.params("MediaLink"));
+            if(userSessPair.containsKey(mSessID))
+            {
+                // NB: if gson.Json fails, Spark will reply with status 500 Internal 
+                // Server Error
+                SimpleRequest req = gson.fromJson(request.body(), SimpleRequest.class);
+                // ensure status 200 OK, with a MIME type of JSON
+                // NB: even on error, we return 200, but with a JSON object that
+                //     describes the error.
+                int idx = Integer.parseInt(request.params("Ideaid"));
+                response.status(200);
+                response.type("application/json");
+                // NB: createEntry checks for null title and message
+                int newId = db.InsertCommentFile(req.mSubject, req.mMessage, 1, idx);
+                if (newId == -1) {
+                    return gson.toJson(new StructuredResponse("error", "error performing insertion", null));
+                } 
+                else {
+                    return gson.toJson(new StructuredResponse("ok", "" + newId, null));
+                }
+            }
+            return gson.toJson(new StructuredResponse("error", "Invalid SessID", null));
+        });
+    }
     /**
      * Set up CORS headers for the OPTIONS verb, and for every response that the
      * server sends. This only needs to be called once.
