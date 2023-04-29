@@ -9,8 +9,17 @@ public class DataFile extends DataIdea {
      */
     public final int mIdeaId;
   
-    DataFile(int id, String filePath, String fileName, String fileType, int userId, String fileDescription, int ideaId){
-        super(id,filePath,fileName,fileType,userId,fileDescription);
+    DataFile(int id, String fileDescription, String filePath, int userId, int likes, int comments, boolean valid, int ideaId, Timestamp created) {
+        super(id, fileDescription, filePath, userId, likes, comments, valid, created);
         mIdeaId = ideaId;
+    }
+
+      /**
+     * Copy constructor to create one datacomment from another
+     * @param data The dataComment you are copying from
+     */
+    DataFile(DataFile data) {
+        super(data);
+        mIdeaId = data.mIdeaId;
     }
 }
