@@ -75,9 +75,11 @@ Future<String?> updateProfile(String? gen, String? sex, String? note, int sessId
     'oriSex': sex,
     'description': note,
   };
-  final response = await http.post(
-    
-  )
+  final response = await http.put(
+    Uri.parse('http://10.0.2.2:8998/profile')
+    headers: headers,
+    body: jsonEncode
+  );
 }
 
 Future<String?> addSexOri(String? sexOri, int sessId) async {
