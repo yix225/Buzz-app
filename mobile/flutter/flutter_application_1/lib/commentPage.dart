@@ -49,7 +49,7 @@ class _commentPageState extends State<commentPage> {
             ElevatedButton(
               onPressed: () {
                 String input = CommentTextControl.text;
-                add_comment(input, widget.mid);
+                //add_comment(input, widget.mid);
                 Navigator.pushNamed(context, '/');
               },
               child: const Text('Add'),
@@ -81,6 +81,6 @@ class _commentPageState extends State<commentPage> {
   }
 }
 
-void add_comment(String input, String mId) {
+void add_comment(String input, int mId) {
   addComment(input, mId);
 }
