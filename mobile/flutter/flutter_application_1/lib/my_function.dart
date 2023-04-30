@@ -76,10 +76,13 @@ Future<String?> updateProfile(String? gen, String? sex, String? note, int sessId
     'description': note,
   };
   final response = await http.put(
-    Uri.parse('http://10.0.2.2:8998/profile')
+    Uri.parse('http://10.0.2.2:8998/profile/:${sessId}'),
     headers: headers,
-    body: jsonEncode
+    body: jsonEncode(payload),
   );
+   if (response.statusCode != 200) {
+    throw Exception('Failed to update profile.');
+  }
 }
 
 Future<String?> addSexOri(String? sexOri, int sessId) async {
