@@ -122,24 +122,6 @@ class UserData extends ChangeNotifier {
         ..token = "_googleUser"); // store user basic data
       return _googleUser;
     }
-
-    // print("hello");
-    // // Attempts to sign in a previously authenticated user without interaction.
-    // _googleUser = await _googleSignIn.signIn();
-    // _googleUser.authentication
-    // print("hello2");
-    // _googleUser ??= await _googleSignIn
-    //     .signIn(); // if the previous work successfully, we will not use that one
-    // if (_googleUser != null) {
-    //   saveUser(User()
-    //     ..email = _googleUser!.email
-    //     ..name = _googleUser!.displayName ?? ''
-    //     ..avatarUrl = _googleUser!.photoUrl?.split('=')[0] ?? ''
-    //     ..sexOri = ''
-    //     ..identity = ''
-    //     ..token = "_googleUser"); // store user basic data
-    //   return _googleUser;
-    // }
   }
 
   Future<void> googleSignOut() async {
