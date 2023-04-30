@@ -174,7 +174,7 @@ class message extends StatelessWidget {
 Future<List<mLine>> fetchmLines() async {
   //print("1");
   final response = await http
-      .get(Uri.parse('https://2023sp-team-m.dokku.cse.lehigh.edu/GetComments'));
+      .get(Uri.parse('https:local/GetComments'));
   if (response.statusCode == 200) {
     final List<mLine> returnData;
     var res = jsonDecode(response.body);
@@ -199,7 +199,7 @@ Future<List<mLine>> fetchmLines() async {
 
 Future<List<Comment>> fetchComment() async {
   final response =
-      await http.get(Uri.parse('http://2023sp-team-m.dokku.cse.lehigh.edu/'));
+      await http.get(Uri.parse('http://10.0.2.2:8998/'));
   if (response.statusCode == 200) {
     final List<Comment> returnComment;
     var res = jsonDecode(response.body);
@@ -221,14 +221,5 @@ Future<List<Comment>> fetchComment() async {
     // If the server did not return a 200 OK response,
     // then throw an exception.
     throw Exception('Did not receive success status code from request.');
-  }
-}
-
-class MyHttpOverrides extends HttpOverrides {
-  @override
-  HttpClient createHttpClient(SecurityContext? context) {
-    return super.createHttpClient(context)
-      ..badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
   }
 }
