@@ -19,7 +19,7 @@ void addMessage(String mySubject, String myMessage) async {
     'mCreated': currentTime
   };
   final response = await http.post(
-    Uri.parse('http://2023sp-team-m.dokku.cse.lehigh.edu/insertIdea'),
+    Uri.parse('http://10.0.2.2:8998/insertIdea'),
     headers: headers,
     body: jsonEncode(payload),
   );
