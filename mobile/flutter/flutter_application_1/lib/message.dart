@@ -15,7 +15,6 @@ import 'commentList.dart';
 import 'commentPage.dart';
 // import 'commentList.dart';
 
-
 class mLine {
   final int mId;
   String mMessage;
@@ -53,12 +52,42 @@ class mLine {
   }
 }
 
+class HttpReqWords extends StatefulWidget {
+  const HttpReqWords({Key? key}) : super(key: key);
 
-
-class message extends StatelessWidget {
   @override
+  State<HttpReqWords> createState() => _HttpReqWordsState();
+}
+
+class _HttpReqWordsState extends State<HttpReqWords> {
+  late Future<List<mLine>> _future_list_numword_pairs;
   late Timer _timer;
-  late final Comment _comment;
+
+  final _biggerFont = const TextStyle(fontSize: 18);
+
+  @override
+  void initState() {
+    super.initState();
+    Timer _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        _future_list_numword_pairs = fetchmLines(context);
+      });
+    });
+  }
+
+  void _retry() {
+    setState(() {
+      _future_list_numword_pairs = fetchmLines(context);
+    });
+  }
+
+  void reload() {
+    setState(() {});
+  }
+
+  final TextEditingController _controller = TextEditingController();
+
+  @override
   bool _isButtonPressed = false;
 
   void _onButtonPressed(int mid) {
@@ -72,109 +101,204 @@ class message extends StatelessWidget {
     print('You unlike this message');
   }
 
+   @override
   Widget build(BuildContext context) {
-    final List<String> message =
-        ModalRoute.of(context)!.settings.arguments as List<String>;
-    final List<String> comment =
-        ModalRoute.of(context)!.settings.arguments as List<String>;
+    var fb = FutureBuilder<List<mLine>>(
+        future: _future_list_numword_pairs,
+        builder: (BuildContext context, AsyncSnapshot<List<mLine>> snapshot) {
+          final List<String> message =
+                ModalRoute.of(context)!.settings.arguments as List<String>;
+          Widget child;
+          if(snapshot.hasData){
+            child = Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Tooltip(
+                    message: message[0],
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => UserInfoScreen()),
+                        );
+                      },
+                      child: ListTile(
+                        title: Text(
+                          "${message[1]}\n"
+                          "${message[2]}",
+                          style: TextStyle(fontSize: 18),
+                        ),
+                        trailing: Text("\n${message[3]}\n"
+                            "\t\t\t\t\t\t\tLikes:${message[4]}\t\tComments:${message[5]}\n"),
+                        subtitle: Text("${message[6]}"),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                      padding: const EdgeInsets.all(16.0),
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (context, i){
+                        return Column(
+                          children: <Widget>[
+                            ListTile(
+                              title: Text(
+                                "${snapshot.data![i].mUserId}\n"
+                              ),
+                              trailing: Text("\n${snapshot.data![i].mCreated}\n"
+                                  "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tLikes:${snapshot.data![i].mLikes}\n"),
+                              subtitle: Text("${snapshot.data![i].mMessage}")
+                            )
+                          ],
+                        );
+                      },
+                    )
+                  ),
+                  // Center(
+                  //   child: ElevatedButton.icon(
+                  //     icon: SizedBox(
+                  //       width: 20,
+                  //       height: 20,
+                  //       child: Image.asset('images/upvote.png'),
+                  //     ),
+                  //     onPressed: () {
+                  //       _onButtonPressed(int.parse(message[0]));
+                  //     },
+                  //     label: const Text('upvote'),
+                  //     //child: Text('Up vote'),
+
+                  //     //child: Image.asset('images/upvote.png'),
+                  //   ),
+                  // ),
+                  // Center(
+                  //   child: ElevatedButton.icon(
+                  //     icon: SizedBox(
+                  //       width: 20,
+                  //       height: 20,
+                  //       child: Image.asset('images/downvote.png'),
+                  //     ),
+                  //     onPressed: () {
+                  //       _onButtonPressed2(int.parse(message[0]));
+                  //     },
+                  //     label: const Text('downvote'),
+                  //     //child: Text('Down Vote'),
+                  //     //child: Image.asset('images/downvote.png'),
+                  //   ),
+                  // ),
+                  // Center(
+                  //   child: ElevatedButton(
+                  //     onPressed: () {
+                  //       Navigator.of(context).pushReplacement(
+                  //           // go to the profile page
+                  //           MaterialPageRoute(
+                  //               builder: (context) =>
+                  //                   commentPage(mid: message[0])));
+                  //       //_onButtonPressed(int.parse(message[0]));
+                  //     },
+                  //     child: Text('add the comment'),
+                  //   ),
+                  // ),
+                  // Center(
+                  //   child: ElevatedButton(
+                  //     onPressed: () {
+                  //       Navigator.of(context).pushReplacement(
+                  //           // go to the profile page
+                  //           MaterialPageRoute(
+                  //               builder: (context) => commentList()));
+                  //       //_onButtonPressed(int.parse(message[0]));
+                  //     },
+                  //     child: Text('Comments List'),
+                  //   ),
+                  // ),
+                ],
+              );
+            } else{
+              child = Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Tooltip(
+                    message: message[0],
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => UserInfoScreen()),
+                        );
+                      },
+                      child: ListTile(
+                        title: Text(
+                          "${message[1]}\n"
+                          "${message[2]}",
+                          style: TextStyle(fontSize: 18),
+                        ),
+                        trailing: Text("\n${message[3]}\n"
+                            "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tLikes:${message[4]}\n"),
+                        subtitle: Text("${message[5]}"),
+                      ),
+                    ),
+                  ),
+                  Center(
+                    child: ListTile(
+                      title: Text(
+                          "No Comments :/"
+                      )
+                    )
+                  )
+                ],
+              );
+            }
+          return child;       
+        }  
+      );
+    return fb;
+  }
+}
+
+class message extends StatefulWidget {
+  // This widget is the home page of your application. It is stateful, meaning
+  // that it has a State object (defined below) that contains fields that affect
+  // how it looks.
+
+  // This class is the configuration for the state. It holds the values (in this
+  // case the title) provided by the parent (in this case the App widget) and
+  // used by the build method of the State. Fields in a Widget subclass are
+  // always marked "final".
+  @override
+  State<message> createState() => _messagestate();
+}
+
+class _messagestate extends State<message> {
+  @override
+  Widget build(BuildContext context) {
+    // This method is rerun every time setState is called
+    //
+    // The Flutter framework has been optimized to make rerunning build methods
+    // fast, so that you can just rebuild anything that needs updating rather
+    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        title: Text('Message Info'),
-      ),
-      body: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Tooltip(
-              message: message[0],
-              child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => UserInfoScreen()),
-                  );
-                },
-                child: ListTile(
-                  title: Text(
-                            "${message[0]}\n"
-                            "${message[1]}", 
-                            style: TextStyle(fontSize: 18),
-                          ),
-                          trailing: Text(
-                            "\n${message[2]}\n"
-                            "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tLikes:${message[3]}\n"),
-                          subtitle: Text("${message[4]}"),
-                          
-                ),
-              ),
+              title: Text('Message Info'),
             ),
-            Center(
-              child: ElevatedButton.icon(
-                icon: SizedBox(
-                  width: 20,
-                  height: 20,
-                  child: Image.asset('images/upvote.png'),
-                ),
-                onPressed: () {
-                  _onButtonPressed(int.parse(message[0]));
-                },
-                label: const Text('upvote'),
-                //child: Text('Up vote'),
-
-                //child: Image.asset('images/upvote.png'),
-              ),
-            ),
-            Center(
-              child: ElevatedButton.icon(
-                icon: SizedBox(
-                  width: 20,
-                  height: 20,
-                  child: Image.asset('images/downvote.png'),
-                ),
-                onPressed: () {
-                  _onButtonPressed2(int.parse(message[0]));
-                },
-                label: const Text('downvote'),
-                //child: Text('Down Vote'),
-                //child: Image.asset('images/downvote.png'),
-              ),
-            ),
-            Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pushReplacement(
-                      // go to the profile page
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              commentPage(mid: message[0] as String)));
-                  //_onButtonPressed(int.parse(message[0]));
-                },
-                child: Text('add the comment'),
-              ),
-            ),
-            Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pushReplacement(
-                      // go to the profile page
-                      MaterialPageRoute(builder: (context) => commentList()));
-                  //_onButtonPressed(int.parse(message[0]));
-                },
-                child: Text('Comments List'),
-              ),
-            ),
-          ],
-        ),
-      ),
+      body: const Center(
+        // Center is a layout widget. It takes a single child and positions it
+        // in the middle of the parent.
+        child: HttpReqWords(),
+      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
 
 
-Future<List<mLine>> fetchmLines() async {
+
+Future<List<mLine>> fetchmLines(BuildContext context) async {
   //print("1");
+  final List<String> message =
+      ModalRoute.of(context)!.settings.arguments as List<String>;
   final response = await http
-      .get(Uri.parse('https:local/GetComments'));
+      .get(Uri.parse('http://10.0.2.2:8998/GetComment/${message[0]}'));
+  
   if (response.statusCode == 200) {
     final List<mLine> returnData;
     var res = jsonDecode(response.body);
@@ -190,33 +314,6 @@ Future<List<mLine>> fetchmLines() async {
       returnData = List.empty();
     }
     return returnData;
-  } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
-    throw Exception('Did not receive success status code from request.');
-  }
-}
-
-Future<List<Comment>> fetchComment() async {
-  final response =
-      await http.get(Uri.parse('http://10.0.2.2:8998/'));
-  if (response.statusCode == 200) {
-    final List<Comment> returnComment;
-    var res = jsonDecode(response.body);
-    List<dynamic> mData = res['mData'];
-    // ignore: unnecessary_type_check
-    if (mData is List) {
-      returnComment = (mData).map((x) => Comment.fromJson(x)).toList();
-    } else if (mData is Map) {
-      returnComment = <Comment>[
-        Comment.fromJson(mData as Map<String, dynamic>)
-      ];
-    } else {
-      developer
-          .log('ERROR: Unexpected json response type (was not a List or Map).');
-      returnComment = List.empty();
-    }
-    return returnComment;
   } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.

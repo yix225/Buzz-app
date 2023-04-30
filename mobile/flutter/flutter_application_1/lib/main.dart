@@ -206,14 +206,16 @@ class _HttpReqWordsState extends State<HttpReqWords> {
                             style: _biggerFont,
                           ),
                           trailing: Text("\n${snapshot.data![i].mCreated}\n"
-                              "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tLikes:${snapshot.data![i].mLikes}\n"),
+                              "\t\t\t\t\t\t\tLikes:${snapshot.data![i].mLikes}\t\tComments:${snapshot.data![i].mComments}\n"),
                           subtitle: Text("${snapshot.data![i].mMessage}"),
                           onTap: () {
                             List<String> myarg = [];
+                            myarg.add((snapshot.data![i].mId).toString());
                             myarg.add((snapshot.data![i].mUserId).toString());
                             myarg.add((snapshot.data![i].mSubject).toString());
                             myarg.add((snapshot.data![i].mCreated).toString());
                             myarg.add((snapshot.data![i].mLikes).toString());
+                            myarg.add((snapshot.data![i].mComments).toString());
                             myarg.add((snapshot.data![i].mMessage).toString());
                             Navigator.pushNamed(
                               context,
@@ -246,8 +248,6 @@ class _HttpReqWordsState extends State<HttpReqWords> {
           // newly added
           child = Text('${snapshot.error}');
         } else {
-          // awaiting snapshot data, return simple text widget
-          // child = Text('Calculating answer...');
           child = const CircularProgressIndicator(); //show a loading spinner.
         }
         return child;
@@ -259,11 +259,9 @@ class _HttpReqWordsState extends State<HttpReqWords> {
 }
 
 Future<List<mLine>> fetchmLines() async {
-  //print("1");
   final response = await http
       .get(Uri.parse('http://10.0.2.2:8998/GetAllIdea'));
-  // print(response.statusCode);
-  // print(response.body);
+  
   if (response.statusCode == 200) {
     final List<mLine> returnData;
     var res = jsonDecode(response.body);
@@ -279,33 +277,6 @@ Future<List<mLine>> fetchmLines() async {
       returnData = List.empty();
     }
     return returnData;
-  } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
-    throw Exception('Did not receive success status code from request.');
-  }
-}
-
-Future<List<Comment>> fetchComment() async {
-  final response =
-      await http.get(Uri.parse('http://10.0.2.2:8998/'));
-  if (response.statusCode == 200) {
-    final List<Comment> returnComment;
-    var res = jsonDecode(response.body);
-    List<dynamic> mData = res['mData'];
-    // ignore: unnecessary_type_check
-    if (mData is List) {
-      returnComment = (mData).map((x) => Comment.fromJson(x)).toList();
-    } else if (mData is Map) {
-      returnComment = <Comment>[
-        Comment.fromJson(mData as Map<String, dynamic>)
-      ];
-    } else {
-      developer
-          .log('ERROR: Unexpected json response type (was not a List or Map).');
-      returnComment = List.empty();
-    }
-    return returnComment;
   } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.
