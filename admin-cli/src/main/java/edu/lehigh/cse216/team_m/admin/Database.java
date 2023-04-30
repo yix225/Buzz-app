@@ -52,7 +52,6 @@ public class Database {
      */
     private PreparedStatement mSelectCommentsValid;
 
-
     /**
      * A prepared statement for getting one user row from the database
      */
@@ -92,7 +91,7 @@ public class Database {
      * A prepared statement for deleting a idea row from the database
      */
     private PreparedStatement mDeleteIdea;
-    
+
     /**
      * A prepared statement for deleting a comment row from the database
      */
@@ -131,25 +130,29 @@ public class Database {
     /**
      * A prepared statement for updating a single comment row in the database
      */
-    private PreparedStatement mUpdateComment;  
+    private PreparedStatement mUpdateComment;
 
     /**
-     * A prepared statement for incrementing like on a single idea row in the database
+     * A prepared statement for incrementing like on a single idea row in the
+     * database
      */
     private PreparedStatement mLikeIdea;
 
     /**
-     * A prepared statement for incrementing like on a single comment row in the database
+     * A prepared statement for incrementing like on a single comment row in the
+     * database
      */
     private PreparedStatement mLikeComment;
 
     /**
-     * A prepared statement for decrementing like on a single idea row in the database
+     * A prepared statement for decrementing like on a single idea row in the
+     * database
      */
     private PreparedStatement mUnlikeIdea;
 
     /**
-     * A prepared statement for decrementing like on a single comment row in the database
+     * A prepared statement for decrementing like on a single comment row in the
+     * database
      */
     private PreparedStatement mUnlikeComment;
 
@@ -162,12 +165,12 @@ public class Database {
      * A prepared statement for toggling valid on a single idea row in the database
      */
     private PreparedStatement mToggleIdea;
-    
+
     /**
-     * A prepared statement for toggling valid on a single comment row in the database
+     * A prepared statement for toggling valid on a single comment row in the
+     * database
      */
     private PreparedStatement mToggleComment;
-
 
     /**
      * A prepared statement for creating all the table in our database
@@ -178,6 +181,18 @@ public class Database {
      * A prepared statement for dropping all the tables in our database
      */
     private PreparedStatement mDropAll;
+
+    /**
+     * A prepared statement for inserting files in our database
+     */
+    private PreparedStatement mInsertFile;
+    private PreparedStatement mSelectAllFiles;
+    private PreparedStatement mSelectFilesValid;
+    private PreparedStatement mviewFiles;
+    private PreparedStatement mselectFiles;
+    private PreparedStatement mdeleteFile;
+    private PreparedStatement mAlterTablesAdd;
+    private PreparedStatement mAlterTablesDelete;
 
     /**
      * RowData is like a struct in C: we use it to hold data, and we allow
@@ -201,7 +216,8 @@ public class Database {
      * Get a fully-configured connection to the database
      * 
      * @param ip   The IP address of the database server
-     * @param port The port on the database server to which connection requests should be sent
+     * @param port The port on the database server to which connection requests
+     *             should be sent
      * @param user The user ID to use when connecting
      * @param pass The password to use when connecting
      * 
@@ -237,83 +253,129 @@ public class Database {
             // creation/deletion, so multiple executions will cause an exception
             db.mCreateTables = db.mConnection
                     .prepareStatement("CREATE TABLE users (userid SERIAL PRIMARY KEY, name VARCHAR(50) NOT NULL,"
-                                + " email VARCHAR(250) NOT NULL, genderidentity VARCHAR(200) NOT NULL, sexualorientation VARCHAR(200)"
-                                + " NOT NULL, note VARCHAR(500) NOT NULL, creationdate TIMESTAMP NOT NULL, valid boolean DEFAULT TRUE NOT NULL);"
-                                
-                                + " CREATE TABLE ideas (ideaid SERIAL PRIMARY KEY, subject VARCHAR(50) NOT NULL,"
-                                + " message VARCHAR(500) NOT NULL, userid int NOT NULL, likes int DEFAULT 0 NOT NULL,"
-                                + " comments int DEFAULT 0 NOT NULL, creationdate TIMESTAMP NOT NULL,  valid boolean DEFAULT"
-                                + " TRUE NOT NULL, FOREIGN KEY(userid) REFERENCES users(userid));"
-            
-                                + " CREATE TABLE comments (commentid SERIAL PRIMARY KEY, subject VARCHAR(50) NOT NULL,"
-                                + " message VARCHAR(500) NOT NULL, userid int NOT NULL, ideaid int NOT NULL, likes int"
-                                + " DEFAULT 0 NOT NULL, comments int DEFAULT 0 NOT NULL, creationdate TIMESTAMP NOT NULL,"
-                                + " valid boolean DEFAULT TRUE NOT NULL, FOREIGN KEY(userid) REFERENCES users(userid),"
-                                + " FOREIGN KEY(ideaid) REFERENCES ideas(ideaid));"
+                            + " email VARCHAR(250) NOT NULL, genderidentity VARCHAR(200) NOT NULL, sexualorientation VARCHAR(200)"
+                            + " NOT NULL, note VARCHAR(500) NOT NULL, creationdate TIMESTAMP NOT NULL, valid boolean DEFAULT TRUE NOT NULL);"
 
-                                + " CREATE TABLE likes (ideaid int NOT NULL, commentid int DEFAULT NULL, userid int NOT NULL, Status int DEFAULT 0 NOT NULL,"
-                                + " FOREIGN KEY(ideaid) REFERENCES ideas(ideaid),"
-                                + " FOREIGN KEY(userid) REFERENCES users(userid),"
-                                + " FOREIGN KEY(commentid) REFERENCES comments(commentid))");
-            
-            db.mDropAll = db.mConnection.prepareStatement("DROP TABLE users, ideas, comments, likes");
+                            + " CREATE TABLE ideas (ideaid SERIAL PRIMARY KEY, subject VARCHAR(50) NOT NULL,"
+                            + " message VARCHAR(500) NOT NULL, userid int NOT NULL, likes int DEFAULT 0 NOT NULL,"
+                            + " comments int DEFAULT 0 NOT NULL, creationdate TIMESTAMP NOT NULL,  valid boolean DEFAULT"
+                            + " TRUE NOT NULL, FOREIGN KEY(userid) REFERENCES users(userid));"
+
+                            + " CREATE TABLE comments (commentid SERIAL PRIMARY KEY, subject VARCHAR(50) NOT NULL,"
+                            + " message VARCHAR(500) NOT NULL, userid int NOT NULL, ideaid int NOT NULL, likes int"
+                            + " DEFAULT 0 NOT NULL, comments int DEFAULT 0 NOT NULL, creationdate TIMESTAMP NOT NULL,"
+                            + " valid boolean DEFAULT TRUE NOT NULL, FOREIGN KEY(userid) REFERENCES users(userid),"
+                            + " FOREIGN KEY(ideaid) REFERENCES ideas(ideaid));"
+
+                            + " CREATE TABLE likes (ideaid int NOT NULL, commentid int DEFAULT NULL, userid int NOT NULL, Status int DEFAULT 0 NOT NULL,"
+                            + " FOREIGN KEY(ideaid) REFERENCES ideas(ideaid),"
+                            + " FOREIGN KEY(userid) REFERENCES users(userid),"
+                            + " FOREIGN KEY(commentid) REFERENCES comments(commentid))"
+
+                            + "CREATE TABLE files (fileid SERIAL PRIMARY KEY, filedescription VARCHAR(200) NOT NULL, filepath VARCHAR(200) NOT NULL, userid int NOT NULL, ideaid int NOT NULL, likes int DEFAULT 0 NOT NULL, comments int DEFAULT 0 NOT NULL, created TIMESTAMP NOT NULL, valid boolean DEFAULT TRUE NOT NULL, FOREIGN KEY(userid) REFERENCES users(userid), FOREIGN KEY(ideaid) REFERENCES ideas(ideaid)"
+
+                    );
+
+            db.mDropAll = db.mConnection.prepareStatement("DROP TABLE users, ideas, comments, likes, files");
+
+           // db.mAlterTablesAdd = db.mConnection.prepareStatement("ALTER TABLE ? ADD COLUMN ? VARCHAR(255)");
+
+           // db.mAlterTablesDelete = db.mConnection.prepareStatement("ALTER TABLE ?,  DROP COLUMN ?");
 
             // Standard CRUD operations
-            db.mDeleteUser = db.mConnection.prepareStatement("DELETE FROM users WHERE userid = ?; DELETE FROM ideas WHERE userid = ?;"
-                                                            + " DELETE FROM comments WHERE userid = ?; DELETE FROM likes WHERE userid = ?");
-            db.mDeleteIdea = db.mConnection.prepareStatement("DELETE FROM ideas WHERE ideaid = ?; DELETE FROM comments WHERE ideaid = ?;"
-                                                            + " DELETE FROM likes WHERE ideaid = ?");
-            db.mDeleteComment = db.mConnection.prepareStatement("DELETE FROM comments WHERE ideaid = ? AND commentid = ?;"
-                                                            + "DELETE FROM likes WHERE ideaid = ? AND commentid = ?;"
-                                                            + "UPDATE ideas SET comments = comments -1 WHERE ideaid = ?");
-            
-            db.mInsertUser = db.mConnection.prepareStatement("INSERT INTO users VALUES (default, ?, ?, ?, ?, ?, ?, default)");
-            db.mInsertIdea = db.mConnection.prepareStatement("INSERT INTO ideas VALUES (default, ?, ?, ?, default, default, ?, default)");
-            db.mInsertComment = db.mConnection.prepareStatement("INSERT INTO comments VALUES (default, ?, ?, ?, ?, default, default, ?, default);"
-                                                            + " UPDATE ideas SET comments = comments + 1 WHERE ideaid = ?");
+            db.mDeleteUser = db.mConnection
+                    .prepareStatement("DELETE FROM users WHERE userid = ?; DELETE FROM ideas WHERE userid = ?;"
+                            + " DELETE FROM comments WHERE userid = ?; DELETE FROM likes WHERE userid = ?");
+            db.mDeleteIdea = db.mConnection
+                    .prepareStatement("DELETE FROM ideas WHERE ideaid = ?; DELETE FROM comments WHERE ideaid = ?;"
+                            + " DELETE FROM likes WHERE ideaid = ?");
+            db.mDeleteComment = db.mConnection
+                    .prepareStatement("DELETE FROM comments WHERE ideaid = ? AND commentid = ?;"
+                            + "DELETE FROM likes WHERE ideaid = ? AND commentid = ?;"
+                            + "UPDATE ideas SET comments = comments -1 WHERE ideaid = ?");
+            db.mdeleteFile = db.mConnection.prepareStatement(
+                    "DELETE FROM files WHERE fileid = ?");
+
+            db.mInsertUser = db.mConnection
+                    .prepareStatement("INSERT INTO users VALUES (default, ?, ?, ?, ?, ?, ?, default)");
+            db.mInsertIdea = db.mConnection
+                    .prepareStatement("INSERT INTO ideas VALUES (default, ?, ?, ?, default, default, ?, default)");
+            db.mInsertComment = db.mConnection
+                    .prepareStatement("INSERT INTO comments VALUES (default, ?, ?, ?, ?, default, default, ?, default);"
+                            + " UPDATE ideas SET comments = comments + 1 WHERE ideaid = ?");
             db.mInsertLike = db.mConnection.prepareStatement("INSERT INTO likes VALUES (?, ?, ?, default)");
+            db.mInsertFile = db.mConnection.prepareStatement(
+                    "INSERT INTO files (filedescription, filepath, userid, ideaid, created) " +
+                            "VALUES (?, ?, ?, ?, ?::timestamp)");
 
             db.mSelectUsersAll = db.mConnection
-                    .prepareStatement("SELECT userid, name, email, genderidentity, sexualorientation, note, creationdate, valid FROM users ORDER BY creationdate");
+
+                    .prepareStatement(
+                            "SELECT userid, name, email, genderidentity, sexualorientation, note, creationdate, valid FROM users ORDER BY creationdate");
             db.mSelectIdeasAll = db.mConnection
-                    .prepareStatement("SELECT ideaid, subject, message, userid, likes, comments, creationdate, valid FROM ideas ORDER BY creationdate");
+                    .prepareStatement(
+                            "SELECT ideaid, subject, message, userid, likes, comments, creationdate, valid FROM ideas ORDER BY creationdate");
             db.mSelectCommentsAll = db.mConnection
-                    .prepareStatement("SELECT commentid, subject, message, userid, ideaid, likes, comments, creationdate, valid FROM comments ORDER BY creationdate");
-            
+                    .prepareStatement(
+                            "SELECT commentid, subject, message, userid, ideaid, likes, comments, creationdate, valid FROM comments ORDER BY creationdate");
+
+            // selects all files
+            db.mSelectAllFiles = db.mConnection.prepareStatement(
+                    "SELECT fileid, commentid, filedescription, filepath, userid, ideaid, likes, comments, created, valid FROM files ORDER BY created");
+
             db.mSelectUsersValid = db.mConnection
-                    .prepareStatement("SELECT userid, name, email, genderidentity, sexualorientation, note, creationdate, valid FROM users WHERE valid = true ORDER BY creationdate");
+                    .prepareStatement(
+                            "SELECT userid, name, email, genderidentity, sexualorientation, note, creationdate, valid FROM users WHERE valid = true ORDER BY creationdate");
             db.mSelectIdeasValid = db.mConnection
-                    .prepareStatement("SELECT ideaid, subject, message, userid, likes, comments, creationdate, valid FROM ideas WHERE valid = true ORDER BY creationdate");
+                    .prepareStatement(
+                            "SELECT ideaid, subject, message, userid, likes, comments, creationdate, valid FROM ideas WHERE valid = true ORDER BY creationdate");
             db.mSelectCommentsValid = db.mConnection
-                    .prepareStatement("SELECT commentid, subject, message, userid, ideaid, likes, comments, creationdate, valid FROM comments WHERE valid = true ORDER BY creationdate");
-            
+                    .prepareStatement(
+                            "SELECT commentid, subject, message, userid, ideaid, likes, comments, creationdate, valid FROM comments WHERE valid = true ORDER BY creationdate");
+            db.mSelectFilesValid = db.mConnection.prepareStatement(
+                    "SELECT fileid, commentid, filedescription, filepath, userid, ideaid, likes, comments, created, valid FROM files WHERE valid = true ORDER BY created");
+
             db.mSelectUser = db.mConnection.prepareStatement("SELECT * FROM users WHERE userid = ?");
             db.mSelectIdea = db.mConnection.prepareStatement("SELECT * FROM ideas WHERE ideaid = ?");
-            db.mSelectComment = db.mConnection.prepareStatement("SELECT * FROM comments WHERE ideaid = ? AND commentid = ?");
-            db.mSelectLikeIdea = db.mConnection.prepareStatement("SELECT * FROM likes WHERE ideaid = ? AND userid = ? AND commentid is NULL ");
-            db.mSelectLikeComment = db.mConnection.prepareStatement("SELECT * FROM likes WHERE ideaid = ? AND userid = ? AND commentid = ? ");
+            db.mSelectComment = db.mConnection
+                    .prepareStatement("SELECT * FROM comments WHERE ideaid = ? AND commentid = ?");
+            db.mSelectLikeIdea = db.mConnection
+                    .prepareStatement("SELECT * FROM likes WHERE ideaid = ? AND userid = ? AND commentid is NULL ");
+            db.mSelectLikeComment = db.mConnection
+                    .prepareStatement("SELECT * FROM likes WHERE ideaid = ? AND userid = ? AND commentid = ? ");
 
             db.mViewComments = db.mConnection.prepareStatement("SELECT * FROM comments WHERE ideaid = ?");
 
-            db.mUpdateUser = db.mConnection.prepareStatement("UPDATE users SET name = ?, email = ?, genderidentity = ?, sexualorientation = ?, note = ? WHERE userid = ?");
+            // viewing the fies
+            db.mviewFiles = db.mConnection.prepareStatement("SELECT * FROM files WHERE fileid = ?");
+
+            // unimplemented for the files
+            db.mUpdateUser = db.mConnection.prepareStatement(
+                    "UPDATE users SET name = ?, email = ?, genderidentity = ?, sexualorientation = ?, note = ? WHERE userid = ?");
             db.mUpdateIdea = db.mConnection.prepareStatement("UPDATE ideas SET message = ? WHERE ideaid = ?");
-            db.mUpdateComment = db.mConnection.prepareStatement("UPDATE comments SET message = ? WHERE ideaid = ? AND commentid = ?");
+            db.mUpdateComment = db.mConnection
+                    .prepareStatement("UPDATE comments SET message = ? WHERE ideaid = ? AND commentid = ?");
 
             db.mLikeIdea = db.mConnection.prepareStatement("UPDATE ideas SET likes = likes + 1 WHERE ideaid = ?;"
-                                                            + "UPDATE likes SET status = ? WHERE ideaid = ? AND userid = ? AND commentid is NULL");
-            db.mLikeComment = db.mConnection.prepareStatement("UPDATE comments SET likes = likes + 1 WHERE ideaid = ? AND commentid = ?;"
-                                                            + "UPDATE likes SET status = ? WHERE ideaid = ? AND userid = ? AND commentid = ?");
+                    + "UPDATE likes SET status = ? WHERE ideaid = ? AND userid = ? AND commentid is NULL");
+            db.mLikeComment = db.mConnection
+                    .prepareStatement("UPDATE comments SET likes = likes + 1 WHERE ideaid = ? AND commentid = ?;"
+                            + "UPDATE likes SET status = ? WHERE ideaid = ? AND userid = ? AND commentid = ?");
 
             db.mUnlikeIdea = db.mConnection.prepareStatement("UPDATE ideas SET likes = likes - 1 WHERE ideaid = ?;"
-                                                            + "UPDATE likes SET status = ? WHERE ideaid = ? AND userid = ? AND commentid is NULL ");
-            db.mUnlikeComment = db.mConnection.prepareStatement("UPDATE comments SET likes = likes - 1 WHERE ideaid = ? AND commentid = ?;"
-                                                            + "UPDATE likes SET status = ? WHERE ideaid = ? AND userid = ? AND commentid = ? ");
+                    + "UPDATE likes SET status = ? WHERE ideaid = ? AND userid = ? AND commentid is NULL ");
+            db.mUnlikeComment = db.mConnection
+                    .prepareStatement("UPDATE comments SET likes = likes - 1 WHERE ideaid = ? AND commentid = ?;"
+                            + "UPDATE likes SET status = ? WHERE ideaid = ? AND userid = ? AND commentid = ? ");
 
-            db.mToggleUser = db.mConnection.prepareStatement("UPDATE users SET valid = NOT valid WHERE userid = ?; UPDATE ideas SET valid = NOT valid" 
-                                                            + " WHERE userid = ?; UPDATE comments SET valid = NOT valid WHERE userid = ?;");
-            db.mToggleIdea = db.mConnection.prepareStatement("UPDATE ideas SET valid = NOT valid WHERE ideaid = ?; UPDATE comments SET valid = NOT valid"
-                                                            + " WHERE ideaid = ?;");
-            db.mToggleComment = db.mConnection.prepareStatement("UPDATE comments SET valid = NOT valid WHERE ideaid = ? AND commentid = ?");
+            db.mToggleUser = db.mConnection.prepareStatement(
+                    "UPDATE users SET valid = NOT valid WHERE userid = ?; UPDATE ideas SET valid = NOT valid"
+                            + " WHERE userid = ?; UPDATE comments SET valid = NOT valid WHERE userid = ?;");
+            db.mToggleIdea = db.mConnection.prepareStatement(
+                    "UPDATE ideas SET valid = NOT valid WHERE ideaid = ?; UPDATE comments SET valid = NOT valid"
+                            + " WHERE ideaid = ?;");
+            db.mToggleComment = db.mConnection
+                    .prepareStatement("UPDATE comments SET valid = NOT valid WHERE ideaid = ? AND commentid = ?");
         } catch (SQLException e) {
             System.err.println("Error creating prepared statement");
             e.printStackTrace();
@@ -327,7 +389,8 @@ public class Database {
      * Get a fully-configured connection to the database
      * 
      * @param host The IP address or hostname of the database server
-     * @param port The port on the database server to which connection requests should be sent
+     * @param port The port on the database server to which connection requests
+     *             should be sent
      * @param path The path to use, can be null
      * @param user The user ID to use when connecting
      * @param pass The password to use when connecting
@@ -361,7 +424,7 @@ public class Database {
         // fail, the whole getDatabase() call should fail
         try {
             // NB: we can easily get ourselves in trouble here by typing the
-            // SQL incorrectly. We really should have things like the table 
+            // SQL incorrectly. We really should have things like the table
             // names as constants, and then build the strings for the statements
             // from those constants.
 
@@ -369,83 +432,119 @@ public class Database {
             // creation/deletion, so multiple executions will cause an exception
             db.mCreateTables = db.mConnection
                     .prepareStatement("CREATE TABLE users (userid SERIAL PRIMARY KEY, name VARCHAR(50) NOT NULL,"
-                                + " email VARCHAR(250) NOT NULL, genderidentity VARCHAR(200) NOT NULL, sexualorientation VARCHAR(200)"
-                                + " NOT NULL, note VARCHAR(500) NOT NULL, creationdate TIMESTAMP NOT NULL, valid boolean DEFAULT TRUE NOT NULL);"
-                                
-                                + " CREATE TABLE ideas (ideaid SERIAL PRIMARY KEY, subject VARCHAR(50) NOT NULL,"
-                                + " message VARCHAR(500) NOT NULL, userid int NOT NULL, likes int DEFAULT 0 NOT NULL,"
-                                + " comments int DEFAULT 0 NOT NULL, creationdate TIMESTAMP NOT NULL,  valid boolean DEFAULT"
-                                + " TRUE NOT NULL, FOREIGN KEY(userid) REFERENCES users(userid));"
-            
-                                + " CREATE TABLE comments (commentid SERIAL PRIMARY KEY, subject VARCHAR(50) NOT NULL,"
-                                + " message VARCHAR(500) NOT NULL, userid int NOT NULL, ideaid int NOT NULL, likes int"
-                                + " DEFAULT 0 NOT NULL, comments int DEFAULT 0 NOT NULL, creationdate TIMESTAMP NOT NULL,"
-                                + " valid boolean DEFAULT TRUE NOT NULL, FOREIGN KEY(userid) REFERENCES users(userid),"
-                                + " FOREIGN KEY(ideaid) REFERENCES ideas(ideaid));"
+                            + " email VARCHAR(250) NOT NULL, genderidentity VARCHAR(200) NOT NULL, sexualorientation VARCHAR(200)"
+                            + " NOT NULL, note VARCHAR(500) NOT NULL, creationdate TIMESTAMP NOT NULL, valid boolean DEFAULT TRUE NOT NULL);"
 
-                                + " CREATE TABLE likes (ideaid int NOT NULL, commentid int DEFAULT NULL, userid int NOT NULL, Status int DEFAULT 0 NOT NULL,"
-                                + " FOREIGN KEY(ideaid) REFERENCES ideas(ideaid),"
-                                + " FOREIGN KEY(userid) REFERENCES users(userid),"
-                                + " FOREIGN KEY(commentid) REFERENCES comments(commentid))");
-            
-            db.mDropAll = db.mConnection.prepareStatement("DROP TABLE users, ideas, comments, likes");
+                            + " CREATE TABLE ideas (ideaid SERIAL PRIMARY KEY, subject VARCHAR(50) NOT NULL,"
+                            + " message VARCHAR(500) NOT NULL, userid int NOT NULL, likes int DEFAULT 0 NOT NULL,"
+                            + " comments int DEFAULT 0 NOT NULL, creationdate TIMESTAMP NOT NULL,  valid boolean DEFAULT"
+                            + " TRUE NOT NULL, FOREIGN KEY(userid) REFERENCES users(userid));"
+
+                            + " CREATE TABLE comments (commentid SERIAL PRIMARY KEY, subject VARCHAR(50) NOT NULL,"
+                            + " message VARCHAR(500) NOT NULL, userid int NOT NULL, ideaid int NOT NULL, likes int"
+                            + " DEFAULT 0 NOT NULL, comments int DEFAULT 0 NOT NULL, creationdate TIMESTAMP NOT NULL,"
+                            + " valid boolean DEFAULT TRUE NOT NULL, FOREIGN KEY(userid) REFERENCES users(userid),"
+                            + " FOREIGN KEY(ideaid) REFERENCES ideas(ideaid));"
+
+                            + " CREATE TABLE likes (ideaid int NOT NULL, commentid int DEFAULT NULL, userid int NOT NULL, Status int DEFAULT 0 NOT NULL,"
+                            + " FOREIGN KEY(ideaid) REFERENCES ideas(ideaid),"
+                            + " FOREIGN KEY(userid) REFERENCES users(userid),"
+                            + " FOREIGN KEY(commentid) REFERENCES comments(commentid))"
+
+                            + "CREATE TABLE files (fileid SERIAL PRIMARY KEY, filedescription VARCHAR(200) NOT NULL, filepath VARCHAR(200) NOT NULL, userid int NOT NULL, ideaid int NOT NULL, likes int DEFAULT 0 NOT NULL, comments int DEFAULT 0 NOT NULL, created TIMESTAMP NOT NULL, valid boolean DEFAULT TRUE NOT NULL, FOREIGN KEY(userid) REFERENCES users(userid), FOREIGN KEY(ideaid) REFERENCES ideas(ideaid)"
+
+                    );
+            db.mDropAll = db.mConnection.prepareStatement("DROP TABLE users, ideas, comments, likes, files");
+            //db.mAlterTablesAdd = db.mConnection.prepareStatement("ALTER TABLE ? ADD COLUMN ? VARCHAR(255)");
+            //db.mAlterTablesDelete = db.mConnection.prepareStatement("ALTER TABLE ?,  DROP COLUMN ?");
 
             // Standard CRUD operations
-            db.mDeleteUser = db.mConnection.prepareStatement("DELETE FROM users WHERE userid = ?; DELETE FROM ideas WHERE userid = ?;"
-                                                            + " DELETE FROM comments WHERE userid = ?; DELETE FROM likes WHERE userid = ?");
-            db.mDeleteIdea = db.mConnection.prepareStatement("DELETE FROM ideas WHERE ideaid = ?; DELETE FROM comments WHERE ideaid = ?;"
-                                                            + " DELETE FROM likes WHERE ideaid = ?");
-            db.mDeleteComment = db.mConnection.prepareStatement("DELETE FROM comments WHERE ideaid = ? AND commentid = ?;"
-                                                            + "DELETE FROM likes WHERE ideaid = ? AND commentid = ?;"
-                                                            + "UPDATE ideas SET comments = comments -1 WHERE ideaid = ?");
-            
-            db.mInsertUser = db.mConnection.prepareStatement("INSERT INTO users VALUES (default, ?, ?, ?, ?, ?, ?, default)");
-            db.mInsertIdea = db.mConnection.prepareStatement("INSERT INTO ideas VALUES (default, ?, ?, ?, default, default, ?, default)");
-            db.mInsertComment = db.mConnection.prepareStatement("INSERT INTO comments VALUES (default, ?, ?, ?, ?, default, default, ?, default);"
-                                                            + " UPDATE ideas SET comments = comments + 1 WHERE ideaid = ?");
+            db.mDeleteUser = db.mConnection
+                    .prepareStatement("DELETE FROM users WHERE userid = ?; DELETE FROM ideas WHERE userid = ?;"
+                            + " DELETE FROM comments WHERE userid = ?; DELETE FROM likes WHERE userid = ?");
+            db.mDeleteIdea = db.mConnection
+                    .prepareStatement("DELETE FROM ideas WHERE ideaid = ?; DELETE FROM comments WHERE ideaid = ?;"
+                            + " DELETE FROM likes WHERE ideaid = ?");
+            db.mDeleteComment = db.mConnection
+                    .prepareStatement("DELETE FROM comments WHERE ideaid = ? AND commentid = ?;"
+                            + "DELETE FROM likes WHERE ideaid = ? AND commentid = ?;"
+                            + "UPDATE ideas SET comments = comments -1 WHERE ideaid = ?");
+            db.mdeleteFile = db.mConnection.prepareStatement(
+                    "DELETE FROM files WHERE fileid = ?");
+
+            db.mInsertUser = db.mConnection
+                    .prepareStatement("INSERT INTO users VALUES (default, ?, ?, ?, ?, ?, ?, default)");
+            db.mInsertIdea = db.mConnection
+                    .prepareStatement("INSERT INTO ideas VALUES (default, ?, ?, ?, default, default, ?, default)");
+            db.mInsertComment = db.mConnection
+                    .prepareStatement("INSERT INTO comments VALUES (default, ?, ?, ?, ?, default, default, ?, default);"
+                            + " UPDATE ideas SET comments = comments + 1 WHERE ideaid = ?");
             db.mInsertLike = db.mConnection.prepareStatement("INSERT INTO likes VALUES (?, ?, ?, default)");
+            db.mInsertFile = db.mConnection.prepareStatement(
+                    "INSERT INTO files (filedescription, filepath, userid, ideaid, created) " +
+                            "VALUES (?, ?, ?, ?, ?::timestamp)");
 
             db.mSelectUsersAll = db.mConnection
-                    .prepareStatement("SELECT userid, name, email, genderidentity, sexualorientation, note, creationdate, valid FROM users ORDER BY creationdate");
+                    .prepareStatement(
+                            "SELECT userid, name, email, genderidentity, sexualorientation, note, creationdate, valid FROM users ORDER BY creationdate");
             db.mSelectIdeasAll = db.mConnection
-                    .prepareStatement("SELECT ideaid, subject, message, userid, likes, comments, creationdate, valid FROM ideas ORDER BY creationdate");
+                    .prepareStatement(
+                            "SELECT ideaid, subject, message, userid, likes, comments, creationdate, valid FROM ideas ORDER BY creationdate");
             db.mSelectCommentsAll = db.mConnection
-                    .prepareStatement("SELECT commentid, subject, message, userid, ideaid, likes, comments, creationdate, valid FROM comments ORDER BY creationdate");
-            
+                    .prepareStatement(
+                            "SELECT commentid, subject, message, userid, ideaid, likes, comments, creationdate, valid FROM comments ORDER BY creationdate");
+            db.mSelectAllFiles = db.mConnection.prepareStatement(
+                    "SELECT fileid, commentid, filedescription, filepath, userid, ideaid, likes, comments, created, valid FROM files ORDER BY created");
+
             db.mSelectUsersValid = db.mConnection
-                    .prepareStatement("SELECT userid, name, email, genderidentity, sexualorientation, note, creationdate, valid FROM users WHERE valid = true ORDER BY creationdate");
+                    .prepareStatement(
+                            "SELECT userid, name, email, genderidentity, sexualorientation, note, creationdate, valid FROM users WHERE valid = true ORDER BY creationdate");
             db.mSelectIdeasValid = db.mConnection
-                    .prepareStatement("SELECT ideaid, subject, message, userid, likes, comments, creationdate, valid FROM ideas WHERE valid = true ORDER BY creationdate");
+                    .prepareStatement(
+                            "SELECT ideaid, subject, message, userid, likes, comments, creationdate, valid FROM ideas WHERE valid = true ORDER BY creationdate");
             db.mSelectCommentsValid = db.mConnection
-                    .prepareStatement("SELECT commentid, subject, message, userid, ideaid, likes, comments, creationdate, valid FROM comments WHERE valid = true ORDER BY creationdate");
-            
+                    .prepareStatement(
+                            "SELECT commentid, subject, message, userid, ideaid, likes, comments, creationdate, valid FROM comments WHERE valid = true ORDER BY creationdate");
+            db.mSelectFilesValid = db.mConnection.prepareStatement(
+                    "SELECT fileid, commentid, filedescription, filepath, userid, ideaid, likes, comments, created, valid FROM files WHERE valid = true ORDER BY created");
             db.mSelectUser = db.mConnection.prepareStatement("SELECT * FROM users WHERE userid = ?");
             db.mSelectIdea = db.mConnection.prepareStatement("SELECT * FROM ideas WHERE ideaid = ?");
-            db.mSelectComment = db.mConnection.prepareStatement("SELECT * FROM comments WHERE ideaid = ? AND commentid = ?");
-            db.mSelectLikeIdea = db.mConnection.prepareStatement("SELECT * FROM likes WHERE ideaid = ? AND userid = ? AND commentid is NULL ");
-            db.mSelectLikeComment = db.mConnection.prepareStatement("SELECT * FROM likes WHERE ideaid = ? AND userid = ? AND commentid = ? ");
+            db.mSelectComment = db.mConnection
+                    .prepareStatement("SELECT * FROM comments WHERE ideaid = ? AND commentid = ?");
+            db.mSelectLikeIdea = db.mConnection
+                    .prepareStatement("SELECT * FROM likes WHERE ideaid = ? AND userid = ? AND commentid is NULL ");
+            db.mSelectLikeComment = db.mConnection
+                    .prepareStatement("SELECT * FROM likes WHERE ideaid = ? AND userid = ? AND commentid = ? ");
 
             db.mViewComments = db.mConnection.prepareStatement("SELECT * FROM comments WHERE ideaid = ?");
+            db.mviewFiles = db.mConnection.prepareStatement("SELECT * FROM files WHERE fileid = ?");
 
-            db.mUpdateUser = db.mConnection.prepareStatement("UPDATE users SET name = ?, email = ?, genderidentity = ?, sexualorientation = ?, note = ? WHERE userid = ?");
+            db.mUpdateUser = db.mConnection.prepareStatement(
+                    "UPDATE users SET name = ?, email = ?, genderidentity = ?, sexualorientation = ?, note = ? WHERE userid = ?");
             db.mUpdateIdea = db.mConnection.prepareStatement("UPDATE ideas SET message = ? WHERE ideaid = ?");
-            db.mUpdateComment = db.mConnection.prepareStatement("UPDATE comments SET message = ? WHERE ideaid = ? AND commentid = ?");
+            db.mUpdateComment = db.mConnection
+                    .prepareStatement("UPDATE comments SET message = ? WHERE ideaid = ? AND commentid = ?");
 
             db.mLikeIdea = db.mConnection.prepareStatement("UPDATE ideas SET likes = likes + 1 WHERE ideaid = ?;"
-                                                            + "UPDATE likes SET status = ? WHERE ideaid = ? AND userid = ? AND commentid is NULL");
-            db.mLikeComment = db.mConnection.prepareStatement("UPDATE comments SET likes = likes + 1 WHERE ideaid = ? AND commentid = ?;"
-                                                            + "UPDATE likes SET status = ? WHERE ideaid = ? AND userid = ? AND commentid = ?");
+                    + "UPDATE likes SET status = ? WHERE ideaid = ? AND userid = ? AND commentid is NULL");
+            db.mLikeComment = db.mConnection
+                    .prepareStatement("UPDATE comments SET likes = likes + 1 WHERE ideaid = ? AND commentid = ?;"
+                            + "UPDATE likes SET status = ? WHERE ideaid = ? AND userid = ? AND commentid = ?");
 
             db.mUnlikeIdea = db.mConnection.prepareStatement("UPDATE ideas SET likes = likes - 1 WHERE ideaid = ?;"
-                                                            + "UPDATE likes SET status = ? WHERE ideaid = ? AND userid = ? AND commentid is NULL ");
-            db.mUnlikeComment = db.mConnection.prepareStatement("UPDATE comments SET likes = likes - 1 WHERE ideaid = ? AND commentid = ?;"
-                                                            + "UPDATE likes SET status = ? WHERE ideaid = ? AND userid = ? AND commentid = ? ");
+                    + "UPDATE likes SET status = ? WHERE ideaid = ? AND userid = ? AND commentid is NULL ");
+            db.mUnlikeComment = db.mConnection
+                    .prepareStatement("UPDATE comments SET likes = likes - 1 WHERE ideaid = ? AND commentid = ?;"
+                            + "UPDATE likes SET status = ? WHERE ideaid = ? AND userid = ? AND commentid = ? ");
 
-            db.mToggleUser = db.mConnection.prepareStatement("UPDATE users SET valid = NOT valid WHERE userid = ?; UPDATE ideas SET valid = NOT valid" 
-                                                            + " WHERE userid = ?; UPDATE comments SET valid = NOT valid WHERE userid = ?;");
-            db.mToggleIdea = db.mConnection.prepareStatement("UPDATE ideas SET valid = NOT valid WHERE ideaid = ?; UPDATE comments SET valid = NOT valid"
-                                                            + " WHERE ideaid = ?;");
-            db.mToggleComment = db.mConnection.prepareStatement("UPDATE comments SET valid = NOT valid WHERE ideaid = ? AND commentid = ?");
+            db.mToggleUser = db.mConnection.prepareStatement(
+                    "UPDATE users SET valid = NOT valid WHERE userid = ?; UPDATE ideas SET valid = NOT valid"
+                            + " WHERE userid = ?; UPDATE comments SET valid = NOT valid WHERE userid = ?;");
+            db.mToggleIdea = db.mConnection.prepareStatement(
+                    "UPDATE ideas SET valid = NOT valid WHERE ideaid = ?; UPDATE comments SET valid = NOT valid"
+                            + " WHERE ideaid = ?;");
+            db.mToggleComment = db.mConnection
+                    .prepareStatement("UPDATE comments SET valid = NOT valid WHERE ideaid = ? AND commentid = ?");
         } catch (SQLException e) {
             System.err.println("Error creating prepared statement");
             e.printStackTrace();
@@ -515,11 +614,11 @@ public class Database {
     /**
      * Insert an user into users table in database
      * 
-     * @param name the name of the new user
-     * @param email the email for this new user
-     * @param genId the gender identiy of the new user
+     * @param name   the name of the new user
+     * @param email  the email for this new user
+     * @param genId  the gender identiy of the new user
      * @param sexOtn the sexual orientation of the new user
-     * @param note the note/description of the new user
+     * @param note   the note/description of the new user
      * 
      * @return the number of rows that were inserted
      */
@@ -544,7 +643,7 @@ public class Database {
      * 
      * @param subject the subject for the new row
      * @param message the message body for the new row
-     * @param userid the id of the user who created the idea row
+     * @param userid  the id of the user who created the idea row
      * 
      * @return The number of rows that were inserted
      */
@@ -567,8 +666,8 @@ public class Database {
      * 
      * @param subject the subject for the new row
      * @param message the message body for the new row
-     * @param userid the id of the user who created the idea row
-     * @param ideaid the id of the idea the comment row is for
+     * @param userid  the id of the user who created the idea row
+     * @param ideaid  the id of the idea the comment row is for
      * 
      * @return The number of rows that were inserted
      */
@@ -591,9 +690,9 @@ public class Database {
     /**
      * Insert a like into the likes table in the database
      * 
-     * @param ideaid the id of the idea for the new like row
+     * @param ideaid    the id of the idea for the new like row
      * @param commentid the id of the comment for the new like row
-     * @param userid the id of the user who created the like row
+     * @param userid    the id of the user who created the like row
      * 
      * @return The number of rows that were inserted
      */
@@ -609,9 +708,31 @@ public class Database {
         }
         return count;
     }
-    
+
+    // Insert file function with the different parameters
+    // The file has the fileID,fileNAme,fileType, fileType and fileDescription
+    // The file also has the commentID or UserID depending on who posts the file
+    int insertFile(int fileid, String fileDescription, String filePath, int userID, int ideaID, int commentID) {
+        int count = 0;
+        try {
+            mInsertFile.setInt(1, fileid);
+            mInsertFile.setString(2, fileDescription);
+            mInsertFile.setString(3, filePath);
+            mInsertFile.setInt(4, userID);
+            mInsertFile.setInt(5, ideaID);
+            mInsertLike.setObject(6, commentID);
+            mInsertComment.setTimestamp(5, new Timestamp(new Date().getTime()));
+            count += mInsertFile.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return count;
+    }
+
     /**
-     * Query the database for a list of all user variables, userid, name, email, gender identity
+     * Query the database for a list of all user variables, userid, name, email,
+     * gender identity
      * sexual orientation, note, valid, and creation date
      * 
      * @return All user rows, as an ArrayList
@@ -622,7 +743,7 @@ public class Database {
             ResultSet rs = mSelectUsersAll.executeQuery();
             while (rs.next()) {
                 res.add(new DataUser(rs.getInt("userid"), rs.getString("name"), rs.getString("email"),
-                        rs.getString("genderidentity"), rs.getString("sexualorientation"), rs.getString("note"), 
+                        rs.getString("genderidentity"), rs.getString("sexualorientation"), rs.getString("note"),
                         rs.getBoolean("valid"), rs.getTimestamp("creationdate")));
             }
             rs.close();
@@ -634,7 +755,8 @@ public class Database {
     }
 
     /**
-     * Query the database for a list of all idea variables, ideaid, subject, message, userid
+     * Query the database for a list of all idea variables, ideaid, subject,
+     * message, userid
      * likes, comments, valid, and creation date
      * 
      * @return All idea rows, as an ArrayList
@@ -645,7 +767,7 @@ public class Database {
             ResultSet rs = mSelectIdeasAll.executeQuery();
             while (rs.next()) {
                 res.add(new DataIdea(rs.getInt("ideaid"), rs.getString("subject"), rs.getString("message"),
-                        rs.getInt("userid"), rs.getInt("likes"), rs.getInt("comments"), 
+                        rs.getInt("userid"), rs.getInt("likes"), rs.getInt("comments"),
                         rs.getBoolean("valid"), rs.getTimestamp("creationdate")));
             }
             rs.close();
@@ -657,7 +779,8 @@ public class Database {
     }
 
     /**
-     * Query the database for a list of all comment variables, commentid, subject, message, userid
+     * Query the database for a list of all comment variables, commentid, subject,
+     * message, userid
      * likes, comments, valid, ideaid, and creation date
      * 
      * @return All Comment rows, as an ArrayList
@@ -668,8 +791,27 @@ public class Database {
             ResultSet rs = mSelectCommentsAll.executeQuery();
             while (rs.next()) {
                 res.add(new DataComment(rs.getInt("commentid"), rs.getString("subject"), rs.getString("message"),
-                        rs.getInt("userid"), rs.getInt("likes"), rs.getInt("comments"), 
-                        rs.getBoolean("valid"),  rs.getInt("ideaid"), rs.getTimestamp("creationdate")));
+                        rs.getInt("userid"), rs.getInt("likes"), rs.getInt("comments"),
+                        rs.getBoolean("valid"), rs.getInt("ideaid"), rs.getTimestamp("creationdate")));
+            }
+            rs.close();
+            return res;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    // define the select all files method as an arraylist
+    ArrayList<DataFile> selectFilesAll() {
+        ArrayList<DataFile> res = new ArrayList<DataFile>();
+        try {
+            ResultSet rs = mSelectAllFiles.executeQuery();
+            while (rs.next()) {
+                res.add(new DataFile(rs.getInt("fileid"), rs.getString("filedescription"), rs.getString("filepath"),
+                        rs.getInt("userid"),
+                        rs.getInt("ideaid"), rs.getInt("commentid"), rs.getInt("likes"), rs.getInt("comments"),
+                        rs.getTimestamp("created"), rs.getBoolean("valid")));
             }
             rs.close();
             return res;
@@ -680,7 +822,8 @@ public class Database {
     }
 
     /**
-     * Query the database for a list of all valid user variables, userid, name, email, gender identity
+     * Query the database for a list of all valid user variables, userid, name,
+     * email, gender identity
      * sexual orientation, note, valid, and creation date
      * 
      * @return All user rows, as an ArrayList
@@ -691,7 +834,7 @@ public class Database {
             ResultSet rs = mSelectUsersValid.executeQuery();
             while (rs.next()) {
                 res.add(new DataUser(rs.getInt("userid"), rs.getString("name"), rs.getString("email"),
-                        rs.getString("genderidentity"), rs.getString("sexualorientation"), rs.getString("note"), 
+                        rs.getString("genderidentity"), rs.getString("sexualorientation"), rs.getString("note"),
                         rs.getBoolean("valid"), rs.getTimestamp("creationdate")));
             }
             rs.close();
@@ -703,7 +846,8 @@ public class Database {
     }
 
     /**
-     * Query the database for a list of all valid idea variables, ideaid, subject, message, userid
+     * Query the database for a list of all valid idea variables, ideaid, subject,
+     * message, userid
      * likes, comments, valid, and creation date
      * 
      * @return All idea rows, as an ArrayList
@@ -714,7 +858,7 @@ public class Database {
             ResultSet rs = mSelectIdeasValid.executeQuery();
             while (rs.next()) {
                 res.add(new DataIdea(rs.getInt("ideaid"), rs.getString("subject"), rs.getString("message"),
-                        rs.getInt("userid"), rs.getInt("likes"), rs.getInt("comments"), 
+                        rs.getInt("userid"), rs.getInt("likes"), rs.getInt("comments"),
                         rs.getBoolean("valid"), rs.getTimestamp("creationdate")));
             }
             rs.close();
@@ -726,7 +870,8 @@ public class Database {
     }
 
     /**
-     * Query the database for a list of all valid comment variables, commentid, subject, message, userid
+     * Query the database for a list of all valid comment variables, commentid,
+     * subject, message, userid
      * likes, comments, valid, ideaid, and creation date
      * 
      * @return All Comment rows, as an ArrayList
@@ -737,8 +882,8 @@ public class Database {
             ResultSet rs = mSelectCommentsValid.executeQuery();
             while (rs.next()) {
                 res.add(new DataComment(rs.getInt("commentid"), rs.getString("subject"), rs.getString("message"),
-                        rs.getInt("userid"), rs.getInt("likes"), rs.getInt("comments"), 
-                        rs.getBoolean("valid"),  rs.getInt("ideaid"), rs.getTimestamp("creationdate")));
+                        rs.getInt("userid"), rs.getInt("likes"), rs.getInt("comments"),
+                        rs.getBoolean("valid"), rs.getInt("ideaid"), rs.getTimestamp("creationdate")));
             }
             rs.close();
             return res;
@@ -748,8 +893,29 @@ public class Database {
         }
     }
 
+    // select valid files
+    ArrayList<DataFile> selectFilesValid() {
+        ArrayList<DataFile> res = new ArrayList<DataFile>();
+        try {
+            ResultSet rs = mSelectFilesValid.executeQuery();
+            while (rs.next()) {
+                res.add(new DataFile(rs.getInt("fileid"), rs.getString("filedescription"), rs.getString("filepath"),
+                        rs.getInt("userid"),
+                        rs.getInt("ideaid"), rs.getInt("commentid"), rs.getInt("likes"), rs.getInt("comments"),
+                        rs.getTimestamp("created"), rs.getBoolean("valid")));
+            }
+            rs.close();
+            ;
+            return res;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     /**
-     * Query the database for a list of all comment variables, commentid, subject, message, userid
+     * Query the database for a list of all comment variables, commentid, subject,
+     * message, userid
      * likes, comments, valid, ideaid, and creation date under a specific idea
      * 
      * @return All Comment rows for one idea, as an ArrayList
@@ -761,8 +927,28 @@ public class Database {
             ResultSet rs = mViewComments.executeQuery();
             while (rs.next()) {
                 res.add(new DataComment(rs.getInt("commentid"), rs.getString("subject"), rs.getString("message"),
-                        rs.getInt("userid"), rs.getInt("likes"), rs.getInt("comments"), 
-                        rs.getBoolean("valid"),  rs.getInt("ideaid"), rs.getTimestamp("creationdate")));
+                        rs.getInt("userid"), rs.getInt("likes"), rs.getInt("comments"),
+                        rs.getBoolean("valid"), rs.getInt("ideaid"), rs.getTimestamp("creationdate")));
+            }
+            rs.close();
+            return res;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public ArrayList<DataFile> viewfiles(int fileid) {
+        ArrayList<DataFile> res = new ArrayList<>();
+        try {
+            mviewFiles.setInt(1, fileid);
+            ResultSet rs = mviewFiles.executeQuery();
+            while (rs.next()) {
+                res.add(new DataFile(rs.getInt("fileid"), rs.getString("filedescription"),
+                        rs.getString("filepath"), rs.getInt("userid"),
+                        rs.getInt("ideaid"), rs.getInt("commentid"), rs.getInt("likes"),
+                        rs.getInt("comments"),
+                        rs.getTimestamp("created"), rs.getBoolean("valid")));
             }
             rs.close();
             return res;
@@ -786,7 +972,7 @@ public class Database {
             ResultSet rs = mSelectUser.executeQuery();
             if (rs.next()) {
                 res = new DataUser(rs.getInt("userid"), rs.getString("name"), rs.getString("email"),
-                        rs.getString("genderidentity"), rs.getString("sexualorientation"), rs.getString("note"), 
+                        rs.getString("genderidentity"), rs.getString("sexualorientation"), rs.getString("note"),
                         rs.getBoolean("valid"), rs.getTimestamp("creationdate"));
             }
         } catch (SQLException e) {
@@ -809,7 +995,7 @@ public class Database {
             ResultSet rs = mSelectIdea.executeQuery();
             if (rs.next()) {
                 res = new DataIdea(rs.getInt("ideaid"), rs.getString("subject"), rs.getString("message"),
-                        rs.getInt("userid"), rs.getInt("likes"), rs.getInt("comments"), 
+                        rs.getInt("userid"), rs.getInt("likes"), rs.getInt("comments"),
                         rs.getBoolean("valid"), rs.getTimestamp("creationdate"));
             }
         } catch (SQLException e) {
@@ -833,8 +1019,26 @@ public class Database {
             ResultSet rs = mSelectComment.executeQuery();
             if (rs.next()) {
                 res = new DataComment(rs.getInt("commentid"), rs.getString("subject"), rs.getString("message"),
-                    rs.getInt("userid"), rs.getInt("likes"), rs.getInt("comments"), 
-                    rs.getBoolean("valid"),  rs.getInt("ideaid"), rs.getTimestamp("creationdate"));
+                        rs.getInt("userid"), rs.getInt("likes"), rs.getInt("comments"),
+                        rs.getBoolean("valid"), rs.getInt("ideaid"), rs.getTimestamp("creationdate"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
+
+    // select file
+    DataFile selectFile(int fileid) {
+        DataFile res = null;
+        try {
+            mselectFiles.setInt(1, fileid);
+            ResultSet rs = mselectFiles.executeQuery();
+            if (rs.next()) {
+                res = new DataFile(rs.getInt("fileid"), rs.getString("filedescription"), rs.getString("filepath"),
+                        rs.getInt("userid"),
+                        rs.getInt("ideaid"), rs.getInt("commentid"), rs.getInt("likes"), rs.getInt("comments"),
+                        rs.getTimestamp("created"), rs.getBoolean("valid"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -843,10 +1047,11 @@ public class Database {
     }
 
     /**
-     * Get all data for a specific like row, by ID, used specifically for likes for ideas
+     * Get all data for a specific like row, by ID, used specifically for likes for
+     * ideas
      * 
      * @param ideaid The id of the idea row being requested
-     * @param userid The id of the user who the like belongs to 
+     * @param userid The id of the user who the like belongs to
      * 
      * @return The data for the requested row, or null if the ID was invalid
      */
@@ -857,7 +1062,7 @@ public class Database {
             mSelectLikeIdea.setInt(2, userid);
             ResultSet rs = mSelectLikeIdea.executeQuery();
             if (rs.next()) {
-                res = new DataLike(rs.getInt("ideaid"), rs.getInt("userid"), (Integer)rs.getInt("commentid"),
+                res = new DataLike(rs.getInt("ideaid"), rs.getInt("userid"), (Integer) rs.getInt("commentid"),
                         rs.getInt("status"));
             }
         } catch (SQLException e) {
@@ -867,11 +1072,12 @@ public class Database {
     }
 
     /**
-     * Get all data for a specific like row, by ID, used specifically for likes for comments
+     * Get all data for a specific like row, by ID, used specifically for likes for
+     * comments
      * 
-     * @param ideaid The id of the idea row being requested
+     * @param ideaid    The id of the idea row being requested
      * @param commentid The id of the comment row being requested
-     * @param userid The id of who the like belongs to
+     * @param userid    The id of who the like belongs to
      * 
      * @return The data for the requested row, or null if the ID was invalid
      */
@@ -936,7 +1142,7 @@ public class Database {
     /**
      * Delete a comment by ID
      * 
-     * @param ideaid The id of the idea of the comment to delete
+     * @param ideaid    The id of the idea of the comment to delete
      * @param commentid The id of the comment to delete
      * 
      * @return The number of rows that were deleted. -1 indicates an error.
@@ -956,15 +1162,30 @@ public class Database {
         return res;
     }
 
+    // delete file based on the file path
+    int deleteFiles(int fileid) {
+        int res = -1;
+        try {
+            // Delete the least recently accessed file for the given user ID
+            mdeleteFile.setInt(1, fileid);
+            res = mdeleteFile.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return res;
+
+    }
+
     /**
      * Update the user informati0on for a user row in the database
      * 
      * @param userid the id of the user being updated
-     * @param name the new user name
-     * @param email the new user email
-     * @param genId the new user gender identity
+     * @param name   the new user name
+     * @param email  the new user email
+     * @param genId  the new user gender identity
      * @param sexOtn the new user sexual orientation
-     * @param note the new user note
+     * @param note   the new user note
      * 
      * @return The number of rows that were updated. -1 indicates an error.
      */
@@ -988,7 +1209,7 @@ public class Database {
      * Updates the message for an ieda
      * 
      * @param message the updated message put into the database
-     * @param ideaid the id of the idea being updated
+     * @param ideaid  the id of the idea being updated
      * @return
      */
     int updateIdea(String message, int ideaid) {
@@ -1006,8 +1227,8 @@ public class Database {
     /**
      * Updates the message for a comment
      * 
-     * @param message the updated message put into the database
-     * @param ideaid the id of the idea the comment is under
+     * @param message   the updated message put into the database
+     * @param ideaid    the id of the idea the comment is under
      * @param commentid the id of the comment being updated
      * @return
      */
@@ -1025,7 +1246,8 @@ public class Database {
     }
 
     /**
-     * Increments like count for idea row and sets like status in likes table to desirble amount 
+     * Increments like count for idea row and sets like status in likes table to
+     * desirble amount
      * 
      * @param ideaid The id of the idea being liked
      * @param userid The id of the user liking the idea
@@ -1048,11 +1270,13 @@ public class Database {
     }
 
     /**
-     * Increments like count for comment row and sets like status in likes table to desirble amount 
+     * Increments like count for comment row and sets like status in likes table to
+     * desirble amount
      * 
-     * @param ideaid The id of the idea being liked
-     * @param userid The id of the user liking the idea
-     * @param status The status of the like (0 = nuetral, 1 = Upvote, -1 = Downvote)
+     * @param ideaid    The id of the idea being liked
+     * @param userid    The id of the user liking the idea
+     * @param status    The status of the like (0 = nuetral, 1 = Upvote, -1 =
+     *                  Downvote)
      * @param commentid The id of the comment being liked
      * 
      * @return The number of rows that were updated. -1 indicates an error.
@@ -1074,7 +1298,8 @@ public class Database {
     }
 
     /**
-     * Decrements like count for idea row and sets like status in likes tablew to desirble amount 
+     * Decrements like count for idea row and sets like status in likes tablew to
+     * desirble amount
      * 
      * @param ideaid The id of the idea being unliked
      * @param userid The id of the user unliking the idea
@@ -1097,11 +1322,13 @@ public class Database {
     }
 
     /**
-     * Increments like count for comment row and sets like status in likes table to desirble amount 
+     * Increments like count for comment row and sets like status in likes table to
+     * desirble amount
      * 
-     * @param ideaid The id of the idea being liked
-     * @param userid The id of the user liking the idea
-     * @param status The status of the like (0 = nuetral, 1 = Upvote, -1 = Downvote)
+     * @param ideaid    The id of the idea being liked
+     * @param userid    The id of the user liking the idea
+     * @param status    The status of the like (0 = nuetral, 1 = Upvote, -1 =
+     *                  Downvote)
      * @param commentid The id of the comment being liked
      * 
      * @return The number of rows that were updated. -1 indicates an error.
@@ -1164,7 +1391,7 @@ public class Database {
     /**
      * Toggles the validity of the comment
      * 
-     * @param ideaid The id of the idea of the comment
+     * @param ideaid    The id of the idea of the comment
      * @param commentid the id of the comment being toggled
      * 
      * @return The number of rows that were updated. -1 indicates an error.
@@ -1199,6 +1426,27 @@ public class Database {
     void dropTables() {
         try {
             mDropAll.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    void alterTableAdd(String tableName, String columnName) {
+        try {
+            String sql = "ALTER TABLE " + tableName + " ADD COLUMN " + columnName + " VARCHAR(255)";
+            PreparedStatement stmt = mConnection.prepareStatement(sql);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
+    void alterTableDelete(String tableName, String columnName) {
+        try {
+            String sql = "ALTER TABLE " + tableName + " DELETE COLUMN " + columnName + " VARCHAR(255)";
+            PreparedStatement stmt = mConnection.prepareStatement(sql);
+            stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
