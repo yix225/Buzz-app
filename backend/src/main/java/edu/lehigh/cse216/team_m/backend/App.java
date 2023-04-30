@@ -164,7 +164,7 @@ public class App {
                 // ensure status 200 OK, with a MIME type of JSON
                 response.status(200);
                 response.type("application/json");
-                    return gson.toJson(new StructuredResponse("ok", null, db.selectCommentsValid(idx)));
+                    return gson.toJson(new StructuredResponse("ok", null, db.viewComments(idx)));
                 
         });
 
