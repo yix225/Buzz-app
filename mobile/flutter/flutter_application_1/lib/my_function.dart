@@ -68,6 +68,18 @@ void addComment(String myComment, String myId) async {
   }
 }
 
+Future<String?> updateProfile(String? gen, String? sex, String? note, int sessId) async{
+  Map<String, String> headers = {'Content-Type': 'application/json'};
+  Map<String, dynamic> payload = {
+    'identity': gen,
+    'oriSex': sex,
+    'description': note,
+  };
+  final response = await http.post(
+    
+  )
+}
+
 Future<String?> addSexOri(String? sexOri, int sessId) async {
   Map<String, String> headers = {'Content-Type': 'application/json'};
   Map<String, dynamic> payload = {
@@ -103,7 +115,6 @@ Future<String?> addGender(String? identity, intsessId) async {
   final response = await http.post(
     Uri.parse(
         'http://2023sp-team-m.dokku.cse.lehigh.edu/profile/:name/:email/:genId/:sexOtn/:note'),
-    //'http://2023sp-team-m.dokku.cse.lehigh.edu/profile/:${sessId}/:name/:email/:genId/:sexOtn/:note'),
     headers: headers,
     body: jsonEncode(payload),
   );
