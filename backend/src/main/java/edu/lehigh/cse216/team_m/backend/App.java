@@ -159,21 +159,13 @@ public class App {
         });
 
         Spark.get("/GetComment/:IdeaId", (request, response) -> {
-            int mSessID = Integer.parseInt(request.params("IdeaId"));
-            if(userSessPair.containsKey(mSessID))
-            {
+           
                 int idx = Integer.parseInt(request.params("IdeaId"));
                 // ensure status 200 OK, with a MIME type of JSON
                 response.status(200);
                 response.type("application/json");
-                DataIdea data = db.selectCommentsValid(idx);
-                if (data == null) {
-                    return gson.toJson(new StructuredResponse("error", idx + " not found", null));
-                } else {
-                    return gson.toJson(new StructuredResponse("ok", null, data));
-                }
-            }
-            return gson.toJson(new StructuredResponse("error", "Invalid SessID", null));
+                    return gson.toJson(new StructuredResponse("ok", null, db.selectCommentsValid(idx)));
+                
         });
 
         // POST route for adding a new element to the DataStore.  This will read
