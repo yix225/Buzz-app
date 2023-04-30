@@ -10,14 +10,14 @@ class UserData extends ChangeNotifier {
   User? _user;
   GoogleSignInAccount? _googleUser;
   final GoogleSignIn _googleSignIn = GoogleSignIn(
-    clientId:
+    serverClientId:
         "926558226206-ppmn3bk4ckvrtaq6hun9kpi034sde366.apps.googleusercontent.com",
   );
   User? get user => _user;
 
   set user(User? user) {
-    if (_user == user)
-      return; // if they are equal. the compiler do not need to assigned them equal.
+    if (_user == user) // if they are equal. the compiler do not need to assigned them equal.
+      return; 
     _user = user;
     //notifyListeners(); // check the any change
   }
@@ -39,7 +39,6 @@ class UserData extends ChangeNotifier {
   Future<void> saveUser(User user) async {
     this.user = user; // assign user data
     print("yes");
-    //print(user.);
   }
 
   // log out and clean all of the data

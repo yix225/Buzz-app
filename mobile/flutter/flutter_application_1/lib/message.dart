@@ -5,11 +5,55 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/UserInfoScreen.dart';
 import 'package:flutter_application_1/my_function.dart';
+import 'dart:developer' as developer;
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'dart:async';
 
 import 'comment.dart';
 import 'commentList.dart';
 import 'commentPage.dart';
 // import 'commentList.dart';
+
+
+class mLine {
+  final int mId;
+  String mMessage;
+  int mLikes;
+  final int mUserId;
+  final String mCreated;
+  mLine({
+    required this.mId,
+    required this.mMessage,
+    required this.mLikes,
+    required this.mUserId,
+    required this.mCreated,
+  });
+  factory mLine.fromJson(Map<String, dynamic> json) {
+    return mLine(
+      mId: json['mId'],
+      mMessage: json['mMessage'],
+      mLikes: json['mLikes'],
+      mUserId: json['mUserId'],
+      mCreated: json['mCreated'],
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['mStatus'] = 'ok';
+    data['mData'] = {
+      'mId': this.mId,
+      'mMessage': this.mMessage,
+      'mLikes': this.mLikes,
+      'mUserId': this.mUserId,
+      'mCreated': this.mCreated
+    };
+    print(jsonEncode(data));
+    return data;
+  }
+}
+
+
 
 class message extends StatelessWidget {
   @override
@@ -17,26 +61,9 @@ class message extends StatelessWidget {
   late final Comment _comment;
   bool _isButtonPressed = false;
 
-  // void _startTimer() {
-  //   // Start a timer for 5 seconds
-  //   _timer = Timer(Duration(seconds: 5), () {
-  //     _isButtonPressed = false;
-  //   });
-  // }
-
   void _onButtonPressed(int mid) {
-    /* if (_isButtonPressed) {
-      _isButtonPressed = false;
-      update_unLikes(mid);
-      print('You unlike this message');
-      _timer = Timer(Duration(seconds: 0), () {});
-    } else { */
-    // Perform the first action if the button is pressed for the first time or after 5 seconds
     update_Likes(mid);
-    // _isButtonPressed = true;
     print('You like this message');
-    // _startTimer();
-    //}
   }
 
   void _onButtonPressed2(int mid) {
@@ -77,6 +104,7 @@ class message extends StatelessWidget {
                             "\n${message[2]}\n"
                             "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tLikes:${message[3]}\n"),
                           subtitle: Text("${message[4]}"),
+                          
                 ),
               ),
             ),
@@ -139,5 +167,68 @@ class message extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+
+Future<List<mLine>> fetchmLines() async {
+  //print("1");
+  final response = await http
+      .get(Uri.parse('https://2023sp-team-m.dokku.cse.lehigh.edu/GetComments'));
+  if (response.statusCode == 200) {
+    final List<mLine> returnData;
+    var res = jsonDecode(response.body);
+    List<dynamic> mData = res['mData'];
+    // ignore: unnecessary_type_check
+    if (mData is List) {
+      returnData = (mData).map((x) => mLine.fromJson(x)).toList();
+    } else if (mData is Map) {
+      returnData = <mLine>[mLine.fromJson(mData as Map<String, dynamic>)];
+    } else {
+      developer
+          .log('ERROR: Unexpected json response type (was not a List or Map).');
+      returnData = List.empty();
+    }
+    return returnData;
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Did not receive success status code from request.');
+  }
+}
+
+Future<List<Comment>> fetchComment() async {
+  final response =
+      await http.get(Uri.parse('http://2023sp-team-m.dokku.cse.lehigh.edu/'));
+  if (response.statusCode == 200) {
+    final List<Comment> returnComment;
+    var res = jsonDecode(response.body);
+    List<dynamic> mData = res['mData'];
+    // ignore: unnecessary_type_check
+    if (mData is List) {
+      returnComment = (mData).map((x) => Comment.fromJson(x)).toList();
+    } else if (mData is Map) {
+      returnComment = <Comment>[
+        Comment.fromJson(mData as Map<String, dynamic>)
+      ];
+    } else {
+      developer
+          .log('ERROR: Unexpected json response type (was not a List or Map).');
+      returnComment = List.empty();
+    }
+    return returnComment;
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Did not receive success status code from request.');
+  }
+}
+
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
   }
 }

@@ -164,7 +164,7 @@ class _HttpReqWordsState extends State<HttpReqWords> {
   @override
   void initState() {
     super.initState();
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    Timer _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
         _future_list_numword_pairs = fetchmLines();
       });
@@ -222,7 +222,7 @@ class _HttpReqWordsState extends State<HttpReqWords> {
                             );
                           },
                         ),
-                        Divider(height: 2.0),
+                        Divider(height: 10.0),
                       ],
                     );
                   },
