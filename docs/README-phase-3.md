@@ -88,7 +88,7 @@ __________
 
 ------------
 ### **ROUTES**
-![](https://i.ibb.co/rQDcT3D/routes.png)
+![](https://i.ibb.co/H282Rm7/routes.png)
 __________
 __________
 __________
