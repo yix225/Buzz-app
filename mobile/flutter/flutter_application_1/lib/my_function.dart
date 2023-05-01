@@ -68,7 +68,7 @@ void addComment(String myComment, int sessId) async {
   }
 }
 
-void updateProfile(String? name,String? email, String genId, String sexOtn, String?note, int sessId) async {
+void updateProfile(String? name, String? email, String genId, String sexOtn, String note, int sessId) async {
   Map<String, String> headers = {'Content-Type': 'application/json'};
   Map<String, dynamic> payload = {
     'name': name,

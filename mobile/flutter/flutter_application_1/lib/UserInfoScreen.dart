@@ -61,7 +61,6 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserData>(context);
-    print('Here');
     print(user.sid);
     return Scaffold(
       appBar: AppBar(
@@ -178,8 +177,9 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
     );
   }
 
-  void update_profile(String? name, String? email, firstInput, secondInput, thirdinput, sessId){
-    updateProfile(name, email, firstInput, secondInput, thirdinput, sessId);
+  void update_profile(String? name, String? email, String firstInput, String secondInput, String thirdinput, String sessId){
+    print("updating");
+    updateProfile(name, email, firstInput, secondInput, thirdinput, int.parse(sessId));
   }
 
   // void add_sexOri(String firstInput, int sessId) {
