@@ -60,14 +60,10 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserData>(context);
-    //final List<String> users = ModalRoute.of(context)!.settings.arguments as List<String>;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile'),
       ),
-      // drawer: const myDrawer(
-      //   selectedPage: 'Profile',
-      // ),
       body: Padding(
         // padding left and right
         padding: const EdgeInsets.symmetric(horizontal: 20),
