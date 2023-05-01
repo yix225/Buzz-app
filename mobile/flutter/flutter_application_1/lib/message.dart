@@ -87,20 +87,6 @@ class _HttpReqWordsState extends State<HttpReqWords> {
 
   final TextEditingController _controller = TextEditingController();
 
-  @override
-  bool _isButtonPressed = false;
-
-  void _onButtonPressed(int mid) {
-    update_Likes(mid);
-    print('You like this message');
-  }
-
-  void _onButtonPressed2(int mid) {
-    _isButtonPressed = false;
-    update_disLikes(mid);
-    print('You unlike this message');
-  }
-
    @override
   Widget build(BuildContext context) {
     var fb = FutureBuilder<List<mLine>>(

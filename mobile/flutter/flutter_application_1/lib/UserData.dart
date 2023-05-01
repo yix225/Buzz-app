@@ -32,6 +32,7 @@ class UserData extends ChangeNotifier {
   String? get userEmail => _user?.email;
   String? get userIdentity => _user?.identity;
   String? get userSexOri => _user?.sexOri;
+  String? get userDescription => _user?.description;
   int get userId => _user!.id;
   String get sid => _user!.sid;
 

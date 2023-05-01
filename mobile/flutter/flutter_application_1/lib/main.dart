@@ -185,6 +185,7 @@ class _HttpReqWordsState extends State<HttpReqWords> {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserData>(context);
     var fb = FutureBuilder<List<mLine>>(
       future: _future_list_numword_pairs,
       builder: (BuildContext context, AsyncSnapshot<List<mLine>> snapshot) {
@@ -232,12 +233,22 @@ class _HttpReqWordsState extends State<HttpReqWords> {
                               child: Image.asset('images/upvote.png'),
                             ),
                             onPressed: () {
-                              // update_Likes(int.parse(snapshot.data![i].mId), user.sid);
+                              upvoteIdea(snapshot.data![i].mId, int.parse(user.sid));
                             },
                             label: const Text('upvote'),
-                            //child: Text('Up vote'),
-
-                            //child: Image.asset('images/upvote.png'),
+                          ),
+                        ),
+                        Center(
+                          child: ElevatedButton.icon(
+                            icon: SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: Image.asset('images/downvote.png'),
+                            ),
+                            onPressed: () {
+                              downvoteIdea(snapshot.data![i].mId, int.parse(user.sid));
+                            },
+                            label: const Text('downvote'),
                           ),
                         ),
                         Divider(height: 10.0),

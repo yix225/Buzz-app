@@ -54,6 +54,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
     final user = Provider.of<UserData>(context, listen: false);
     sexOriTextControl.text = user.userSexOri!;
     genderTextControl.text = user.userIdentity!;
+    descTextControl.text = user.userDescription!;
   }
 
 // the previous bunch of code is for function
@@ -114,7 +115,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                 labelText: 'Gender',
                 enabled: true,
               ),
-              controller: genderTextControl, //TextEditingController(text: user.userIdentity),
+              controller: genderTextControl,
             ),
             const SizedBox(
               height: 20,
@@ -125,7 +126,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                 labelText: 'Sexual orientation',
                 enabled: true,
               ),
-              controller: sexOriTextControl, //TextEditingController(text: user.userSexOri),
+              controller: sexOriTextControl,
             ),
             TextField(
               decoration: const InputDecoration(
@@ -140,7 +141,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                 String firstInput = genderTextControl.text;
                 String secondInput = sexOriTextControl.text;
                 String thirdInput = descTextControl.text;
-                update_profile(user.userName, user.userEmail, firstInput, secondInput, thirdInput, user.sid);
+                updateProfile(user.userName, user.userEmail, firstInput, secondInput, thirdInput, int.parse(user.sid));
                 Navigator.pushNamed(context, '/');
               },
               child: const Text("Save"),
@@ -163,10 +164,5 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
         ),
       ),
     );
-  }
-
-  void update_profile(String? name, String? email, String firstInput, String secondInput, String thirdinput, String sessId){
-    print("updating");
-    updateProfile(name, email, firstInput, secondInput, thirdinput, int.parse(sessId));
   }
 }

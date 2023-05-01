@@ -21,19 +21,19 @@ void addMessage(String mySubject, String myMessage, String sessId) async {
   }
 }
 
-void update_Likes(int myid) async {
+void upvoteIdea(int myid, int sessid) async {
   // Update the mLikes field of the message object.
   final response = await http.put(Uri.parse(
-      'http://2023sp-team-m.dokku.cse.lehigh.edu/messages/${myid}/like'));
+      'http://10.0.2.2:8998//likeIdea/${myid}/${sessid}'));
   if (response.statusCode != 200) {
     throw Exception('Failed to update like.');
   }
 }
 
-void update_disLikes(int myid) async {
+void downvoteIdea(int myid, int sessid) async {
   // Update the mLikes field of the message object.
   final response = await http.put(Uri.parse(
-      'http://2023sp-team-m.dokku.cse.lehigh.edu/messages/${myid}/unlike'));
+      'http://10.0.2.2:8998//unlikeIdea/${myid}/${sessid}'));
   if (response.statusCode != 200) {
     throw Exception('Failed to update like.');
   }
