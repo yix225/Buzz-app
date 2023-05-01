@@ -230,25 +230,40 @@ public class App {
         // object, extract the title and message, insert them, and return the 
         // ID of the newly created row.
         Spark.post("/insertComment/:IdeaId/:MediaLink", (request, response) -> {
-            int mSessID = Integer.parseInt(request.params("MediaLink"));
-            if(userSessPair.containsKey(mSessID))
-            {
-                // NB: if gson.Json fails, Spark will reply with status 500 Internal 
-                // Server Error
-                SimpleRequest req = gson.fromJson(request.body(), SimpleRequest.class);
-                // ensure status 200 OK, with a MIME type of JSON
-                // NB: even on error, we return 200, but with a JSON object that
-                //     describes the error.
-                int idx = Integer.parseInt(request.params("Ideaid"));
+            String mediaType = request.params("MediaLink");
+            int idx = Integer.parseInt(request.params("Ideaid"));
+            // NB: if gson.Json fails, Spark will reply with status 500 Internal 
+            // Server Error
+            SimpleRequest req = gson.fromJson(request.body(), SimpleRequest.class);
+            // ensure status 200 OK, with a MIME type of JSON
+            // NB: even on error, we return 200, but with a JSON object that
+            //     describes the error.
+
+            if(mediaType.toLowerCase().contains("https://")){
+
                 response.status(200);
                 response.type("application/json");
-                // NB: createEntry checks for null title and message
-                int newId = db.insertCommentFile(req.mMessage, idx, 1, req.mSubject);
+
+                int newId = db.insertCommentLink("Link",req.mMessage,req.mSubject,idx);
                 if (newId == -1) {
                     return gson.toJson(new StructuredResponse("error", "error performing insertion", null));
                 } 
                 else {
                     return gson.toJson(new StructuredResponse("ok", "" + newId, null));
+                }
+            }
+            else if(mediaType.toLowerCase().contains(".jpeg") | mediaType.toLowerCase().contains(".jpg") | mediaType.toLowerCase().contains(".mp4")){
+    
+                    response.status(200);
+                    response.type("application/json");
+
+                    int newId = db.insertCommentFile("File", req.mMessage, req.mSubject, idx);
+                    if (newId == -1) {
+                        return gson.toJson(new StructuredResponse("error", "error performing insertion", null));
+                    } 
+                    else {
+                        return gson.toJson(new StructuredResponse("ok", "" + newId, null));
+        
                 }
             }
             return gson.toJson(new StructuredResponse("error", "Invalid SessID", null));

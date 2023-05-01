@@ -41,7 +41,7 @@
 //    * If modifying these scopes, delete your previously saved tokens/ folder.
 //    */
 //   private static final List<String> SCOPES =
-//       Collections.singletonList(DriveScopes.DRIVE_METADATA_READONLY);
+//       Collections.singletonList(DriveScopes.DRIVE);
 //   private static final String CREDENTIALS_FILE_PATH = "/client_secret.json";
 
 //   /**
