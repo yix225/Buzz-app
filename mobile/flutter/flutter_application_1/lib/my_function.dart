@@ -3,23 +3,16 @@ import 'package:flutter_application_1/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 
-void addMessage(String mySubject, String myMessage) async {
+void addMessage(String mySubject, String myMessage, String sessId) async {
   DateTime now = DateTime.now();
   String currentTime = now.toString();
   Map<String, String> headers = {'Content-Type': 'application/json'};
   Map<String, dynamic> payload = {
-    'mId': 0,
     'mSubject': mySubject,
     'mMessage': myMessage,
-    'mLikes': 0,
-    'mComments': 0,
-    'mUserId': 0,
-    //'mValid': true,
-    //'mUnlikes':0,
-    'mCreated': currentTime
   };
   final response = await http.post(
-    Uri.parse('http://10.0.2.2:8998/insertIdea/'),
+    Uri.parse('http://10.0.2.2:8998/insertIdea/${sessId}'),
     headers: headers,
     body: jsonEncode(payload),
   );

@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/my_function.dart';
+import 'package:provider/provider.dart';
+import 'UserData.dart';
 
 class insert_message extends StatelessWidget {
   TextEditingController SubjectTextControl = TextEditingController();
@@ -14,6 +16,7 @@ class insert_message extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserData>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Please enter your subject and message'),
@@ -40,7 +43,7 @@ class insert_message extends StatelessWidget {
               onPressed: () {
                 String firstInput = SubjectTextControl.text;
                 String secondInput = MessageTextControl.text;
-                add_Message(firstInput, secondInput);
+                add_Message(firstInput, secondInput, user.sid);
                 Navigator.pushNamed(context, '/');
               },
               child: Text('Add'),
@@ -51,7 +54,7 @@ class insert_message extends StatelessWidget {
     );
   }
 
-  void add_Message(String firstInput, String secondInput) {
-    addMessage(firstInput, secondInput);
+  void add_Message(String firstInput, String secondInput, String sessId) {
+    addMessage(firstInput, secondInput, sessId);
   }
 }

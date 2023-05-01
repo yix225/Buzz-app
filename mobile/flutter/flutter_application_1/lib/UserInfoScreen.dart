@@ -115,10 +115,6 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                 enabled: true,
               ),
               controller: genderTextControl, //TextEditingController(text: user.userIdentity),
-              onSubmitted: (newValue) {
-                // When the user changes the value of the TextField, update the userIdentity value in the UserData object and in the database.
-                // add_gender(newValue, int.parse(user.sid));
-              },
             ),
             const SizedBox(
               height: 20,
@@ -130,10 +126,6 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                 enabled: true,
               ),
               controller: sexOriTextControl, //TextEditingController(text: user.userSexOri),
-              onSubmitted: (newValue) {
-                // When the user changes the value of the TextField, update the userIdentity value in the UserData object and in the database.
-                // add_sexOri(newValue, int.parse(user.sid));
-              },
             ),
             TextField(
               decoration: const InputDecoration(
@@ -142,10 +134,6 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                 enabled: true,
               ),
               controller: descTextControl,
-              onSubmitted: (newValue) {
-                // When the user changes the value of the TextField, update the userIdentity value in the UserData object and in the database.
-                // add_description(newValue, int.parse(user.sid));
-              },
             ),
             ElevatedButton(
               onPressed: () {
@@ -181,16 +169,4 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
     print("updating");
     updateProfile(name, email, firstInput, secondInput, thirdinput, int.parse(sessId));
   }
-
-  // void add_sexOri(String firstInput, int sessId) {
-  //   addSexOri(firstInput, sessId);
-  // }
-
-  // void add_gender(String secondInput, int sessId) {
-  //   addGender(secondInput, sessId);
-  // }
-
-  // void add_description(String thirdInput, int sessId) {
-  //   addDescription(thirdInput, sessId);
-  // }
 }
