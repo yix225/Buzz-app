@@ -224,6 +224,22 @@ class _HttpReqWordsState extends State<HttpReqWords> {
                             );
                           },
                         ),
+                         Center(
+                          child: ElevatedButton.icon(
+                            icon: SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: Image.asset('images/upvote.png'),
+                            ),
+                            onPressed: () {
+                              // update_Likes(int.parse(snapshot.data![i].mId), user.sid);
+                            },
+                            label: const Text('upvote'),
+                            //child: Text('Up vote'),
+
+                            //child: Image.asset('images/upvote.png'),
+                          ),
+                        ),
                         Divider(height: 10.0),
                       ],
                     );
