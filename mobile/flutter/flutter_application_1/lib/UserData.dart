@@ -64,7 +64,8 @@ class UserData extends ChangeNotifier {
           body: googleAuth.idToken,
         );
         print(response.statusCode);
-        print(response.body);
+        print(response.toString());
+        print(response.headers);
         print(jsonDecode(response.body));
         print(response.body);
         final sessId = response.body;
