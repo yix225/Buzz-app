@@ -68,86 +68,106 @@ void addComment(String myComment, int sessId) async {
   }
 }
 
-Future<String?> addSexOri(String? sexOri, int sessId) async {
+void updateProfile(String? name,String? email, String genId, String sexOtn, String?note, int sessId) async {
+  Map<String, String> headers = {'Content-Type': 'application/json'};
+  Map<String, dynamic> payload = {
+    'name': name,
+    'email': email,
+    'genId': genId,
+    'sexOtn': sexOtn,
+    'note': note,
+  };
+  final response = await http.put(
+    Uri.parse(
+        'http://10.0.2.2:8998/profile/:${sessId}'),
+    headers: headers,
+    body: jsonEncode(payload),
+  );
+  if (response.statusCode != 200) {
+    throw Exception('Failed to update like.');
+  }
+}
+
+// Future<String?> addSexOri(String? sexOri, int sessId) async {
   
-  Map<String, String> headers = {'Content-Type': 'application/json'};
-  Map<String, dynamic> payload = {
-    'oriSex': sexOri,
-  };
-  final response = await http.put(
-    Uri.parse(
-        'http://10.0.2.2:8998/profile/:${sessId}'),
-    headers: headers,
-    body: jsonEncode(payload),
-  );
-  if (response.statusCode != 200) {
-    throw Exception('Failed to update like.');
-  }
-  return User(
-          avatarUrl: '',
-          email: '',
-          name: '',
-          token: '',
-          identity: '',
-          sexOri: '',
-          id: 0,
-          description: '',
-          sid: sessId.toString())
-      .sexOri;
-}
+//   Map<String, String> headers = {'Content-Type': 'application/json'};
+//   Map<String, dynamic> payload = {
+//     'oriSex': sexOri,
+//   };
+//   final response = await http.put(
+//     Uri.parse(
+//         'http://10.0.2.2:8998/profile/:${sessId}'),
+//     headers: headers,
+//     body: jsonEncode(payload),
+//   );
+//   if (response.statusCode != 200) {
+//     throw Exception('Failed to update like.');
+//   }
+//   return User(
+//           avatarUrl: '',
+//           email: '',
+//           name: '',
+//           token: '',
+//           identity: '',
+//           sexOri: '',
+//           id: 0,
+//           description: '',
+//           sid: sessId.toString())
+//       .sexOri;
+// }
 
-Future<String?> addGender(String? identity, int sessId) async {
-  print(identity! + " " + sessId.toString());
-  Map<String, String> headers = {'Content-Type': 'application/json'};
-  Map<String, dynamic> payload = {
-    'mSexOtn': identity,
-  };
-  final response = await http.put(
-    Uri.parse(
-        'http://10.0.2.2:8998/profile/:${sessId}'),
-    headers: headers,
-    body: jsonEncode(payload),
-  );
-  print(response.statusCode);
-  if (response.statusCode != 200) {
-    throw Exception('Failed to update like.');
-  }
-  return User(
-          avatarUrl: '',
-          email: '',
-          name: '',
-          token: '',
-          identity: '',
-          sexOri: '',
-          id: 0,
-          description: '',
-          sid: sessId.toString())
-      .identity;
-}
+// Future<String?> addGender(String? identity, int sessId) async {
+//   print(identity! + " " + sessId.toString());
+//   Map<String, String> headers = {'Content-Type': 'application/json'};
+//   Map<String, dynamic> payload = {
+//     'mSexOtn': identity,
+//   };
+//   final response = await http.put(
+//     Uri.parse(
+//         'http://10.0.2.2:8998/profile/:${sessId}'),
+//     headers: headers,
+//     body: jsonEncode(payload),
+//   );
+//   print(response.statusCode);
+//   if (response.statusCode != 200) {
+//     throw Exception('Failed to update like.');
+//   }
+//   return User(
+//           avatarUrl: '',
+//           email: '',
+//           name: '',
+//           token: '',
+//           identity: '',
+//           sexOri: '',
+//           id: 0,
+//           description: '',
+//           sid: sessId.toString())
+//       .identity;
+// }
 
-Future<String?> addDescription(String? description, int sessId) async {
-  Map<String, String> headers = {'Content-Type': 'application/json'};
-  Map<String, dynamic> payload = {
-    'description': description,
-  };
-  final response = await http.put(
-    Uri.parse(
-        'http://10.0.2.2:8998/profile/:${sessId}'),
-    headers: headers,
-    body: jsonEncode(payload),
-  );
-  if (response.statusCode != 200) {
-    throw Exception('Failed to update like.');
-  }
-  return User(
-          avatarUrl: '',
-          email: '',
-          name: '',
-          token: '',
-          identity: '',
-          sexOri: '',
-          id: 0,
-          description: '',
-          sid: sessId.toString())
-      .identity;
-}
+// Future<String?> addDescription(String? description, int sessId) async {
+//   Map<String, String> headers = {'Content-Type': 'application/json'};
+//   Map<String, dynamic> payload = {
+//     'description': description,
+//   };
+//   final response = await http.put(
+//     Uri.parse(
+//         'http://10.0.2.2:8998/profile/:${sessId}'),
+//     headers: headers,
+//     body: jsonEncode(payload),
+//   );
+//   if (response.statusCode != 200) {
+//     throw Exception('Failed to update like.');
+//   }
+//   return User(
+//           avatarUrl: '',
+//           email: '',
+//           name: '',
+//           token: '',
+//           identity: '',
+//           sexOri: '',
+//           id: 0,
+//           description: '',
+//           sid: sessId.toString())
+//       .identity;
+// }

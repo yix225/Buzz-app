@@ -47,6 +47,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
 
   TextEditingController sexOriTextControl = TextEditingController();
   TextEditingController genderTextControl = TextEditingController();
+  TextEditingController descTextControl = TextEditingController();
   void initState() {
     super.initState();
     // Set the initial value of the userIdentity controller to the current user's userIdentity value.
@@ -114,11 +115,10 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                 labelText: 'Gender',
                 enabled: true,
               ),
-              controller:
-                  genderTextControl, //TextEditingController(text: user.userIdentity),
+              controller: genderTextControl, //TextEditingController(text: user.userIdentity),
               onSubmitted: (newValue) {
                 // When the user changes the value of the TextField, update the userIdentity value in the UserData object and in the database.
-                add_gender(newValue, int.parse(user.sid));
+                // add_gender(newValue, int.parse(user.sid));
               },
             ),
             const SizedBox(
@@ -130,11 +130,10 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                 labelText: 'Sexual orientation',
                 enabled: true,
               ),
-              controller:
-                  sexOriTextControl, //TextEditingController(text: user.userSexOri),
+              controller: sexOriTextControl, //TextEditingController(text: user.userSexOri),
               onSubmitted: (newValue) {
                 // When the user changes the value of the TextField, update the userIdentity value in the UserData object and in the database.
-                add_sexOri(newValue, int.parse(user.sid));
+                // add_sexOri(newValue, int.parse(user.sid));
               },
             ),
             TextField(
@@ -143,14 +142,18 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                 labelText: 'Description',
                 enabled: true,
               ),
-              controller: TextEditingController(),
+              controller: descTextControl,
               onSubmitted: (newValue) {
                 // When the user changes the value of the TextField, update the userIdentity value in the UserData object and in the database.
-                add_description(newValue, int.parse(user.sid));
+                // add_description(newValue, int.parse(user.sid));
               },
             ),
             ElevatedButton(
               onPressed: () {
+                String firstInput = genderTextControl.text;
+                String secondInput = sexOriTextControl.text;
+                String thirdInput = descTextControl.text;
+                update_profile(user.userName, user.userEmail, firstInput, secondInput, thirdInput, user.sid);
                 Navigator.pushNamed(context, '/');
               },
               child: const Text("Save"),
@@ -175,15 +178,19 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
     );
   }
 
-  void add_sexOri(String firstInput, int sessId) {
-    addSexOri(firstInput, sessId);
+  void update_profile(String? name, String? email, firstInput, secondInput, thirdinput, sessId){
+    updateProfile(name, email, firstInput, secondInput, thirdinput, sessId);
   }
 
-  void add_gender(String secondInput, int sessId) {
-    addGender(secondInput, sessId);
-  }
+  // void add_sexOri(String firstInput, int sessId) {
+  //   addSexOri(firstInput, sessId);
+  // }
 
-  void add_description(String thirdInput, int sessId) {
-    addDescription(thirdInput, sessId);
-  }
+  // void add_gender(String secondInput, int sessId) {
+  //   addGender(secondInput, sessId);
+  // }
+
+  // void add_description(String thirdInput, int sessId) {
+  //   addDescription(thirdInput, sessId);
+  // }
 }
