@@ -71,11 +71,11 @@ void addComment(String myComment, int sessId) async {
 void updateProfile(String? name, String? email, String genId, String sexOtn, String note, int sessId) async {
   Map<String, String> headers = {'Content-Type': 'application/json'};
   Map<String, dynamic> payload = {
-    'name': name,
-    'email': email,
-    'genId': genId,
-    'sexOtn': sexOtn,
-    'note': note,
+    'mName': name,
+    'mEmail': email,
+    'mGenId': genId,
+    'mSexOtn': sexOtn,
+    'mNote': note,
   };
   final response = await http.put(
     Uri.parse(
