@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 import java.util.UUID;
-
+import java.sql.ResultSet;
 //  import org.omg.CORBA.CODESET_INCOMPATIBLE;
 
  import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
@@ -263,7 +263,7 @@ public class App {
                     response.status(200);
                     response.type("application/json");
 
-                    int newId = db.insertCommentFile("File", req.mMessage, req.mSubject, idx);
+                    int newId = db.insertCommentFile(req.mMessage, idx, 1, req.mSubject);
                     if (newId == -1) {
                         return gson.toJson(new StructuredResponse("error", "error performing insertion", null));
                     } 
@@ -514,17 +514,17 @@ public class App {
             String mUser = request.params("SessID");
             if(userSessPair.containsKey(mSessID))
             {
-                String logUser = userSessPair.get(1);
-                if(!logUser.equals(mUser)){
-                    response.status(200);
-                    response.type("application/json");
-                    return gson.toJson(new StructuredResponse("ok", "", db.selectAnotherUser(1)));
-                }
-                else{
-                    response.status(200);
-                    response.type("application/json");
-                    return gson.toJson(new StructuredResponse("ok", "", db.selectUser(1)));
-                }
+                // String logUser = userSessPair.get(1);
+                // if(!logUser.equals(mUser)){
+                //     response.status(200);
+                //     response.type("application/json");
+                //     return gson.toJson(new StructuredResponse("ok", "", db.selectAnotherUser(1)));
+                // }
+                // else{
+                //     response.status(200);
+                //     response.type("application/json");
+                //     return gson.toJson(new StructuredResponse("ok", "", db.selectUser(1)));
+                // }
             }
             return gson.toJson(new StructuredResponse("error", "Invalid SessID", null));
         });
