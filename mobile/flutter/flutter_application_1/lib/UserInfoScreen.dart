@@ -60,6 +60,8 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserData>(context);
+    print('Here');
+    print(user.sid);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile'),
@@ -114,9 +116,9 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
               ),
               controller:
                   genderTextControl, //TextEditingController(text: user.userIdentity),
-              onChanged: (newValue) {
+              onSubmitted: (newValue) {
                 // When the user changes the value of the TextField, update the userIdentity value in the UserData object and in the database.
-                add_gender(newValue, user.userId);
+                add_gender(newValue, int.parse(user.sid));
               },
             ),
             const SizedBox(
@@ -130,9 +132,9 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
               ),
               controller:
                   sexOriTextControl, //TextEditingController(text: user.userSexOri),
-              onChanged: (newValue) {
+              onSubmitted: (newValue) {
                 // When the user changes the value of the TextField, update the userIdentity value in the UserData object and in the database.
-                add_sexOri(newValue, user.userId);
+                add_sexOri(newValue, int.parse(user.sid));
               },
             ),
             TextField(
@@ -142,9 +144,9 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                 enabled: true,
               ),
               controller: TextEditingController(),
-              onChanged: (newValue) {
+              onSubmitted: (newValue) {
                 // When the user changes the value of the TextField, update the userIdentity value in the UserData object and in the database.
-                add_description(newValue, user.userId);
+                add_description(newValue, int.parse(user.sid));
               },
             ),
             ElevatedButton(

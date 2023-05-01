@@ -69,6 +69,7 @@ void addComment(String myComment, int sessId) async {
 }
 
 Future<String?> addSexOri(String? sexOri, int sessId) async {
+  
   Map<String, String> headers = {'Content-Type': 'application/json'};
   Map<String, dynamic> payload = {
     'oriSex': sexOri,
@@ -90,11 +91,13 @@ Future<String?> addSexOri(String? sexOri, int sessId) async {
           identity: '',
           sexOri: '',
           id: 0,
-          description: '')
+          description: '',
+          sid: sessId.toString())
       .sexOri;
 }
 
 Future<String?> addGender(String? identity, int sessId) async {
+  print(identity! + " " + sessId.toString());
   Map<String, String> headers = {'Content-Type': 'application/json'};
   Map<String, dynamic> payload = {
     'identity': identity,
@@ -105,6 +108,7 @@ Future<String?> addGender(String? identity, int sessId) async {
     headers: headers,
     body: jsonEncode(payload),
   );
+  print(response.statusCode);
   if (response.statusCode != 200) {
     throw Exception('Failed to update like.');
   }
@@ -116,7 +120,8 @@ Future<String?> addGender(String? identity, int sessId) async {
           identity: '',
           sexOri: '',
           id: 0,
-          description: '')
+          description: '',
+          sid: sessId.toString())
       .identity;
 }
 
@@ -142,6 +147,7 @@ Future<String?> addDescription(String? description, int sessId) async {
           identity: '',
           sexOri: '',
           id: 0,
-          description: '')
+          description: '',
+          sid: sessId.toString())
       .identity;
 }

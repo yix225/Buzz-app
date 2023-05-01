@@ -33,6 +33,7 @@ class UserData extends ChangeNotifier {
   String? get userIdentity => _user?.identity;
   String? get userSexOri => _user?.sexOri;
   int get userId => _user!.id;
+  String get sid => _user!.sid;
 
   bool get isLogin => _user != null;
 
@@ -48,6 +49,7 @@ class UserData extends ChangeNotifier {
   }
 
   Future<GoogleSignInAccount?> googleSignIn() async {
+    String sessionid = '';
     print("hello");
     // Attempts to sign in a previously authenticated user without interaction.
     _googleUser = await _googleSignIn.signIn();
@@ -64,12 +66,10 @@ class UserData extends ChangeNotifier {
           body: googleAuth.idToken,
         );
         print(response.statusCode);
-        print(response.toString());
-        print(response.headers);
         print(jsonDecode(response.body));
-        print(response.body);
-        final sessId = response.body;
-        print(sessId);
+        final sessId = jsonDecode(response.body)['mData'];
+        sessionid = sessId.toString();
+        print(sessionid);
         if (response.statusCode == 500) {
           // Get the user's profile information
           final googleUser = await _googleSignIn.signInSilently();
@@ -83,7 +83,8 @@ class UserData extends ChangeNotifier {
                 identity: '',
                 sexOri: '',
                 id: 0,
-                description: '')
+                description: '',
+                sid: sessId)
               ..email = googleUser.email
               ..name = googleUser.displayName ?? ''
               ..avatarUrl = googleUser.photoUrl?.split('=')[0] ?? ''
@@ -94,18 +95,18 @@ class UserData extends ChangeNotifier {
             print("yes3");
             return googleUser;
           }
-        } else {
-          // Authentication failed, return null
-          return null;
-        }
+        } 
       } catch (e) {
         print(e);
       }
     }
+    else  // Authentication failed, return null   
+      return null;
     print("hello2");
     _googleUser ??= await _googleSignIn
         .signIn(); // if the previous work successfully, we will not use that one
     if (_googleUser != null) {
+      print(sessionid);
       saveUser(User(
           avatarUrl: '',
           token: '',
@@ -114,7 +115,9 @@ class UserData extends ChangeNotifier {
           identity: '',
           sexOri: '',
           id: 0,
-          description: '')
+          description: '',
+          sid: sessionid
+          )
         ..email = _googleUser!.email
         ..name = _googleUser!.displayName ?? ''
         ..avatarUrl = _googleUser!.photoUrl?.split('=')[0] ?? ''
