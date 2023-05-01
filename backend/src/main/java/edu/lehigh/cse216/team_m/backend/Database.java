@@ -189,6 +189,7 @@ public class Database {
      */
     private PreparedStatement mDropAll;
 
+    private PreparedStatement mSelectUserEmail;
     /**
      * RowData is like a struct in C: we use it to hold data, and we allow 
      * direct access to its fields.  In the context of this Database, RowData 
@@ -329,6 +330,7 @@ public class Database {
             db.mToggleIdea = db.mConnection.prepareStatement("UPDATE ideas SET valid = NOT valid WHERE ideaid = ?; UPDATE comments SET valid = NOT valid"
                                                             + " WHERE ideaid = ?;");
             db.mToggleComment = db.mConnection.prepareStatement("UPDATE comments SET valid = NOT valid WHERE ideaid = ? AND commentid = ?");
+            db.mSelectUserEmail = db.mConnection.prepareStatement("SELECT userid, email FROM users where email=? ORDER by creationdate");
         } catch (SQLException e) {
             System.err.println("Error creating prepared statement");
             e.printStackTrace();
@@ -466,6 +468,7 @@ public class Database {
             db.mToggleIdea = db.mConnection.prepareStatement("UPDATE ideas SET valid = NOT valid WHERE ideaid = ?; UPDATE comments SET valid = NOT valid"
                                                             + " WHERE ideaid = ?;");
             db.mToggleComment = db.mConnection.prepareStatement("UPDATE comments SET valid = NOT valid WHERE ideaid = ? AND commentid = ?");
+            db.mSelectUserEmail = db.mConnection.prepareStatement("SELECT userid, email FROM users where email=? ORDER by creationdate");
         } catch (SQLException e) {
             System.err.println("Error creating prepared statement");
             e.printStackTrace();
@@ -544,19 +547,23 @@ public class Database {
      * @return the number of rows that were inserted
      */
     int insertUser(String name, String email, String genId, String sexOtn, String note) {
-        int count = 0;
+        int userid = -1;
+        ResultSet res;
         try {
-            mInsertUser.setString(2, name);
-            mInsertUser.setString(3, email);
-            mInsertUser.setString(4, genId);
-            mInsertUser.setString(5, sexOtn);
-            mInsertUser.setString(6, note);
-            mInsertUser.setTimestamp(7, new Timestamp(new Date().getTime()));
-            count += mInsertUser.executeUpdate();
+            mInsertUser.setString(1, name);
+            mInsertUser.setString(2, email);
+            mInsertUser.setString(3, genId);
+            mInsertUser.setString(4, sexOtn);
+            mInsertUser.setString(5, note);
+            mInsertUser.setTimestamp(6, new Timestamp(new Date().getTime()));
+            res = mInsertUser.executeQuery();
+            while(res.next()){
+                userid = res.getInt("userid");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return count;
+        return userid;
     }
 
     /**
@@ -609,12 +616,12 @@ public class Database {
     }
  
     
-    int insertCommentFile(String fileType, String fileDescription, String filePath, int ideaid){
+    int insertCommentFile(String filePath, int ideaid, int userid, String fileDescription){
         int count =0;
         try{
-            mInsertCommentFile.setString(1, fileType);
-            mInsertCommentFile.setString(2, fileDescription);
-            mInsertCommentFile.setString(3, filePath);
+            mInsertCommentFile.setString(1, filePath);
+            mInsertCommentFile.setInt(2, userid);
+            mInsertCommentFile.setString(3, fileDescription);
             mInsertCommentFile.setInt(4, ideaid);
             mInsertCommentFile.setTimestamp(5, new Timestamp(new Date().getTime()));
             count += mInsertCommentFile.executeUpdate();
@@ -660,7 +667,6 @@ public class Database {
         }
         return count;
     }
-    
     /**
      * Query the database for a list of all user variables, userid, name, email, gender identity
      * sexual orientation, note, valid, and creation date
@@ -776,6 +782,7 @@ public class Database {
         }
     }
 
+
     /**
      * Query the database for a list of all valid comment variables, commentid, subject, message, userid
      * likes, comments, valid, ideaid, and creation date
@@ -845,7 +852,6 @@ public class Database {
         }
         return res;
     }
-
     /**
      * Get all data for a specific user row, by ID
      * 
@@ -868,7 +874,6 @@ public class Database {
         }
         return res;
     }
-
     /**
      * Get all data for a specific idea row, by ID
      * 
@@ -916,6 +921,7 @@ public class Database {
         return res;
     }
 
+
     /**
      * Get all data for a specific like row, by ID, used specifically for likes for ideas
      * 
@@ -939,6 +945,7 @@ public class Database {
         }
         return res;
     }
+
 
     /**
      * Get all data for a specific like row, by ID, used specifically for likes for comments
@@ -1255,6 +1262,16 @@ public class Database {
         return res;
     }
 
+    ResultSet selectUserEmail(String email) {
+        ResultSet res = null;
+        try {
+            mSelectUserEmail.setString(1, email);
+            res = mSelectUserEmail.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
     /**
      * Create tblData.  If it already exists, this will print an error
      */
