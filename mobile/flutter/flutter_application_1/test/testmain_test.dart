@@ -82,7 +82,7 @@ void main() {
       id: 0,
       token: ' ',
       sexOri: ' ',
-      sid: 0,
+      sid: '',
     );
     final jsonData = user.toJson();
     expect(jsonData['mStatus'], equals('ok'));
