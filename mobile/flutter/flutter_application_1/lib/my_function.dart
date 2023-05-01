@@ -68,6 +68,24 @@ void addComment(String myComment, int sessId) async {
   }
 }
 
+void updateProfile(String? gen, String? sexOtn, String? note, int sessId) async {
+  Map<String, String> headers = {'Content-Type': 'application/json'};
+  Map<String, dynamic> payload = {
+    'mGenId': gen,
+    'msexOtn': sexOtn,
+    'mNote': note
+  };
+  final response = await http.put(
+    Uri.parse(
+        'http://10.0.2.2:8998/profile/:${sessId}'),
+    headers: headers,
+    body: jsonEncode(payload),
+  );
+  if (response.statusCode != 200) {
+    throw Exception('Failed to update like.');
+  }
+}
+
 Future<String?> addSexOri(String? sexOri, int sessId) async {
   
   Map<String, String> headers = {'Content-Type': 'application/json'};
@@ -100,7 +118,7 @@ Future<String?> addGender(String? identity, int sessId) async {
   print(identity! + " " + sessId.toString());
   Map<String, String> headers = {'Content-Type': 'application/json'};
   Map<String, dynamic> payload = {
-    'identity': identity,
+    'mSexOtn': identity,
   };
   final response = await http.put(
     Uri.parse(
