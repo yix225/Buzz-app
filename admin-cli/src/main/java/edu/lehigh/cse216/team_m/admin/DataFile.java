@@ -104,4 +104,8 @@ public class DataFile {
         mValid = data.mValid;
         mCreated = data.mCreated;
     }
+
+    public DataFile(String fileType, int fileId, int commentId, String fileDescription, String filePath, int userId,
+            int ideaId) {
+    }
 }

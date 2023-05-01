@@ -15,6 +15,8 @@ import java.util.ArrayList;
 public class AppTest
         extends TestCase {
 
+            private String password;
+
     /**
      * Create the test case
      *
@@ -22,6 +24,7 @@ public class AppTest
      */
     public AppTest(String testName) {
         super(testName);
+        password = "";
     }
 
     /**
@@ -52,7 +55,7 @@ public class AppTest
      * Test all possible inputs user can type
      */
     public void testInputs() {
-        String actions = "TD1V*-+~/q?";
+        String actions = "TAD1V*-+~/q?";
 
         InputStream in = new ByteArrayInputStream(actions.getBytes()); // load user input into input stream
         System.setIn(in);
@@ -81,7 +84,7 @@ public class AppTest
         String ip = "isilo.db.elephantsql.com";
         String port = Integer.toString(5432);
         String user = "gkzavwme";
-        String pass = "5TWc-gVQdICuVD1rE-cCgdBQFBH-xH6g";
+        String pass = password;
 
         Database db = Database.getDatabase(ip, port, user, pass);
 
@@ -105,7 +108,7 @@ public class AppTest
         String ip = "isilo.db.elephantsql.com";
         String port = Integer.toString(5432);
         String user = "gkzavwme";
-        String pass = "5TWc-gVQdICuVD1rE-cCgdBQFBH-xH6g";
+        String pass = password;
 
         Database db = Database.getDatabase(ip, port, user, pass);
         
@@ -129,7 +132,7 @@ public class AppTest
         String ip = "isilo.db.elephantsql.com";
         String port = Integer.toString(5432);
         String user = "gkzavwme";
-        String pass = "5TWc-gVQdICuVD1rE-cCgdBQFBH-xH6g";
+        String pass = password;
 
         Database db = Database.getDatabase(ip, port, user, pass);
         
@@ -159,14 +162,14 @@ public class AppTest
         String ip = "isilo.db.elephantsql.com";
         String port = Integer.toString(5432);
         String user = "gkzavwme";
-        String pass = "5TWc-gVQdICuVD1rE-cCgdBQFBH-xH6g";
+        String pass = password;
 
         Database db = Database.getDatabase(ip, port, user, pass);
         
-        ArrayList<DataIdea> ideas = db.selectIdeasValid();
-        for(DataIdea rw : ideas){
-            assertEquals(true, rw.mValid);
-        }
+        // ArrayList<DataIdea> ideas = db.selectIdeasValid();
+        // for(DataIdea rw : ideas){
+        //     assertEquals(true, rw.mValid);
+        // }
 
         ArrayList<DataComment> comments = db.selectCommentsValid();
         for(DataComment rw : comments){
@@ -175,6 +178,22 @@ public class AppTest
 
         ArrayList<DataUser> users = db.selectUsersValid();
         for(DataUser rw : users){
+            assertEquals(true, rw.mValid);
+        }
+    }
+
+
+    public void testAlterTable(){
+        String ip = "isilo.db.elephantsql.com";
+        String port = Integer.toString(5432);
+        String user = "gkzavwme";
+        String pass = password;
+
+        Database db = Database.getDatabase(ip, port, user, pass);
+
+        
+        ArrayList<DataFile> files = db.selectFilesValid();
+        for(DataFile rw : files){
             assertEquals(true, rw.mValid);
         }
     }

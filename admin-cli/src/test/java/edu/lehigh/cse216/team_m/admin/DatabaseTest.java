@@ -17,8 +17,10 @@ public class DatabaseTest extends TestCase {
     public DatabaseTest(String testName) {
         super(testName);
     }
+
     /**
      * Suite test to return database test class
+     * 
      * @return TestSuite
      */
     public static Test suite() {
@@ -26,10 +28,14 @@ public class DatabaseTest extends TestCase {
     }
 
     public void testDataUser() {
-        int id = 1231241351; String name = "testname"; 
-        String email = "test@gmail.com"; String genId = "test Gender"; 
-        String sexOtn = "test Orientation"; String note = "test note"; 
-        boolean valid = true; Timestamp created = new Timestamp(new Date().getTime());
+        int id = 1231241351;
+        String name = "testname";
+        String email = "test@gmail.com";
+        String genId = "test Gender";
+        String sexOtn = "test Orientation";
+        String note = "test note";
+        boolean valid = true;
+        Timestamp created = new Timestamp(new Date().getTime());
 
         DataUser user = new DataUser(id, name, email, genId, sexOtn, note);
 
@@ -40,7 +46,6 @@ public class DatabaseTest extends TestCase {
         assertTrue(user.mSexOtn.equals(sexOtn));
         assertTrue(user.mNote.equals(note));
         assertTrue(user.mValid == valid);
-
 
         DataUser user2 = new DataUser(id, name, email, genId, sexOtn, note, valid, created);
 
@@ -64,12 +69,16 @@ public class DatabaseTest extends TestCase {
         assertTrue(copy.mValid == valid);
         assertTrue(copy.mCreated.equals(new Date(created.getTime())));
     }
-    
+
     public void testDataIdea() {
-        int id = 671236923; String subject = "testidea"; 
-        String message = "this is a test"; 
-        int userId = 1; int likes = 5; int comments = 2;  
-        boolean valid = true; Timestamp created = new Timestamp(new Date().getTime());
+        int id = 671236923;
+        String subject = "testidea";
+        String message = "this is a test";
+        int userId = 1;
+        int likes = 5;
+        int comments = 2;
+        boolean valid = true;
+        Timestamp created = new Timestamp(new Date().getTime());
 
         DataIdea idea = new DataIdea(id, subject, message, userId);
         assertTrue(idea.mId == id);
@@ -80,7 +89,7 @@ public class DatabaseTest extends TestCase {
         assertTrue(idea.mComments == 0);
         assertTrue(idea.mValid == valid);
 
-        DataIdea idea2 = new DataIdea(id, subject, message, userId, likes, comments, valid, created); 
+        DataIdea idea2 = new DataIdea(id, subject, message, userId, likes, comments, valid, created);
         assertTrue(idea2.mId == id);
         assertTrue(idea2.mSubject.equals(subject));
         assertTrue(idea2.mMessage.equals(message));
@@ -90,7 +99,7 @@ public class DatabaseTest extends TestCase {
         assertTrue(idea2.mValid == valid);
         assertTrue(idea2.mCreated.equals(new Date(created.getTime())));
 
-        DataIdea copy = new DataIdea(idea2); 
+        DataIdea copy = new DataIdea(idea2);
         assertTrue(copy.mId == id);
         assertTrue(copy.mSubject.equals(subject));
         assertTrue(copy.mMessage.equals(message));
@@ -102,10 +111,15 @@ public class DatabaseTest extends TestCase {
     }
 
     public void testDataComment() {
-        int id = 671236923; String subject = "testidea"; 
-        String message = "this is a test"; int ideaId = 1;
-        int userId = 1; int likes = 5; int comments = 2;  
-        boolean valid = true; Timestamp created = new Timestamp(new Date().getTime());
+        int id = 671236923;
+        String subject = "testidea";
+        String message = "this is a test";
+        int ideaId = 1;
+        int userId = 1;
+        int likes = 5;
+        int comments = 2;
+        boolean valid = true;
+        Timestamp created = new Timestamp(new Date().getTime());
 
         DataComment comment = new DataComment(id, subject, message, userId, ideaId);
         assertTrue(comment.mId == id);
@@ -117,7 +131,7 @@ public class DatabaseTest extends TestCase {
         assertTrue(comment.mComments == 0);
         assertTrue(comment.mValid == valid);
 
-        DataComment comment2 = new DataComment(id, subject, message, userId, likes, comments, valid, ideaId, created); 
+        DataComment comment2 = new DataComment(id, subject, message, userId, likes, comments, valid, ideaId, created);
         assertTrue(comment2.mId == id);
         assertTrue(comment2.mSubject.equals(subject));
         assertTrue(comment2.mMessage.equals(message));
@@ -128,7 +142,7 @@ public class DatabaseTest extends TestCase {
         assertTrue(comment2.mValid == valid);
         assertTrue(comment2.mCreated.equals(new Date(created.getTime())));
 
-        DataComment copy = new DataComment(comment2); 
+        DataComment copy = new DataComment(comment2);
         assertTrue(copy.mId == id);
         assertTrue(copy.mSubject.equals(subject));
         assertTrue(copy.mMessage.equals(message));
@@ -141,8 +155,10 @@ public class DatabaseTest extends TestCase {
     }
 
     public void testDataLike() {
-        int ideaId = 1; int userId = 1; 
-        int status = 0; int comId = 2;
+        int ideaId = 1;
+        int userId = 1;
+        int status = 0;
+        int comId = 2;
 
         DataLike like = new DataLike(ideaId, userId, comId, status);
         assertTrue(like.mIdeaId == ideaId);
@@ -163,25 +179,75 @@ public class DatabaseTest extends TestCase {
         assertTrue(copy.mStatus == status);
     }
 
+    public void testFile() {
+        String fileType = "text";
+        int fileId = 12345;
+        int commentId = 67890;
+        String fileDescription = "This is a test file.";
+        String filePath = "/home/user/test.txt";
+        int userId = 54321;
+        int ideaId = 9876;
+        int likes = 10;
+        int comments = 3;
+        boolean valid = true;
+        Timestamp created = new Timestamp(new Date().getTime());
 
+        DataFile file = new DataFile(fileType, fileId, commentId, fileDescription, filePath, userId, ideaId);
+        assertTrue(file.mFilePath.equals(fileType));
+        assertTrue(file.mfileId == fileId);
+        assertTrue(file.mCommentID == commentId);
+        assertTrue(file.mFileDescription.equals(fileDescription));
+        assertTrue(file.mFilePath.equals(filePath));
+        assertTrue(file.mUserID == userId);
+        assertTrue(file.mIdeaID == ideaId);
+        assertTrue(file.mLikes == 0);
+        assertTrue(file.mCommentID == 0);
+        assertTrue(file.mValid == valid);
 
+        DataFile file2 = new DataFile(fileId, fileDescription, filePath, userId, ideaId, likes);
+        assertTrue(file2.mFilePath.equals(fileType));
+        assertTrue(file2.mfileId == fileId);
+        assertTrue(file2.mCommentID == commentId);
+        assertTrue(file2.mFileDescription.equals(fileDescription));
+        assertTrue(file2.mFilePath.equals(filePath));
+        assertTrue(file2.mUserID == userId);
+        assertTrue(file2.mIdeaID == ideaId);
+        assertTrue(file2.mLikes == likes);
+        assertTrue(file2.mComments == comments);
+        assertTrue(file2.mValid == valid);
+        assertTrue(file2.mCreated.equals(new Date(created.getTime())));
 
-
+        DataFile copy = new DataFile(file2);
+        assertTrue(copy.equals(fileType));
+        assertTrue(copy.mfileId == fileId);
+        assertTrue(copy.mCommentID == commentId);
+        assertTrue(copy.mFileDescription.equals(fileDescription));
+        assertTrue(copy.mFilePath.equals(filePath));
+        assertTrue(copy.mUserID == userId);
+        assertTrue(copy.mIdeaID == ideaId);
+        assertTrue(copy.mLikes == likes);
+        assertTrue(copy.mComments == comments);
+        assertTrue(copy.mValid == valid);
+        assertTrue(copy.mCreated.equals(new Date(created.getTime())));
+    }
 
     /**
-     * Test to see if inserted id, subject, message and likes match up with the row in the database
+     * Test to see if inserted id, subject, message and likes match up with the row
+     * in the database
      */
     public void testRowData() {
-        /*int id = 123;
-        String subject = "Test Subject";
-        String message = "Test Messsage";
-        int likes = 3;
-        Database.RowData db = new Database.RowData(id, subject, message, likes);
-
-        assertTrue(db.mId == id);
-        assertTrue(db.mSubject.equals(subject));
-        assertTrue(db.mMessage.equals(message));
-        assertTrue(db.mLikes == likes);*/
+        /*
+         * int id = 123;
+         * String subject = "Test Subject";
+         * String message = "Test Messsage";
+         * int likes = 3;
+         * Database.RowData db = new Database.RowData(id, subject, message, likes);
+         * 
+         * assertTrue(db.mId == id);
+         * assertTrue(db.mSubject.equals(subject));
+         * assertTrue(db.mMessage.equals(message));
+         * assertTrue(db.mLikes == likes);
+         */
     }
 
 }

@@ -278,9 +278,11 @@ public class Database {
 
             db.mDropAll = db.mConnection.prepareStatement("DROP TABLE users, ideas, comments, likes, files");
 
-           // db.mAlterTablesAdd = db.mConnection.prepareStatement("ALTER TABLE ? ADD COLUMN ? VARCHAR(255)");
+            // db.mAlterTablesAdd = db.mConnection.prepareStatement("ALTER TABLE ? ADD
+            // COLUMN ? VARCHAR(255)");
 
-           // db.mAlterTablesDelete = db.mConnection.prepareStatement("ALTER TABLE ?,  DROP COLUMN ?");
+            // db.mAlterTablesDelete = db.mConnection.prepareStatement("ALTER TABLE ?, DROP
+            // COLUMN ?");
 
             // Standard CRUD operations
             db.mDeleteUser = db.mConnection
@@ -455,8 +457,10 @@ public class Database {
 
                     );
             db.mDropAll = db.mConnection.prepareStatement("DROP TABLE users, ideas, comments, likes, files");
-            //db.mAlterTablesAdd = db.mConnection.prepareStatement("ALTER TABLE ? ADD COLUMN ? VARCHAR(255)");
-            //db.mAlterTablesDelete = db.mConnection.prepareStatement("ALTER TABLE ?,  DROP COLUMN ?");
+            // db.mAlterTablesAdd = db.mConnection.prepareStatement("ALTER TABLE ? ADD
+            // COLUMN ? VARCHAR(255)");
+            // db.mAlterTablesDelete = db.mConnection.prepareStatement("ALTER TABLE ?, DROP
+            // COLUMN ?");
 
             // Standard CRUD operations
             db.mDeleteUser = db.mConnection
@@ -1440,11 +1444,10 @@ public class Database {
             e.printStackTrace();
         }
     }
-    
-    
+
     void alterTableDelete(String tableName, String columnName) {
         try {
-            String sql = "ALTER TABLE " + tableName + " DELETE COLUMN " + columnName + " VARCHAR(255)";
+            String sql = "ALTER TABLE " + tableName + " DROP COLUMN " + columnName;
             PreparedStatement stmt = mConnection.prepareStatement(sql);
             stmt.executeUpdate();
         } catch (SQLException e) {
