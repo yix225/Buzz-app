@@ -10,6 +10,20 @@ export const getAllIdea = async () => {
         console.log(err);
       });
 };
+export const login = async (mycredential) => {
+  try {
+    const response = await axios.post(
+      "https://2023sp-team-m.dokku.cse.lehigh.edu/login",
+      mycredential
+    );
+    const responseData = response.data;
+    console.log("Received data: ", responseData);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
 // useEffect(() => {
 // getMessages();
 // }, []);
@@ -120,18 +134,6 @@ export const getAllIdea = async () => {
 // getMessages();
 // }, []);
 
-export const login = async (mycredential) => {
-  try {
-    const response = await axios.post(
-      "https://2023sp-team-m.dokku.cse.lehigh.edu/login",
-      mycredential
-    );
-    const responseData = response.data;
-    console.log("Received data: ", responseData);
-  } catch (error) {
-    console.log(error);
-  }
-};
 // useEffect(() => {
 // getMessages();
 // }, []);
