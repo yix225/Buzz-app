@@ -18,20 +18,41 @@ function Homepage() {
    * The component defines a "getMessages" function that uses the axios library to fetch messages(data) from the API and updates the state variable for messages.(by using the setMessages)
    */
   const getMessages = async () => {
-    axios
-      .get("https://2023sp-team-m.dokku.cse.lehigh.edu/GetAllIdea")
-      .then((res) => {
-        console.log(res.data.mData);
-        setMessages(res.data.mData);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    const cachedMessages = localStorage.getItem("messages");
+    if (cachedMessages) {
+      setMessages(JSON.parse(cachedMessages));
+    } else {
+      axios
+        .get("https://2023sp-team-m.dokku.cse.lehigh.edu/GetAllIdea")
+        .then((res) => {
+          console.log(res.data.mData);
+          setMessages(res.data.mData);
+          localStorage.setItem("messages", JSON.stringify(res.data.mData));
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
+  
   useEffect(() => {
     getMessages();
   }, []);
-
+  
+  // const getMessages = async () => {
+  //   try {
+  //     const response = await fetch("https://2023sp-team-m.dokku.cse.lehigh.edu/GetAllIdea");
+  //     if (!response.ok) {
+  //       throw new Error(`HTTP error! status: ${response.status}`);
+  //     }
+  //     const data = await response.json();
+  //     console.log(data.mData);
+  //     setMessages(data.mData);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+  
   /**
    * renders a form that allows users to enter new message content and subject. When the form is submitted, the component calls the addMessage function to create a new message using the content and subject entered by the user.
    * "HandleChange" & "HandleSubjectChange" use for handleing the input of user
@@ -159,11 +180,21 @@ function Homepage() {
     }
   };
 
+  function attachFile(index, file) {
+    // Update the message object at the specified index to include the attached file
+    messages[index].mAttachment = file;
+  
+    // You can perform additional logic here, such as displaying the attached file to the user or sending it to a server for storage.
+  
+    console.log(`Attached file "${file.name}" to message at index ${index}`);
+  }
+  
+
   return (
     <div>
       <script src="https://accounts.google.com/gsi/client" async defer></script>
       <script src="func.js"></script>
-      <h class = "Title">Welcome!</h>
+      <h1 className = "Title">Welcome!</h1>
       <br />
       <Link to="/profile" className="profile-link">Go to Profile</Link>
       <div>
@@ -199,11 +230,8 @@ function Homepage() {
               <div className="message-actions">
                 <span className="message-likes">{message.mLikes} likes</span>
                 <button onClick={() => likeMessage(index)}>Like</button>
-                <button
-                  onClick={() => editMessage(index, prompt("Enter new text:"))}
-                >
-                  Edit
-                </button>
+                <button onClick={() => editMessage(index, prompt("Enter new text:"))}>Edit</button>
+                <input type="file" onChange={(e) => attachFile(index, e.target.files[0])} />
               </div>
             </li>
           ))}

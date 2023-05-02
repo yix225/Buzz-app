@@ -18,7 +18,8 @@ function App() {
         <GoogleLogin
           onSuccess={(credentialResponse) => {
             console.log(credentialResponse);
-            sessionId = login(credentialResponse)
+            let sessionId = login(credentialResponse)
+            console.log(sessionId);
             navigate("/Home");
           }}
           onError={() => {
