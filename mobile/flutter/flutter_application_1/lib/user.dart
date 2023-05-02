@@ -10,6 +10,7 @@ class User {
   late String sexOri;
   late String identity;
   late String description;
+  late String sid;
   User(
       {required this.token,
       required this.avatarUrl,
@@ -18,7 +19,8 @@ class User {
       required this.sexOri,
       required this.identity,
       required this.description,
-      required this.id});
+      required this.id,
+      required this.sid});
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
         token: json['token'] as String,
@@ -28,7 +30,8 @@ class User {
         sexOri: json['mSexOrn'] as String,
         identity: json['mGenId'] as String,
         description: json['mNote'] as String,
-        id: json['mId']);
+        id: json['mId'],
+        sid: json['mSid']);
   }
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> user = new Map<String, dynamic>();
@@ -41,7 +44,8 @@ class User {
       'mSexOrn': sexOri,
       'mGenId': identity,
       'mNote': description,
-      'id': id
+      'id': id,
+      'sid':sid
     };
     print(jsonEncode(user));
     return user;

@@ -3,23 +3,16 @@ import 'package:flutter_application_1/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 
-void addMessage(String mySubject, String myMessage) async {
+void addMessage(String mySubject, String myMessage, String sessId) async {
   DateTime now = DateTime.now();
   String currentTime = now.toString();
   Map<String, String> headers = {'Content-Type': 'application/json'};
   Map<String, dynamic> payload = {
-    'mId': 0,
     'mSubject': mySubject,
     'mMessage': myMessage,
-    'mLikes': 0,
-    'mComments': 0,
-    'mUserId': 0,
-    //'mValid': true,
-    //'mUnlikes':0,
-    'mCreated': currentTime
   };
   final response = await http.post(
-    Uri.parse('http://2023sp-team-m.dokku.cse.lehigh.edu/insertIdea'),
+    Uri.parse('http://10.0.2.2:8998/insertIdea/${sessId}'),
     headers: headers,
     body: jsonEncode(payload),
   );
@@ -28,38 +21,16 @@ void addMessage(String mySubject, String myMessage) async {
   }
 }
 
-void update_Likes(int myid) async {
-  // Update the mLikes field of the message object.
-  final response = await http.put(Uri.parse(
-      'http://2023sp-team-m.dokku.cse.lehigh.edu/messages/${myid}/like'));
-  if (response.statusCode != 200) {
-    throw Exception('Failed to update like.');
-  }
-}
-
-void update_disLikes(int myid) async {
-  // Update the mLikes field of the message object.
-  final response = await http.put(Uri.parse(
-      'http://2023sp-team-m.dokku.cse.lehigh.edu/messages/${myid}/unlike'));
-  if (response.statusCode != 200) {
-    throw Exception('Failed to update like.');
-  }
-}
-
-void addComment(String myComment, String myId) async {
+void addComment(String myComment, int id, int sessId) async {
   DateTime now = DateTime.now();
   String currentTime = now.toString();
   Map<String, String> headers = {'Content-Type': 'application/json'};
   Map<String, dynamic> payload = {
-    'mId': 0,
-    'mComment': myComment,
-    'mLikes': 0,
-    'mCreated': currentTime
+    'mSubject': '',
+    'mMessage': myComment,
   };
-  print(myId);
   final response = await http.post(
-    Uri.parse(
-        'http://2023sp-team-m.dokku.cse.lehigh.edu//insertComment/:${myId}'),
+    Uri.parse('http://10.0.2.2:8998/insertComment/${id}/${sessId}'),
     headers: headers,
     body: jsonEncode(payload),
   );
@@ -68,83 +39,58 @@ void addComment(String myComment, String myId) async {
   }
 }
 
-Future<String?> addSexOri(String? sexOri, int sessId) async {
-  Map<String, String> headers = {'Content-Type': 'application/json'};
-  Map<String, dynamic> payload = {
-    'oriSex': sexOri,
-  };
-  final response = await http.post(
-    Uri.parse(
-        'http://2023sp-team-m.dokku.cse.lehigh.edu/profile/:name/:email/:genId/:sexOtn/:note'),
-    //'http://2023sp-team-m.dokku.cse.lehigh.edu/profile/:${sessId}/:name/:email/:genId/:sexOtn/:note'),
-    headers: headers,
-    body: jsonEncode(payload),
-  );
+void upvoteIdea(int myid, int sessid) async {
+  // Update the mLikes field of the message object.
+  final response = await http.put(Uri.parse(
+      'http://10.0.2.2:8998/likeIdea/${myid}/${sessid}'));
   if (response.statusCode != 200) {
     throw Exception('Failed to update like.');
   }
-  return User(
-          avatarUrl: '',
-          email: '',
-          name: '',
-          token: '',
-          identity: '',
-          sexOri: '',
-          id: 0,
-          description: '')
-      .sexOri;
 }
 
-Future<String?> addGender(String? identity, intsessId) async {
-  Map<String, String> headers = {'Content-Type': 'application/json'};
-  Map<String, dynamic> payload = {
-    'identity': identity,
-  };
-  final response = await http.post(
-    Uri.parse(
-        'http://2023sp-team-m.dokku.cse.lehigh.edu/profile/:name/:email/:genId/:sexOtn/:note'),
-    //'http://2023sp-team-m.dokku.cse.lehigh.edu/profile/:${sessId}/:name/:email/:genId/:sexOtn/:note'),
-    headers: headers,
-    body: jsonEncode(payload),
-  );
+void upvoteComment(int myid, int sessid, int mycid) async {
+  // Update the mLikes field of the message object.
+  final response = await http.put(Uri.parse(
+      'http://10.0.2.2:8998/likeComment/${myid}/${mycid}/${sessid}'));
   if (response.statusCode != 200) {
     throw Exception('Failed to update like.');
   }
-  return User(
-          avatarUrl: '',
-          email: '',
-          name: '',
-          token: '',
-          identity: '',
-          sexOri: '',
-          id: 0,
-          description: '')
-      .identity;
 }
 
-Future<String?> addDescription(String? description, int sessId) async {
+void downvoteIdea(int myid, int sessid) async {
+  // Update the mLikes field of the message object.
+  final response = await http.put(Uri.parse(
+      'http://10.0.2.2:8998/unlikeIdea/${myid}/${sessid}'));
+  if (response.statusCode != 200) {
+    throw Exception('Failed to update like.');
+  }
+}
+
+void downvoteComment(int myid, int sessid, int mycid) async {
+  // Update the mLikes field of the message object.
+  final response = await http.put(Uri.parse(
+      'http://10.0.2.2:8998/unlikeComment/${myid}/${mycid}/${sessid}'));
+  if (response.statusCode != 200) {
+    throw Exception('Failed to update like.');
+  }
+}
+
+void updateProfile(String? name, String? email, String genId, String sexOtn, String note, int sessId) async {
   Map<String, String> headers = {'Content-Type': 'application/json'};
   Map<String, dynamic> payload = {
-    'description': description,
+    'mName': name,
+    'mEmail': email,
+    'mGenId': genId,
+    'mSexOtn': sexOtn,
+    'mNote': note,
   };
-  final response = await http.post(
+  final response = await http.put(
     Uri.parse(
-        'http://2023sp-team-m.dokku.cse.lehigh.edu/profile/:name/:email/:genId/:sexOtn/:note'),
-    //'http://2023sp-team-m.dokku.cse.lehigh.edu/profile/:${sessId}/:name/:email/:genId/:sexOtn/:note'),
+        'http://10.0.2.2:8998/profile/:${sessId}'),
     headers: headers,
     body: jsonEncode(payload),
   );
   if (response.statusCode != 200) {
     throw Exception('Failed to update like.');
   }
-  return User(
-          avatarUrl: '',
-          email: '',
-          name: '',
-          token: '',
-          identity: '',
-          sexOri: '',
-          id: 0,
-          description: '')
-      .identity;
 }
