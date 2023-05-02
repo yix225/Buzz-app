@@ -1,19 +1,15 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'dart:async';
-
+import 'package:provider/provider.dart';
+import 'UserData.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/UserInfoScreen.dart';
 import 'package:flutter_application_1/my_function.dart';
 import 'dart:developer' as developer;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'dart:async';
 
-import 'comment.dart';
-import 'commentList.dart';
-import 'commentPage.dart';
-// import 'commentList.dart';
 
 class mLine {
   final int mId;
@@ -85,17 +81,19 @@ class _HttpReqWordsState extends State<HttpReqWords> {
     setState(() {});
   }
 
-  final TextEditingController _controller = TextEditingController();
+  TextEditingController MessageTextControl = TextEditingController();
 
    @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserData>(context);
     var fb = FutureBuilder<List<mLine>>(
         future: _future_list_numword_pairs,
         builder: (BuildContext context, AsyncSnapshot<List<mLine>> snapshot) {
           final List<String> message =
                 ModalRoute.of(context)!.settings.arguments as List<String>;
           Widget child;
-          if(snapshot.hasData){
+          if(int.parse(message[5]) > 0){
+            print("comments");
             child = Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -141,65 +139,24 @@ class _HttpReqWordsState extends State<HttpReqWords> {
                       },
                     )
                   ),
-                  // Center(
-                  //   child: ElevatedButton.icon(
-                  //     icon: SizedBox(
-                  //       width: 20,
-                  //       height: 20,
-                  //       child: Image.asset('images/upvote.png'),
-                  //     ),
-                  //     onPressed: () {
-                  //       _onButtonPressed(int.parse(message[0]));
-                  //     },
-                  //     label: const Text('upvote'),
-                  //     //child: Text('Up vote'),
-
-                  //     //child: Image.asset('images/upvote.png'),
-                  //   ),
-                  // ),
-                  // Center(
-                  //   child: ElevatedButton.icon(
-                  //     icon: SizedBox(
-                  //       width: 20,
-                  //       height: 20,
-                  //       child: Image.asset('images/downvote.png'),
-                  //     ),
-                  //     onPressed: () {
-                  //       _onButtonPressed2(int.parse(message[0]));
-                  //     },
-                  //     label: const Text('downvote'),
-                  //     //child: Text('Down Vote'),
-                  //     //child: Image.asset('images/downvote.png'),
-                  //   ),
-                  // ),
-                  // Center(
-                  //   child: ElevatedButton(
-                  //     onPressed: () {
-                  //       Navigator.of(context).pushReplacement(
-                  //           // go to the profile page
-                  //           MaterialPageRoute(
-                  //               builder: (context) =>
-                  //                   commentPage(mid: message[0])));
-                  //       //_onButtonPressed(int.parse(message[0]));
-                  //     },
-                  //     child: Text('add the comment'),
-                  //   ),
-                  // ),
-                  // Center(
-                  //   child: ElevatedButton(
-                  //     onPressed: () {
-                  //       Navigator.of(context).pushReplacement(
-                  //           // go to the profile page
-                  //           MaterialPageRoute(
-                  //               builder: (context) => commentList()));
-                  //       //_onButtonPressed(int.parse(message[0]));
-                  //     },
-                  //     child: Text('Comments List'),
-                  //   ),
-                  // ),
+                  TextField(
+                    decoration: InputDecoration(
+                      contentPadding: 
+                        new EdgeInsets.symmetric(vertical:5.0, horizontal: 8.0),
+                      labelText: 'Enter your Comment here:',
+                      fillColor: Colors.white,
+                      filled: true,
+                      ),
+                    controller: MessageTextControl,
+                    onSubmitted: (String str){
+                      str = MessageTextControl.text;
+                      addComment(MessageTextControl.text, int.parse(message[0]), int.parse(user.sid));
+                    },
+                  ),
                 ],
               );
             } else{
+              print("no comments");
               child = Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -231,7 +188,21 @@ class _HttpReqWordsState extends State<HttpReqWords> {
                           "No Comments :/"
                       )
                     )
-                  )
+                  ),
+                  TextField(
+                    decoration: InputDecoration(
+                      contentPadding: 
+                        new EdgeInsets.symmetric(vertical:5.0, horizontal: 8.0),
+                      labelText: 'Enter your Comment here:',
+                      fillColor: Colors.white,
+                      filled: true,
+                      ),
+                    controller: MessageTextControl,
+                    onSubmitted: (String str){
+                      str = MessageTextControl.text;
+                      addComment(MessageTextControl.text, int.parse(message[0]), int.parse(user.sid));
+                    },
+                  ),
                 ],
               );
             }

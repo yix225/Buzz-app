@@ -7,7 +7,6 @@ import 'package:flutter_application_1/UserInfoscreen.dart';
 import 'package:flutter_application_1/my_function.dart';
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
-import 'commentPage.dart';
 
 // BASIC CONTRUSCT
 class myDrawer extends StatefulWidget {
