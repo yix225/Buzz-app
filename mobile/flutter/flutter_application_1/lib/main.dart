@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:english_words/english_words.dart';
 import 'package:flutter_application_1/insert_message.dart';
 import 'package:flutter_application_1/message.dart';
 import 'package:flutter_application_1/my_function.dart';
@@ -14,9 +13,6 @@ import 'package:flutter_application_1/UserData.dart';
 import 'package:provider/provider.dart';
 
 import 'dart:io';
-import 'package:device_info/device_info.dart';
-
-import 'comment.dart';
 import 'myDrawer.dart';
 
 Future<void> main() async {
