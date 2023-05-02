@@ -30,7 +30,7 @@ void addComment(String myComment, int id, int sessId) async {
     'mMessage': myComment,
   };
   final response = await http.post(
-    Uri.parse('http://10.0.2.2:8998/insertComment/:${id}/:${sessId}'),
+    Uri.parse('http://10.0.2.2:8998/insertComment/${id}/${sessId}'),
     headers: headers,
     body: jsonEncode(payload),
   );
@@ -68,7 +68,7 @@ void updateProfile(String? name, String? email, String genId, String sexOtn, Str
   };
   final response = await http.put(
     Uri.parse(
-        'http://10.0.2.2:8998/profile/:${sessId}'),
+        'http://10.0.2.2:8998/profile/${sessId}'),
     headers: headers,
     body: jsonEncode(payload),
   );
