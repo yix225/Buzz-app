@@ -152,7 +152,7 @@ class _HttpReqWordsState extends State<HttpReqWords> {
                       str = MessageTextControl.text;
                       print(MessageTextControl.text);
                       print(int.parse(message[0]));
-                      addComment(MessageTextControl.text, int.parse(message[0]), user.sid);
+                      addComment(MessageTextControl.text, int.parse(message[0]), int.parse(user.sid));
                     },
                   ),
                 ],
@@ -202,7 +202,7 @@ class _HttpReqWordsState extends State<HttpReqWords> {
                     controller: MessageTextControl,
                     onSubmitted: (String str){
                       str = MessageTextControl.text;
-                      addComment(MessageTextControl.text, int.parse(message[0]), user.sid);
+                      addComment(MessageTextControl.text, int.parse(message[0]), int.parse(user.sid));
                     },
                   ),
                 ],

@@ -21,7 +21,7 @@ void addMessage(String mySubject, String myMessage, String sessId) async {
   }
 }
 
-void addComment(String myComment, int id, String sessId) async {
+void addComment(String myComment, int id, int sessId) async {
   DateTime now = DateTime.now();
   String currentTime = now.toString();
   Map<String, String> headers = {'Content-Type': 'application/json'};
@@ -30,7 +30,7 @@ void addComment(String myComment, int id, String sessId) async {
     'mMessage': myComment,
   };
   final response = await http.post(
-    Uri.parse('http://10.0.2.2:8998/insertComment/${id}/${sessId}'),
+    Uri.parse('http://10.0.2.2:8998/insertComment/:${id}/:${sessId}'),
     headers: headers,
     body: jsonEncode(payload),
   );
@@ -42,7 +42,7 @@ void addComment(String myComment, int id, String sessId) async {
 void upvoteIdea(int myid, int sessid) async {
   // Update the mLikes field of the message object.
   final response = await http.put(Uri.parse(
-      'http://10.0.2.2:8998/likeIdea/${myid}/${sessid}'));
+      'http://10.0.2.2:8998//likeIdea/${myid}/${sessid}'));
   if (response.statusCode != 200) {
     throw Exception('Failed to update like.');
   }
@@ -51,7 +51,7 @@ void upvoteIdea(int myid, int sessid) async {
 void downvoteIdea(int myid, int sessid) async {
   // Update the mLikes field of the message object.
   final response = await http.put(Uri.parse(
-      'http://10.0.2.2:8998/unlikeIdea/${myid}/${sessid}'));
+      'http://10.0.2.2:8998//unlikeIdea/${myid}/${sessid}'));
   if (response.statusCode != 200) {
     throw Exception('Failed to update like.');
   }
@@ -67,7 +67,8 @@ void updateProfile(String? name, String? email, String genId, String sexOtn, Str
     'mNote': note,
   };
   final response = await http.put(
-    Uri.parse('http://10.0.2.2:8998/profile/:${sessId}'),
+    Uri.parse(
+        'http://10.0.2.2:8998/profile/:${sessId}'),
     headers: headers,
     body: jsonEncode(payload),
   );
