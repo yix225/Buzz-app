@@ -42,7 +42,16 @@ void addComment(String myComment, int id, int sessId) async {
 void upvoteIdea(int myid, int sessid) async {
   // Update the mLikes field of the message object.
   final response = await http.put(Uri.parse(
-      'http://10.0.2.2:8998//likeIdea/${myid}/${sessid}'));
+      'http://10.0.2.2:8998/likeIdea/${myid}/${sessid}'));
+  if (response.statusCode != 200) {
+    throw Exception('Failed to update like.');
+  }
+}
+
+void upvoteComment(int myid, int sessid, int mycid) async {
+  // Update the mLikes field of the message object.
+  final response = await http.put(Uri.parse(
+      'http://10.0.2.2:8998/likeComment/${myid}/${mycid}/${sessid}'));
   if (response.statusCode != 200) {
     throw Exception('Failed to update like.');
   }
@@ -51,7 +60,16 @@ void upvoteIdea(int myid, int sessid) async {
 void downvoteIdea(int myid, int sessid) async {
   // Update the mLikes field of the message object.
   final response = await http.put(Uri.parse(
-      'http://10.0.2.2:8998//unlikeIdea/${myid}/${sessid}'));
+      'http://10.0.2.2:8998/unlikeIdea/${myid}/${sessid}'));
+  if (response.statusCode != 200) {
+    throw Exception('Failed to update like.');
+  }
+}
+
+void downvoteComment(int myid, int sessid, int mycid) async {
+  // Update the mLikes field of the message object.
+  final response = await http.put(Uri.parse(
+      'http://10.0.2.2:8998/unlikeComment/${myid}/${mycid}/${sessid}'));
   if (response.statusCode != 200) {
     throw Exception('Failed to update like.');
   }

@@ -119,6 +119,33 @@ class _HttpReqWordsState extends State<HttpReqWords> {
                       ),
                     ),
                   ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children:<Widget>[
+                      ElevatedButton.icon(
+                        icon: SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: Image.asset('images/upvote.png'),
+                        ),
+                        onPressed: () {
+                          upvoteIdea(int.parse(message[0]), int.parse(user.sid));
+                        },
+                        label: const Text('upvote'),
+                      ),
+                      ElevatedButton.icon(
+                        icon: SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: Image.asset('images/downvote.png'),
+                        ),
+                        onPressed: () {
+                          downvoteIdea(int.parse(message[0]), int.parse(user.sid));
+                        },
+                        label: const Text('downvote'),
+                      ),
+                    ] 
+                  ),
                   Expanded(
                     child: ListView.builder(
                       padding: const EdgeInsets.all(16.0),
@@ -133,7 +160,34 @@ class _HttpReqWordsState extends State<HttpReqWords> {
                               trailing: Text("\n${snapshot.data![i].mCreated}\n"
                                   "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tLikes:${snapshot.data![i].mLikes}\n"),
                               subtitle: Text("${snapshot.data![i].mMessage}")
-                            )
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children:<Widget>[
+                                ElevatedButton.icon(
+                                  icon: SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: Image.asset('images/upvote.png'),
+                                  ),
+                                  onPressed: () {
+                                    upvoteComment(int.parse(message[0]), int.parse(user.sid), snapshot.data![i].mId);
+                                  },
+                                  label: const Text('upvote'),
+                                ),
+                                ElevatedButton.icon(
+                                  icon: SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: Image.asset('images/downvote.png'),
+                                  ),
+                                  onPressed: () {
+                                    downvoteComment(int.parse(message[0]), int.parse(user.sid), snapshot.data![i].mId);
+                                  },
+                                  label: const Text('downvote'),
+                                ),
+                              ] 
+                            ),
                           ],
                         );
                       },
