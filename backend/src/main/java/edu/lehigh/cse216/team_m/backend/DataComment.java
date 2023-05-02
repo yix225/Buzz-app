@@ -62,4 +62,5 @@ public class DataComment extends DataIdea{
         super(data);
         mIdeaId = data.mIdeaId;
     }
+    
 }

@@ -114,6 +114,16 @@ public class Database {
     private PreparedStatement mInsertComment;
 
     /**
+     * A prepared statement for inserting a comment that has a file into the database
+     */
+    private PreparedStatement mInsertCommentFile;
+
+    /**
+     * A prepared statement for inserting a comment that has a link attached into the database
+     */
+    private PreparedStatement mInsertCommentLink;
+
+    /**
      * A prepared statement for inserting like into the database
      */
     private PreparedStatement mInsertLike;
@@ -179,6 +189,7 @@ public class Database {
      */
     private PreparedStatement mDropAll;
 
+    private PreparedStatement mSelectUserEmail;
     /**
      * RowData is like a struct in C: we use it to hold data, and we allow 
      * direct access to its fields.  In the context of this Database, RowData 
@@ -272,6 +283,10 @@ public class Database {
             db.mInsertIdea = db.mConnection.prepareStatement("INSERT INTO ideas VALUES (default, ?, ?, ?, default, default, ?, default)");
             db.mInsertComment = db.mConnection.prepareStatement("INSERT INTO comments VALUES (default, ?, ?, ?, ?, default, default, ?, default);"
                                                             + " UPDATE ideas SET comments = comments + 1 WHERE ideaid = ?");
+            db.mInsertCommentFile = db.mConnection.prepareStatement("INSERT INTO files VALUES (?,default, default,?, ?, default, ?, default, default, ?, default)"
+                                                            + "UPDATE ideas SET comments = comments + 1 WHERE ideaid = ?");
+            db.mInsertCommentLink = db.mConnection.prepareStatement("INSERT INTO files VALUES (?,default,default,?, ?, default, ?, default, default, ?, default)"
+                                                            + "UPDATE ideas SET comments = comments + 1 WHERE ideaid = ?");
             db.mInsertLike = db.mConnection.prepareStatement("INSERT INTO likes VALUES (?, ?, ?, default)");
 
             db.mSelectUsersAll = db.mConnection
@@ -315,6 +330,7 @@ public class Database {
             db.mToggleIdea = db.mConnection.prepareStatement("UPDATE ideas SET valid = NOT valid WHERE ideaid = ?; UPDATE comments SET valid = NOT valid"
                                                             + " WHERE ideaid = ?;");
             db.mToggleComment = db.mConnection.prepareStatement("UPDATE comments SET valid = NOT valid WHERE ideaid = ? AND commentid = ?");
+            db.mSelectUserEmail = db.mConnection.prepareStatement("SELECT userid, email FROM users where email=? ORDER by creationdate");
         } catch (SQLException e) {
             System.err.println("Error creating prepared statement");
             e.printStackTrace();
@@ -404,7 +420,11 @@ public class Database {
             db.mInsertUser = db.mConnection.prepareStatement("INSERT INTO users VALUES (default, ?, ?, ?, ?, ?, ?, default)");
             db.mInsertIdea = db.mConnection.prepareStatement("INSERT INTO ideas VALUES (default, ?, ?, ?, default, default, ?, default)");
             db.mInsertComment = db.mConnection.prepareStatement("INSERT INTO comments VALUES (default, ?, ?, ?, ?, default, default, ?, default);"
-                                                            + " UPDATE ideas SET comments = comments + 1 WHERE ideaid = ?");
+            + " UPDATE ideas SET comments = comments + 1 WHERE ideaid = ?");
+            db.mInsertCommentFile = db.mConnection.prepareStatement("INSERT INTO files VALUES (?,default, default,?, ?, default, ?, default, default, ?, default)"
+            + "UPDATE ideas SET comments = comments + 1 WHERE ideaid = ?");
+            db.mInsertCommentLink = db.mConnection.prepareStatement("INSERT INTO files VALUES (?,default,default,?, ?, default, ?, default, default, ?, default)"
+            + "UPDATE ideas SET comments = comments + 1 WHERE ideaid = ?");
             db.mInsertLike = db.mConnection.prepareStatement("INSERT INTO likes VALUES (?, ?, ?, default)");
 
             db.mSelectUsersAll = db.mConnection
@@ -448,6 +468,7 @@ public class Database {
             db.mToggleIdea = db.mConnection.prepareStatement("UPDATE ideas SET valid = NOT valid WHERE ideaid = ?; UPDATE comments SET valid = NOT valid"
                                                             + " WHERE ideaid = ?;");
             db.mToggleComment = db.mConnection.prepareStatement("UPDATE comments SET valid = NOT valid WHERE ideaid = ? AND commentid = ?");
+            db.mSelectUserEmail = db.mConnection.prepareStatement("SELECT userid, email FROM users where email=? ORDER by creationdate");
         } catch (SQLException e) {
             System.err.println("Error creating prepared statement");
             e.printStackTrace();
@@ -526,7 +547,8 @@ public class Database {
      * @return the number of rows that were inserted
      */
     int insertUser(String name, String email, String genId, String sexOtn, String note) {
-        int count = 0;
+        int userid = -1;
+        ResultSet res;
         try {
             mInsertUser.setString(1, name);
             mInsertUser.setString(2, email);
@@ -534,11 +556,14 @@ public class Database {
             mInsertUser.setString(4, sexOtn);
             mInsertUser.setString(5, note);
             mInsertUser.setTimestamp(6, new Timestamp(new Date().getTime()));
-            count += mInsertUser.executeUpdate();
+            res = mInsertUser.executeQuery();
+            while(res.next()){
+                userid = res.getInt("userid");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return count;
+        return userid;
     }
 
     /**
@@ -589,7 +614,38 @@ public class Database {
         }
         return count;
     }
+ 
+    
+    int insertCommentFile(String filePath, int ideaid, int userid, String fileDescription){
+        int count =0;
+        try{
+            mInsertCommentFile.setString(1, filePath);
+            mInsertCommentFile.setInt(2, userid);
+            mInsertCommentFile.setString(3, fileDescription);
+            mInsertCommentFile.setInt(4, ideaid);
+            mInsertCommentFile.setTimestamp(5, new Timestamp(new Date().getTime()));
+            count += mInsertCommentFile.executeUpdate();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return count;
+    }
 
+    int insertCommentLink(String fileType, String fileDescription, String filePath, int ideaid){
+        int count = 0;
+        try{
+          mInsertCommentFile.setString(1, fileType);
+        mInsertCommentFile.setString(2, fileDescription);
+        mInsertCommentFile.setString(3, filePath);
+        mInsertCommentFile.setInt(4, ideaid);
+        mInsertCommentFile.setTimestamp(5, new Timestamp(new Date().getTime()));  
+        count += mInsertCommentLink.executeUpdate();
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+        return count;
+    }
     /**
      * Insert a like into the likes table in the database
      * 
@@ -611,7 +667,6 @@ public class Database {
         }
         return count;
     }
-    
     /**
      * Query the database for a list of all user variables, userid, name, email, gender identity
      * sexual orientation, note, valid, and creation date
@@ -727,6 +782,7 @@ public class Database {
         }
     }
 
+
     /**
      * Query the database for a list of all valid comment variables, commentid, subject, message, userid
      * likes, comments, valid, ideaid, and creation date
@@ -796,7 +852,6 @@ public class Database {
         }
         return res;
     }
-
     /**
      * Get all data for a specific user row, by ID
      * 
@@ -819,7 +874,6 @@ public class Database {
         }
         return res;
     }
-
     /**
      * Get all data for a specific idea row, by ID
      * 
@@ -867,6 +921,7 @@ public class Database {
         return res;
     }
 
+
     /**
      * Get all data for a specific like row, by ID, used specifically for likes for ideas
      * 
@@ -890,6 +945,7 @@ public class Database {
         }
         return res;
     }
+
 
     /**
      * Get all data for a specific like row, by ID, used specifically for likes for comments
@@ -1206,6 +1262,16 @@ public class Database {
         return res;
     }
 
+    ResultSet selectUserEmail(String email) {
+        ResultSet res = null;
+        try {
+            mSelectUserEmail.setString(1, email);
+            res = mSelectUserEmail.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
     /**
      * Create tblData.  If it already exists, this will print an error
      */
