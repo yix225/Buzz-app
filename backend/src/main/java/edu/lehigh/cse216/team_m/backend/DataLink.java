@@ -9,10 +9,14 @@ public class DataLink extends DataIdea {
      * set.
      */
     public final int mIdeaId;
+    public String mfilePath;
+    public String mfileType;
 
-    DataLink(int id, String fileDescription, String filePath, int userId, int likes, int comments, boolean valid,
-            int ideaId, Timestamp created) {
-        super(id, fileDescription, filePath, userId, likes, comments, valid, created);
+    DataLink(int id, String subject, String message, int userId, int likes, int comments, boolean valid,
+            int ideaId, Timestamp created, String filePath, String fileType) {
+        super(id, subject, message,  userId, likes, comments, valid, created);
+        mfilePath = filePath;
+        mfileType = fileType;
         mIdeaId = ideaId;
     }
 

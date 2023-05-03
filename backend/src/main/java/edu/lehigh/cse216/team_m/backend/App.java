@@ -199,7 +199,48 @@ public class App {
             }
             return gson.toJson(new StructuredResponse("error", "Invalid SessID", null));
         });
+        /**
+         * Route for inserting links and files into an idea
+         */
+        Spark.post("/insertIdea:/SessID/:MediaLink", (request, response) -> {
+            String res = request.params("SessID");
+            System.out.print(res);
+            int mSessID = Integer.parseInt(res);
+            String mediaType = request.params("MediaLink");
+            if(userSessPair.containsKey(mSessID)){
+                SimpleRequest req = gson.fromJson(request.body(), SimpleRequest.class);
+                response.status(200);
+                response.type("application/json");
+                if(mediaType.toLowerCase().contains("https://")){
 
+                    response.status(200);
+                    response.type("application/json");
+    
+                    int newId = db.insertIdeaLink("Link",req.mfilePath,req.mfileType,idx);
+                    if (newId == -1) {
+                        return gson.toJson(new StructuredResponse("error", "error performing insertion", null));
+                    } 
+                    else {
+                        return gson.toJson(new StructuredResponse("ok", "" + newId, null));
+                    }
+                }
+                else if(mediaType.toLowerCase().contains(".jpeg") | mediaType.toLowerCase().contains(".jpg") | mediaType.toLowerCase().contains(".mp4")){
+        
+                        response.status(200);
+                        response.type("application/json");
+    
+                        int newId = db.insertIdeaFile(req.mfilePath, idx, 1, req.mfileType);
+                        if (newId == -1) {
+                            return gson.toJson(new StructuredResponse("error", "error performing insertion", null));
+                        } 
+                        else {
+                            return gson.toJson(new StructuredResponse("ok", "" + newId, null));
+            
+                    }
+                }
+                
+            }
+        });
         // POST route for adding a new element to the DataStore.  This will read
         // JSON from the body of the request, turn it into a SimpleRequest 
         // object, extract the title and message, insert them, and return the 
@@ -250,7 +291,7 @@ public class App {
                 response.status(200);
                 response.type("application/json");
 
-                int newId = db.insertCommentLink("Link",req.mMessage,req.mSubject,idx);
+                int newId = db.insertCommentLink("Link",req.mfilePath,req.mfileType,idx);
                 if (newId == -1) {
                     return gson.toJson(new StructuredResponse("error", "error performing insertion", null));
                 } 
@@ -263,7 +304,7 @@ public class App {
                     response.status(200);
                     response.type("application/json");
 
-                    int newId = db.insertCommentFile(req.mMessage, idx, 1, req.mSubject);
+                    int newId = db.insertCommentFile(req.mfilePath, idx, 1, req.mfileType);
                     if (newId == -1) {
                         return gson.toJson(new StructuredResponse("error", "error performing insertion", null));
                     } 
