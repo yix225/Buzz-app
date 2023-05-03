@@ -1,4 +1,4 @@
- import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_application_1/insert_message.dart';
 import 'package:flutter_application_1/message.dart';
 import 'package:flutter_application_1/my_function.dart';
@@ -222,32 +222,33 @@ class _HttpReqWordsState extends State<HttpReqWords> {
                           },
                         ),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children:<Widget>[
-                            ElevatedButton.icon(
-                              icon: SizedBox(
-                                width: 20,
-                                height: 20,
-                                child: Image.asset('images/upvote.png'),
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              ElevatedButton.icon(
+                                icon: SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: Image.asset('images/upvote.png'),
+                                ),
+                                onPressed: () {
+                                  upvoteIdea(snapshot.data![i].mId,
+                                      int.parse(user.sid));
+                                },
+                                label: const Text('upvote'),
                               ),
-                              onPressed: () {
-                                upvoteIdea(snapshot.data![i].mId, int.parse(user.sid));
-                              },
-                              label: const Text('upvote'),
-                            ),
-                            ElevatedButton.icon(
-                              icon: SizedBox(
-                                width: 20,
-                                height: 20,
-                                child: Image.asset('images/downvote.png'),
+                              ElevatedButton.icon(
+                                icon: SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: Image.asset('images/downvote.png'),
+                                ),
+                                onPressed: () {
+                                  downvoteIdea(snapshot.data![i].mId,
+                                      int.parse(user.sid));
+                                },
+                                label: const Text('downvote'),
                               ),
-                              onPressed: () {
-                                downvoteIdea(snapshot.data![i].mId, int.parse(user.sid));
-                              },
-                              label: const Text('downvote'),
-                            ),
-                          ] 
-                        ),
+                            ]),
                         Divider(height: 10.0),
                       ],
                     );
@@ -283,9 +284,8 @@ class _HttpReqWordsState extends State<HttpReqWords> {
 }
 
 Future<List<mLine>> fetchmLines() async {
-  final response = await http
-      .get(Uri.parse('http://10.0.2.2:8998/GetAllIdea'));
-  
+  final response = await http.get(Uri.parse('http://10.0.2.2:8998/GetAllIdea'));
+
   if (response.statusCode == 200) {
     final List<mLine> returnData;
     var res = jsonDecode(response.body);
