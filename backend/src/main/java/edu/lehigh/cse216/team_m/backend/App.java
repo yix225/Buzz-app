@@ -202,7 +202,7 @@ public class App {
         /**
          * Route for inserting links and files into an idea
          */
-        Spark.post("/insertIdea:/SessID/:MediaLink", (request, response) -> {
+        Spark.post("/insertIdea:/:SessID/:MediaLink", (request, response) -> {
             String res = request.params("SessID");
             System.out.print(res);
             int mSessID = Integer.parseInt(res);
@@ -216,7 +216,7 @@ public class App {
                     response.status(200);
                     response.type("application/json");
     
-                    int newId = db.insertIdeaLink("Link",req.mfilePath,req.mfileType,idx);
+                    int newId = db.insertIdeaLink(req.mSubject,req.mMessage,userSessPair.get(mSessID), req.mfilePath,req.mfileType);
                     if (newId == -1) {
                         return gson.toJson(new StructuredResponse("error", "error performing insertion", null));
                     } 
@@ -229,7 +229,7 @@ public class App {
                         response.status(200);
                         response.type("application/json");
     
-                        int newId = db.insertIdeaFile(req.mfilePath, idx, 1, req.mfileType);
+                        int newId = db.insertIdeaFile(req.mSubject,req.mMessage,userSessPair.get(mSessID), req.mfilePath,req.mfileType);
                         if (newId == -1) {
                             return gson.toJson(new StructuredResponse("error", "error performing insertion", null));
                         } 
@@ -240,6 +240,7 @@ public class App {
                 }
                 
             }
+            return gson.toJson(new StructuredResponse("error", "Invalid SessID", null));
         });
         // POST route for adding a new element to the DataStore.  This will read
         // JSON from the body of the request, turn it into a SimpleRequest 

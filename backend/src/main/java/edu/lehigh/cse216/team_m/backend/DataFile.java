@@ -12,7 +12,7 @@ public class DataFile extends DataIdea {
 
     public String mfilePath; 
     public String mfileType;
-    DataFile(int id, String subject, String messsage, int userId, int likes, int comments, boolean valid,
+    DataFile(int id, String subject, String message, int userId, int likes, int comments, boolean valid,
             int ideaId, Timestamp created,String filePath, String fileType) {
         super(id, subject, message, userId, likes, comments, valid, created);
         mfilePath = filePath;

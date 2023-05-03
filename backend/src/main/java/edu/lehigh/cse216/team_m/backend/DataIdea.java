@@ -143,8 +143,8 @@ public class DataIdea {
         mUserId = data.mUserId;
         mValid = data.mValid;
         mCreated = data.mCreated;
-        mfilePath = data.filePath;
-        mfileType = data.fileType;
+        mfilePath = data.mfilePath;
+        mfileType = data.mfileType;
     }
 
    

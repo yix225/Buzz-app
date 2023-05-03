@@ -596,8 +596,7 @@ public class Database {
         }
         return count;
     }
-    db.mInsertIdeaFile = db.mConnection.prepareStatement("INSERT INTO ideas VALUES(default, ?,?,?, default, default, ?,default, ?,?)");
-    db.mInsertIdeaLink = db.mConnection.prepareStatement("INSERT INTO ideas VALUES(default, ?,?,?, default, default, ?,default, ?,?)");
+   
     /**
      * Insert an idea with a file into the idea table in database
      */
