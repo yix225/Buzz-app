@@ -51,6 +51,10 @@ class UserData extends ChangeNotifier {
 
   Future<GoogleSignInAccount?> googleSignIn() async {
     String sessionid = '';
+    String email = '';
+    String genid = '';
+    String sexotn = '';
+    String note = '';
     print("hello");
     // Attempts to sign in a previously authenticated user without interaction.
     _googleUser = await _googleSignIn.signIn();
@@ -68,8 +72,12 @@ class UserData extends ChangeNotifier {
         );
         print(response.statusCode);
         print(jsonDecode(response.body));
-        final sessId = jsonDecode(response.body)['mData'];
+        final sessId = jsonDecode(response.body)['mData'][0];
         sessionid = sessId.toString();
+        email = jsonDecode(response.body)['mData'][1];
+        genid = jsonDecode(response.body)['mData'][2];
+        sexotn = jsonDecode(response.body)['mData'][3];
+        note = jsonDecode(response.body)['mData'][4];
         print(sessionid);
         if (response.statusCode == 500) {
           // Get the user's profile information
@@ -85,12 +93,13 @@ class UserData extends ChangeNotifier {
                 sexOri: '',
                 id: 0,
                 description: '',
-                sid: sessId)
+                sid: sessionid)
               ..email = googleUser.email
               ..name = googleUser.displayName ?? ''
               ..avatarUrl = googleUser.photoUrl?.split('=')[0] ?? ''
-              ..sexOri = ''
-              ..identity = ''
+              ..sexOri = sexotn
+              ..identity = genid
+              ..description = note
               ..token = "_googleUser"
               ..id = 0); // store user basic data
             print("yes3");
@@ -107,7 +116,6 @@ class UserData extends ChangeNotifier {
     _googleUser ??= await _googleSignIn
         .signIn(); // if the previous work successfully, we will not use that one
     if (_googleUser != null) {
-      print(sessionid);
       saveUser(User(
           avatarUrl: '',
           token: '',
@@ -122,8 +130,9 @@ class UserData extends ChangeNotifier {
         ..email = _googleUser!.email
         ..name = _googleUser!.displayName ?? ''
         ..avatarUrl = _googleUser!.photoUrl?.split('=')[0] ?? ''
-        ..sexOri = ''
-        ..identity = ''
+        ..sexOri = sexotn
+        ..identity = genid
+        ..description = note
         ..token = "_googleUser"); // store user basic data
       return _googleUser;
     }
