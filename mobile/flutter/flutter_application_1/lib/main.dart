@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/insert_message.dart';
 import 'package:flutter_application_1/message.dart';
 import 'package:flutter_application_1/my_function.dart';
+import 'package:flutter_application_1/edit_comment.dart';
 import 'package:flutter_application_1/user.dart';
 import 'dart:developer' as developer;
 import 'package:http/http.dart' as http;
@@ -92,11 +93,13 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.deepPurple,
       ),
-      home: const MyHomePage(title: 'The Buzz'),
+      home: new SignInScreen(),
       routes: {
+        '/home' : (context) => const MyHomePage(title: 'The Buzz'),
         '/insert': (context) => insert_message(),
         '/mymessage': (context) => message(),
         '/SignInScreen': (context) => SignInScreen(),
+        '/edit' : (context) => edit_comment(),
       },
     );
   }
@@ -248,14 +251,14 @@ class _HttpReqWordsState extends State<HttpReqWords> {
                                 },
                                 label: const Text('downvote'),
                               ),
-                              // if(snapshot.data![i].mId == user.userId)...{
-                              //   ElevatedButton(
-                              //     onPressed: () {
-                              //       Navigator.pushNamed(context, '/insert');
-                              //     },
-                              //     child: Text('Edit'),
-                              //   ),
-                              // }
+                              if(snapshot.data![i].mUserId ==  user.userId)...{
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.pushNamed(context, '/edit');
+                                  },
+                                  child: Text('Edit'),
+                                ),
+                              }
                             ]),
                         Divider(height: 10.0),
                       ],

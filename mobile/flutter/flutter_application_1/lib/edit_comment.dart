@@ -5,32 +5,26 @@ import 'package:flutter_application_1/my_function.dart';
 import 'package:provider/provider.dart';
 import 'UserData.dart';
 
-class insert_message extends StatelessWidget {
-  TextEditingController SubjectTextControl = TextEditingController();
+class edit_comment extends StatelessWidget {
   TextEditingController MessageTextControl = TextEditingController();
 
   void dispose() {
-    SubjectTextControl.dispose();
     MessageTextControl.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserData>(context);
+    final List<String> idparams =
+                ModalRoute.of(context)!.settings.arguments as List<String>;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Please enter your subject and message'),
+        title: Text('Please enter your new message'),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextField(
-              decoration: InputDecoration(
-                labelText: 'Enter your Subject here:',
-              ),
-              controller: SubjectTextControl,
-            ),
             SizedBox(height: 16),
             TextField(
               decoration: InputDecoration(
@@ -41,9 +35,8 @@ class insert_message extends StatelessWidget {
             SizedBox(height: 32),
             ElevatedButton(
               onPressed: () {
-                String firstInput = SubjectTextControl.text;
                 String secondInput = MessageTextControl.text;
-                addMessage(firstInput, secondInput, user.sid);
+                addMessage(, secondInput, user.sid);
                 Navigator.pushNamed(context, '/');
               },
               child: Text('Add'),

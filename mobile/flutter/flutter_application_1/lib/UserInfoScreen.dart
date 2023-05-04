@@ -152,7 +152,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                 id: user.userId,
                 description: thirdInput,
                 sid: user.sid));
-                Navigator.pushNamed(context, '/');
+                Navigator.pushNamed(context, '/home');
               },
               child: const Text("Save"),
             ),
