@@ -16,8 +16,9 @@ class UserData extends ChangeNotifier {
   User? get user => _user;
 
   set user(User? user) {
-    if (_user == user) // if they are equal. the compiler do not need to assigned them equal.
-      return; 
+    if (_user ==
+        user) // if they are equal. the compiler do not need to assigned them equal.
+      return;
     _user = user;
     //notifyListeners(); // check the any change
   }
@@ -51,14 +52,12 @@ class UserData extends ChangeNotifier {
 
   Future<GoogleSignInAccount?> googleSignIn() async {
     String sessionid = '';
-    String email = '';
     String genid = '';
     String sexotn = '';
     String note = '';
-    print("hello");
+    String id = '';
     // Attempts to sign in a previously authenticated user without interaction.
     _googleUser = await _googleSignIn.signIn();
-    print("yes");
     final GoogleSignInAuthentication googleAuth =
         await _googleUser!.authentication;
     final String idToken = googleAuth.idToken ?? '';
@@ -74,7 +73,7 @@ class UserData extends ChangeNotifier {
         print(jsonDecode(response.body));
         final sessId = jsonDecode(response.body)['mData'][0];
         sessionid = sessId.toString();
-        email = jsonDecode(response.body)['mData'][1];
+        id = jsonDecode(response.body)['mData'][1];
         genid = jsonDecode(response.body)['mData'][2];
         sexotn = jsonDecode(response.body)['mData'][3];
         note = jsonDecode(response.body)['mData'][4];
@@ -101,16 +100,15 @@ class UserData extends ChangeNotifier {
               ..identity = genid
               ..description = note
               ..token = "_googleUser"
-              ..id = 0); // store user basic data
+              ..id = int.parse(id)); // store user basic data
             print("yes3");
             return googleUser;
           }
-        } 
+        }
       } catch (e) {
         print(e);
       }
-    }
-    else  // Authentication failed, return null   
+    } else // Authentication failed, return null
       return null;
     print("hello2");
     _googleUser ??= await _googleSignIn
@@ -125,15 +123,15 @@ class UserData extends ChangeNotifier {
           sexOri: '',
           id: 0,
           description: '',
-          sid: sessionid
-          )
+          sid: sessionid)
         ..email = _googleUser!.email
         ..name = _googleUser!.displayName ?? ''
         ..avatarUrl = _googleUser!.photoUrl?.split('=')[0] ?? ''
         ..sexOri = sexotn
         ..identity = genid
         ..description = note
-        ..token = "_googleUser"); // store user basic data
+        ..token = "_googleUser"
+        ..id = int.parse(id)); // store user basic data
       return _googleUser;
     }
   }
