@@ -144,6 +144,16 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                 String secondInput = sexOriTextControl.text;
                 String thirdInput = descTextControl.text;
                 updateProfile(user.userName, user.userEmail, firstInput, secondInput, thirdInput, int.parse(user.sid));
+                user.saveUser(User(
+                avatarUrl: user.userAvUrl!,
+                token: "_googleUser",
+                email: user.userEmail!,
+                name: user.userName!,
+                identity: firstInput,
+                sexOri: secondInput,
+                id: user.userId,
+                description: thirdInput,
+                sid: user.sid));
                 Navigator.pushNamed(context, '/');
               },
               child: const Text("Save"),
