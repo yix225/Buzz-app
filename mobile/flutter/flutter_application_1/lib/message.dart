@@ -92,60 +92,59 @@ class _HttpReqWordsState extends State<HttpReqWords> {
           final List<String> message =
                 ModalRoute.of(context)!.settings.arguments as List<String>;
           Widget child;
-          if(int.parse(message[5]) > 0){
-            print("comments");
             child = Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Tooltip(
-                    message: message[0],
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => UserInfoScreen()),
-                        );
-                      },
-                      child: ListTile(
-                        title: Text(
-                          "${message[1]}\n"
-                          "${message[2]}",
-                          style: TextStyle(fontSize: 18),
-                        ),
-                        trailing: Text("\n${message[3]}\n"
-                            "\t\t\t\t\t\t\tLikes:${message[4]}\t\tComments:${message[5]}\n"),
-                        subtitle: Text("${message[6]}"),
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Tooltip(
+                  message: message[0],
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => UserInfoScreen()),
+                      );
+                    },
+                    child: ListTile(
+                      title: Text(
+                        "${message[1]}\n"
+                        "${message[2]}",
+                        style: TextStyle(fontSize: 18),
                       ),
+                      trailing: Text("\n${message[3]}\n"
+                          "\t\t\t\t\t\t\tLikes:${message[4]}\t\tComments:${message[5]}\n"),
+                      subtitle: Text("${message[6]}"),
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children:<Widget>[
-                      ElevatedButton.icon(
-                        icon: SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: Image.asset('images/upvote.png'),
-                        ),
-                        onPressed: () {
-                          upvoteIdea(int.parse(message[0]), int.parse(user.sid));
-                        },
-                        label: const Text('upvote'),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children:<Widget>[
+                    ElevatedButton.icon(
+                      icon: SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: Image.asset('images/upvote.png'),
                       ),
-                      ElevatedButton.icon(
-                        icon: SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: Image.asset('images/downvote.png'),
-                        ),
-                        onPressed: () {
-                          downvoteIdea(int.parse(message[0]), int.parse(user.sid));
-                        },
-                        label: const Text('downvote'),
+                      onPressed: () {
+                        upvoteIdea(int.parse(message[0]), int.parse(user.sid));
+                      },
+                      label: const Text('upvote'),
+                    ),
+                    ElevatedButton.icon(
+                      icon: SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: Image.asset('images/downvote.png'),
                       ),
-                    ] 
-                  ),
+                      onPressed: () {
+                        downvoteIdea(int.parse(message[0]), int.parse(user.sid));
+                      },
+                      label: const Text('downvote'),
+                    ),
+                  ] 
+                ),
+                if(int.parse(message[5]) > 0)...{
                   Expanded(
                     child: ListView.builder(
                       padding: const EdgeInsets.all(16.0),
@@ -193,51 +192,7 @@ class _HttpReqWordsState extends State<HttpReqWords> {
                       },
                     )
                   ),
-                  TextField(
-                    decoration: InputDecoration(
-                      contentPadding: 
-                        new EdgeInsets.symmetric(vertical:5.0, horizontal: 8.0),
-                      labelText: 'Enter your Comment here:',
-                      fillColor: Colors.white,
-                      filled: true,
-                      ),
-                    controller: MessageTextControl,
-                    onSubmitted: (String str){
-                      str = MessageTextControl.text;
-                      print(MessageTextControl.text);
-                      print(int.parse(message[0]));
-                      addComment(MessageTextControl.text, int.parse(message[0].toString()), int.parse(user.sid));
-                    },
-                  ),
-                ],
-              );
-            } else{
-              print("no comments");
-              child = Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Tooltip(
-                    message: message[0],
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => UserInfoScreen()),
-                        );
-                      },
-                      child: ListTile(
-                        title: Text(
-                          "${message[1]}\n"
-                          "${message[2]}",
-                          style: TextStyle(fontSize: 18),
-                        ),
-                        trailing: Text("\n${message[3]}\n"
-                            "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tLikes:${message[4]}\n"),
-                        subtitle: Text("${message[5]}"),
-                      ),
-                    ),
-                  ),
+                } else...{
                   Center(
                     child: ListTile(
                       title: Text(
@@ -245,29 +200,31 @@ class _HttpReqWordsState extends State<HttpReqWords> {
                       )
                     )
                   ),
-                  TextField(
-                    decoration: InputDecoration(
-                      contentPadding: 
-                        new EdgeInsets.symmetric(vertical:5.0, horizontal: 8.0),
-                      labelText: 'Enter your Comment here:',
-                      fillColor: Colors.white,
-                      filled: true,
-                      ),
-                    controller: MessageTextControl,
-                    onSubmitted: (String str){
-                      str = MessageTextControl.text;
-                      addComment(MessageTextControl.text, int.parse(message[0]), int.parse(user.sid));
-                    },
+                }, 
+                TextField(
+                  decoration: InputDecoration(
+                    contentPadding: 
+                      new EdgeInsets.symmetric(vertical:5.0, horizontal: 8.0),
+                    labelText: 'Enter your Comment here:',
+                    fillColor: Colors.white,
+                    filled: true,
                   ),
-                ],
-              );
-            }
-          return child;       
-        }  
-      );
-    return fb;
+                  controller: MessageTextControl,
+                  onSubmitted: (String str){
+                    str = MessageTextControl.text;
+                    print(MessageTextControl.text);
+                    print(int.parse(message[0]));
+                    addComment(MessageTextControl.text, int.parse(message[0].toString()), int.parse(user.sid));
+                  },
+                ),
+              ],
+            );
+            return child;  
+          } 
+        );
+      return fb;   
+    }
   }
-}
 
 class message extends StatefulWidget {
   // This widget is the home page of your application. It is stateful, meaning

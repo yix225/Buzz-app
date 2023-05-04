@@ -49,9 +49,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
   TextEditingController genderTextControl = TextEditingController();
   TextEditingController descTextControl = TextEditingController();
   void initState() {
-    print("here");
     final user = Provider.of<UserData>(context, listen: false);
-    print(user.userSexOri);
     super.initState();
     // Set the initial value of the userIdentity controller to the current user's userIdentity value.
     sexOriTextControl.text = user.userSexOri!;

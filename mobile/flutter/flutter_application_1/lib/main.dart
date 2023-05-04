@@ -248,6 +248,14 @@ class _HttpReqWordsState extends State<HttpReqWords> {
                                 },
                                 label: const Text('downvote'),
                               ),
+                              // if(snapshot.data![i].mId == user.userId)...{
+                              //   ElevatedButton(
+                              //     onPressed: () {
+                              //       Navigator.pushNamed(context, '/insert');
+                              //     },
+                              //     child: Text('Edit'),
+                              //   ),
+                              // }
                             ]),
                         Divider(height: 10.0),
                       ],
