@@ -36,7 +36,7 @@ class edit_comment extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 String secondInput = MessageTextControl.text;
-                addMessage(, secondInput, user.sid);
+                //updateComment(, secondInput, user.sid);
                 Navigator.pushNamed(context, '/');
               },
               child: Text('Add'),
