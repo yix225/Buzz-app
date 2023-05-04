@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_application_1/my_function.dart';
+import 'dart:developer' as developer;
 import 'package:http/http.dart' as http;
-import 'package:flutter_application_1/user.dart';
-import 'user_data.dart';
-import 'my_function.dart';
-
+import 'dart:convert';
+import 'dart:async';
+import 'package:flutter_application_1/user_data.dart';
+import 'package:provider/provider.dart';
 
 class Profile {
 // the variable we will use in the following files
@@ -14,28 +15,24 @@ class Profile {
   late String name;
   late String email;
   late String description;
-  Profile(
-    {required this.token,
-    required this.avatarUrl,
+  Profile({
     required this.name,
     required this.email,
     required this.description,
-    required this.id,});
+    required this.id,
+  });
   factory Profile.fromJson(Map<String, dynamic> json) {
     return Profile(
-      token: json['token'] as String,
-      avatarUrl: json['avatarUrl'] as String,
       name: json['mName'] as String,
       email: json['mEmail'] as String,
       description: json['mNote'] as String,
-      id: json['mId'],);
+      id: json['mId'],
+    );
   }
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> user = new Map<String, dynamic>();
     user['mStatus'] = 'ok';
     user['mData'] = {
-      'token': token,
-      'avatarUrl': avatarUrl,
       'mName': name,
       'mEmail': email,
       'mNote': description,
@@ -44,9 +41,6 @@ class Profile {
     return user;
   }
 }
-
-
-
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -57,129 +51,104 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  
   @override
   void initState() {
     super.initState();
-    // Set the initial value of the userIdentity controller to the current user's userIdentity value.
   }
 
 // the previous bunch of code is for function
 // current bunch of code is  for UI look like
   @override
   Widget build(BuildContext context) {
-      final userid = ModalRoute.of(context)!.settings.arguments as String;
+    var profile = FutureBuilder<Profile>(
+        builder: (BuildContext context, AsyncSnapshot<Profile> snapshot) {
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('Profile'),
+          ),
+          body: Padding(
+            // padding left and right
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: ListView(
+              children: <Widget>[
+                const SizedBox(
+                  height: 20,
+                ),
+                Align(
+                  child: CircleAvatar(
+                    radius: 70,
+                    child: Image.asset('images/default_avatar.png'),
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                TextField(
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Name',
+                    enabled: false,
+                  ),
+                  controller: TextEditingController(text: snapshot.data!.name),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                TextField(
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Email',
+                    enabled: false,
+                  ),
+                  controller: TextEditingController(text: snapshot.data!.email),
+                ),
+                const SizedBox(
+                  height: 50,
+                ),
+                TextField(
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Description',
+                    enabled: true,
+                  ),
+                  controller: TextEditingController(text: snapshot.data!.description),
+                ),
+              ],
+            ),
+          ),
+        );
+    });
+    return profile;
+  }
+}
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profile'),
-      ),
-      body: Padding(
-        // padding left and right
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: ListView(
-          children: <Widget>[
-            const SizedBox(
-              height: 20,
-            ),
-            Align(
-              child: CircleAvatar(
-                backgroundImage: user.userAvatar,
-                radius: 70,
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            TextField(
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Name',
-                enabled: false,
-              ),
-              controller: TextEditingController(text: profile.profilename),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            TextField(
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Email',
-                enabled: false,
-              ),
-              controller: TextEditingController(text: user.userEmail),
-            ),
-            const SizedBox(
-              height: 50,
-            ),
-            TextField(
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Gender',
-                enabled: true,
-              ),
-              controller: genderTextControl,
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            TextField(
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Sexual orientation',
-                enabled: true,
-              ),
-              controller: sexOriTextControl,
-            ),
-            TextField(
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Description',
-                enabled: true,
-              ),
-              controller: descTextControl,
-            ),
-            ElevatedButton(
-              onPressed: () {
-                String firstInput = genderTextControl.text;
-                String secondInput = sexOriTextControl.text;
-                String thirdInput = descTextControl.text;
-                updateProfile(user.userName, user.userEmail, firstInput, secondInput, thirdInput, int.parse(user.sid));
-                user.saveUser(User(
-                avatarUrl: user.userAvUrl!,
-                token: "_googleUser",
-                email: user.userEmail!,
-                name: user.userName!,
-                identity: firstInput,
-                sexOri: secondInput,
-                id: user.userId,
-                description: thirdInput,
-                sid: user.sid));
-                Navigator.pushNamed(context, '/home');
-              },
-              child: const Text("Save"),
-            ),
-            user.isLogin
-                ? ElevatedButton(
-                    onPressed: () async {
-                      final bool? isLogout = await showLogoutDialog(context);
-                      if (isLogout != null && isLogout) {
-                        user.googleSignOut().then((_) {
-                          user.removeUser();
-                          Navigator.pop(context);
-                        });
-                      }
-                    },
-                    child: const Text("Logout"),
-                  )
-                : const SizedBox(),
-          ],
-        ),
-      ),
-    );
+Future<Profile> fetchProfile(BuildContext context) async {
+  final user = Provider.of<UserData>(context, listen: false);
+  final userid = ModalRoute.of(context)!.settings.arguments as String;
+  final response = await http
+      .get(Uri.parse('http://10.0.2.2:8998/getProfile/$userid/${user.sid}'));
+
+  if (response.statusCode == 200) {
+    final Profile returnData;
+    var res = jsonDecode(response.body);
+    dynamic mData = res['mData'];
+    // ignore: unnecessary_type_check
+    if (mData is dynamic) {
+      returnData = (mData).map((x) => Profile.fromJson(x));
+    } else if (mData is Map) {
+      returnData = Profile.fromJson(mData as Map<String, dynamic>);
+    } else {
+      developer
+          .log('ERROR: Unexpected json response type (was not a List or Map).');
+      returnData = Profile(name: '', email: '', description: '', id: 0);
+    }
+    return returnData;
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Did not receive success status code from request.');
   }
 }
