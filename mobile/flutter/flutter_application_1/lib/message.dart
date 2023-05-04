@@ -2,30 +2,30 @@
 
 import 'dart:async';
 import 'package:provider/provider.dart';
-import 'UserData.dart';
+import 'user_data.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/UserInfoScreen.dart';
+import 'package:flutter_application_1/user_info_screen.dart';
 import 'package:flutter_application_1/my_function.dart';
 import 'dart:developer' as developer;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 
-class mLine {
+class Comment {
   final int mId;
   String mMessage;
   int mLikes;
   final int mUserId;
   final String mCreated;
-  mLine({
+  Comment({
     required this.mId,
     required this.mMessage,
     required this.mLikes,
     required this.mUserId,
     required this.mCreated,
   });
-  factory mLine.fromJson(Map<String, dynamic> json) {
-    return mLine(
+  factory Comment.fromJson(Map<String, dynamic> json) {
+    return Comment(
       mId: json['mId'],
       mMessage: json['mMessage'],
       mLikes: json['mLikes'],
@@ -37,11 +37,11 @@ class mLine {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['mStatus'] = 'ok';
     data['mData'] = {
-      'mId': this.mId,
-      'mMessage': this.mMessage,
-      'mLikes': this.mLikes,
-      'mUserId': this.mUserId,
-      'mCreated': this.mCreated
+      'mId': mId,
+      'mMessage': mMessage,
+      'mLikes': mLikes,
+      'mUserId': mUserId,
+      'mCreated': mCreated
     };
     print(jsonEncode(data));
     return data;
@@ -56,24 +56,22 @@ class HttpReqWords extends StatefulWidget {
 }
 
 class _HttpReqWordsState extends State<HttpReqWords> {
-  late Future<List<mLine>> _future_list_numword_pairs;
-  late Timer _timer;
-
-  final _biggerFont = const TextStyle(fontSize: 18);
+  late Future<List<Comment>> _future_list_numword_pairs;
+  late Timer timer;
 
   @override
   void initState() {
     super.initState();
-    Timer _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    Timer timer = Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
-        _future_list_numword_pairs = fetchmLines(context);
+        _future_list_numword_pairs = fetchComments(context);
       });
     });
   }
 
   void _retry() {
     setState(() {
-      _future_list_numword_pairs = fetchmLines(context);
+      _future_list_numword_pairs = fetchComments(context);
     });
   }
 
@@ -81,14 +79,14 @@ class _HttpReqWordsState extends State<HttpReqWords> {
     setState(() {});
   }
 
-  TextEditingController MessageTextControl = TextEditingController();
+  TextEditingController messageTextControl = TextEditingController();
 
    @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserData>(context);
-    var fb = FutureBuilder<List<mLine>>(
+    var fb = FutureBuilder<List<Comment>>(
         future: _future_list_numword_pairs,
-        builder: (BuildContext context, AsyncSnapshot<List<mLine>> snapshot) {
+        builder: (BuildContext context, AsyncSnapshot<List<Comment>> snapshot) {
           final List<String> message =
                 ModalRoute.of(context)!.settings.arguments as List<String>;
           Widget child;
@@ -185,6 +183,17 @@ class _HttpReqWordsState extends State<HttpReqWords> {
                                   },
                                   label: const Text('downvote'),
                                 ),
+                                if(snapshot.data![i].mUserId ==  user.userId)...{
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      List<String> args = [message[0], snapshot.data![i].mId.toString(), snapshot.data![i].mMessage];
+                                      Navigator.pushNamed(
+                                        context, '/edit',
+                                        arguments: args,);
+                                    },
+                                    child: Text('Edit'),
+                                  ),
+                                }
                               ] 
                             ),
                           ],
@@ -209,12 +218,10 @@ class _HttpReqWordsState extends State<HttpReqWords> {
                     fillColor: Colors.white,
                     filled: true,
                   ),
-                  controller: MessageTextControl,
+                  controller: messageTextControl,
                   onSubmitted: (String str){
-                    str = MessageTextControl.text;
-                    print(MessageTextControl.text);
-                    print(int.parse(message[0]));
-                    addComment(MessageTextControl.text, int.parse(message[0].toString()), int.parse(user.sid));
+                    str = messageTextControl.text;
+                    addComment(messageTextControl.text, int.parse(message[0].toString()), int.parse(user.sid));
                   },
                 ),
               ],
@@ -226,7 +233,7 @@ class _HttpReqWordsState extends State<HttpReqWords> {
     }
   }
 
-class message extends StatefulWidget {
+class Message extends StatefulWidget {
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
   // how it looks.
@@ -236,10 +243,10 @@ class message extends StatefulWidget {
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
   @override
-  State<message> createState() => _messagestate();
+  State<Message> createState() => _MessageState();
 }
 
-class _messagestate extends State<message> {
+class _MessageState extends State<Message> {
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called
@@ -262,7 +269,7 @@ class _messagestate extends State<message> {
 
 
 
-Future<List<mLine>> fetchmLines(BuildContext context) async {
+Future<List<Comment>> fetchComments(BuildContext context) async {
   //print("1");
   final List<String> message =
       ModalRoute.of(context)!.settings.arguments as List<String>;
@@ -270,14 +277,14 @@ Future<List<mLine>> fetchmLines(BuildContext context) async {
       .get(Uri.parse('http://10.0.2.2:8998/GetComment/${message[0]}'));
   
   if (response.statusCode == 200) {
-    final List<mLine> returnData;
+    final List<Comment> returnData;
     var res = jsonDecode(response.body);
     List<dynamic> mData = res['mData'];
     // ignore: unnecessary_type_check
     if (mData is List) {
-      returnData = (mData).map((x) => mLine.fromJson(x)).toList();
+      returnData = (mData).map((x) => Comment.fromJson(x)).toList();
     } else if (mData is Map) {
-      returnData = <mLine>[mLine.fromJson(mData as Map<String, dynamic>)];
+      returnData = <Comment>[Comment.fromJson(mData as Map<String, dynamic>)];
     } else {
       developer
           .log('ERROR: Unexpected json response type (was not a List or Map).');

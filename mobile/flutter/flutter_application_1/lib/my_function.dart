@@ -1,18 +1,14 @@
 import 'dart:convert';
-import 'package:flutter_application_1/user.dart';
 import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
 
-void addMessage(String mySubject, String myMessage, String sessId) async {
-  DateTime now = DateTime.now();
-  String currentTime = now.toString();
+void addMessage(String mySubject, String myMessage, String sessid) async {
   Map<String, String> headers = {'Content-Type': 'application/json'};
   Map<String, dynamic> payload = {
     'mSubject': mySubject,
     'mMessage': myMessage,
   };
   final response = await http.post(
-    Uri.parse('http://10.0.2.2:8998/insertIdea/$sessId'),
+    Uri.parse('http://10.0.2.2:8998/insertIdea/$sessid'),
     headers: headers,
     body: jsonEncode(payload),
   );
@@ -21,13 +17,13 @@ void addMessage(String mySubject, String myMessage, String sessId) async {
   }
 }
 
-void updateComment(int ideaid, String myMessage, String sessId) async {
+void updateComment(String myMessage, int ideaid, int commentid, String sessid) async {
   Map<String, String> headers = {'Content-Type': 'application/json'};
   Map<String, dynamic> payload = {
     'mMessage': myMessage,
   };
   final response = await http.put(
-    Uri.parse('http://10.0.2.2:8998/updateIdea/$ideaid/$sessId'),
+    Uri.parse('http://10.0.2.2:8998/updateComment/$ideaid/$commentid/$sessid'),
     headers: headers,
     body: jsonEncode(payload),
   );
@@ -36,16 +32,14 @@ void updateComment(int ideaid, String myMessage, String sessId) async {
   }
 }
 
-void addComment(String myComment, int id, int sessId) async {
-  DateTime now = DateTime.now();
-  String currentTime = now.toString();
+void addComment(String myComment, int ideaid, int sessid) async {
   Map<String, String> headers = {'Content-Type': 'application/json'};
   Map<String, dynamic> payload = {
     'mSubject': '',
     'mMessage': myComment,
   };
   final response = await http.post(
-    Uri.parse('http://10.0.2.2:8998/insertComment/$id/$sessId'),
+    Uri.parse('http://10.0.2.2:8998/insertComment/$ideaid/$sessid'),
     headers: headers,
     body: jsonEncode(payload),
   );
@@ -84,13 +78,13 @@ void downvoteIdea(int ideaid, int sessid) async {
 void downvoteComment(int ideaid, int sessid, int commentid) async {
   // Update the mLikes field of the message object.
   final response = await http.put(Uri.parse(
-      'http://10.0.2.2:8998/unlikeComment/$ideaid}/$commentid/$sessid'));
+      'http://10.0.2.2:8998/unlikeComment/$ideaid/$commentid/$sessid'));
   if (response.statusCode != 200) {
     throw Exception('Failed to update like.');
   }
 }
 
-void updateProfile(String? name, String? email, String genId, String sexOtn, String note, int sessId) async {
+void updateProfile(String? name, String? email, String genId, String sexOtn, String note, int sessid) async {
   Map<String, String> headers = {'Content-Type': 'application/json'};
   Map<String, dynamic> payload = {
     'mName': name,
@@ -101,7 +95,7 @@ void updateProfile(String? name, String? email, String genId, String sexOtn, Str
   };
   final response = await http.put(
     Uri.parse(
-        'http://10.0.2.2:8998/profile/:$sessId'),
+        'http://10.0.2.2:8998/profile/:$sessid'),
     headers: headers,
     body: jsonEncode(payload),
   );

@@ -3,15 +3,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/my_function.dart';
 import 'package:provider/provider.dart';
-import 'UserData.dart';
+import 'user_data.dart';
 
-class insert_message extends StatelessWidget {
-  TextEditingController SubjectTextControl = TextEditingController();
-  TextEditingController MessageTextControl = TextEditingController();
+class InsertMessage extends StatelessWidget {
+  TextEditingController subjectTextControl = TextEditingController();
+  TextEditingController messageTextControl = TextEditingController();
 
   void dispose() {
-    SubjectTextControl.dispose();
-    MessageTextControl.dispose();
+    subjectTextControl.dispose();
+    messageTextControl.dispose();
   }
 
   @override
@@ -29,22 +29,22 @@ class insert_message extends StatelessWidget {
               decoration: InputDecoration(
                 labelText: 'Enter your Subject here:',
               ),
-              controller: SubjectTextControl,
+              controller: subjectTextControl,
             ),
             SizedBox(height: 16),
             TextField(
               decoration: InputDecoration(
                 labelText: 'Enter your Message here:',
               ),
-              controller: MessageTextControl,
+              controller: messageTextControl,
             ),
             SizedBox(height: 32),
             ElevatedButton(
               onPressed: () {
-                String firstInput = SubjectTextControl.text;
-                String secondInput = MessageTextControl.text;
+                String firstInput = subjectTextControl.text;
+                String secondInput = messageTextControl.text;
                 addMessage(firstInput, secondInput, user.sid);
-                Navigator.pushNamed(context, '/');
+                Navigator.pushNamed(context, '/home');
               },
               child: Text('Add'),
             ),

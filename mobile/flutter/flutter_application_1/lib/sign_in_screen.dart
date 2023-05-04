@@ -1,13 +1,8 @@
 // signin screen
-import 'dart:convert';
-import 'package:flutter_application_1/UserInfoscreen.dart';
-import 'package:flutter_application_1/main.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter_application_1/user_info_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_application_1/constants.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'UserData.dart';
+import 'user_data.dart';
 //import '../images/google.png';
 
 class SignInScreen extends StatelessWidget {

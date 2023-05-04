@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'dart:convert';
-import 'main.dart';
-import 'package:flutter_application_1/constants.dart';
 import 'package:http/http.dart' as http;
 import 'user.dart';
 
@@ -16,9 +14,9 @@ class UserData extends ChangeNotifier {
   User? get user => _user;
 
   set user(User? user) {
-    if (_user ==
-        user) // if they are equal. the compiler do not need to assigned them equal.
+    if (_user == user) { // if they are equal. the compiler do not need to assigned them equal.
       return;
+    }
     _user = user;
     //notifyListeners(); // check the any change
   }
@@ -61,8 +59,6 @@ class UserData extends ChangeNotifier {
     _googleUser = await _googleSignIn.signIn();
     final GoogleSignInAuthentication googleAuth =
         await _googleUser!.authentication;
-    final String idToken = googleAuth.idToken ?? '';
-    final String accessToken = googleAuth.accessToken ?? '';
     if (googleAuth.idToken != null) {
       print(googleAuth.idToken);
       try {
@@ -109,8 +105,9 @@ class UserData extends ChangeNotifier {
       } catch (e) {
         print(e);
       }
-    } else // Authentication failed, return null
+    } else { // Authentication failed, return null
       return null;
+    }
     print("hello2");
     _googleUser ??= await _googleSignIn
         .signIn(); // if the previous work successfully, we will not use that one
