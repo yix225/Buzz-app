@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class User {
 // the variable we will use in the following files
   late int id;
@@ -47,7 +45,6 @@ class User {
       'id': id,
       'sid':sid
     };
-    print(jsonEncode(user));
     return user;
   }
 }

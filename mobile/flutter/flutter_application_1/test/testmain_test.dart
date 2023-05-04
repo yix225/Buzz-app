@@ -3,7 +3,7 @@ import 'package:flutter_application_1/user.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  test('mLine should be created from json data', () {
+  test('Idea should be created from json data', () {
     final jsonData = {
       "mId": 124,
       "mSubject": "testing dokku",
@@ -14,7 +14,7 @@ void main() {
       // "mValid": true,
       "mCreated": "Mar 10, 2023 8:10:10 PM"
     };
-    final mline = mLine.fromJson(jsonData);
+    final mline = Idea.fromJson(jsonData);
     expect(mline.mId, equals(124));
     expect(mline.mSubject, equals('testing dokku'));
     expect(mline.mMessage, equals('please work'));
@@ -25,8 +25,8 @@ void main() {
     expect(mline.mCreated, equals('Mar 10, 2023 8:10:10 PM'));
   });
 
-  test('mLine should be encoded to json', () {
-    final mline = mLine(
+  test('Idea should be encoded to json', () {
+    final mline = Idea(
       mId: 3,
       mSubject: 'Test Test',
       mMessage: 'Hello',
@@ -71,7 +71,7 @@ void main() {
     expect(user.avatarUrl, equals(' '));
     expect(user.id, equals(' '));
   });
-  test('mLine should be encoded to json', () {
+  test('Idea should be encoded to json', () {
     final user = User(
       avatarUrl: ' ',
       description: ' ',

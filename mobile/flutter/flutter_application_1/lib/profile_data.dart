@@ -1,62 +1,75 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter_application_1/user.dart';
-
 import 'user_data.dart';
 import 'my_function.dart';
 
-class UserInfoScreen extends StatefulWidget {
-  const UserInfoScreen({super.key});
 
-  @override
-  State<UserInfoScreen> createState() =>
-      _UserInfoScreenState(); // create State life cycle
+class Profile {
+// the variable we will use in the following files
+  late int id;
+  late String token;
+  late String avatarUrl;
+  late String name;
+  late String email;
+  late String description;
+  Profile(
+    {required this.token,
+    required this.avatarUrl,
+    required this.name,
+    required this.email,
+    required this.description,
+    required this.id,});
+  factory Profile.fromJson(Map<String, dynamic> json) {
+    return Profile(
+      token: json['token'] as String,
+      avatarUrl: json['avatarUrl'] as String,
+      name: json['mName'] as String,
+      email: json['mEmail'] as String,
+      description: json['mNote'] as String,
+      id: json['mId'],);
+  }
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> user = new Map<String, dynamic>();
+    user['mStatus'] = 'ok';
+    user['mData'] = {
+      'token': token,
+      'avatarUrl': avatarUrl,
+      'mName': name,
+      'mEmail': email,
+      'mNote': description,
+      'id': id,
+    };
+    return user;
+  }
 }
 
-class _UserInfoScreenState extends State<UserInfoScreen> {
-  Future<bool?> showLogoutDialog(BuildContext context) {
-    // log out process
-    return showDialog<bool>(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Logout'),
-          content:
-              const Text('Are you sure to logout?'), // conversation with user
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Cancel'), // keep in app
-              onPressed: () => Navigator.of(context).pop(false),
-            ),
-            TextButton(
-              child: const Text('OK'), // log out
-              onPressed: () => Navigator.of(context).pop(true),
-            ),
-          ],
-        );
-      },
-    );
-  }
 
-  TextEditingController sexOriTextControl = TextEditingController();
-  TextEditingController genderTextControl = TextEditingController();
-  TextEditingController descTextControl = TextEditingController();
+
+
+class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({super.key});
+
+  @override
+  State<ProfileScreen> createState() =>
+      _ProfileScreenState(); // create State life cycle
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
   
   @override
   void initState() {
-    final user = Provider.of<UserData>(context, listen: false);
     super.initState();
     // Set the initial value of the userIdentity controller to the current user's userIdentity value.
-    sexOriTextControl.text = user.userSexOri!;
-    genderTextControl.text = user.userIdentity!;
-    descTextControl.text = user.userDescription!;
   }
 
 // the previous bunch of code is for function
 // current bunch of code is  for UI look like
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<UserData>(context);
+      final userid = ModalRoute.of(context)!.settings.arguments as String;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile'),
@@ -84,7 +97,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                 labelText: 'Name',
                 enabled: false,
               ),
-              controller: TextEditingController(text: user.userName),
+              controller: TextEditingController(text: profile.profilename),
             ),
             const SizedBox(
               height: 20,
