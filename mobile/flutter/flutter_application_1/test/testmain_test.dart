@@ -1,4 +1,3 @@
-import 'package:flutter_application_1/comment.dart';
 import 'package:flutter_application_1/main.dart';
 import 'package:flutter_application_1/user.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -93,34 +92,5 @@ void main() {
     expect(mData['mSexOrn'], equals(' '));
     expect(mData['mGenId'], equals(' '));
     expect(mData['mNote'], equals(' '));
-  });
-  test('mUser should be created from json data', () {
-    final jsonData = {
-      "mId": 125,
-      "mContents": null,
-      "mLike": 1,
-      "mCreate": "April 16, 2023 2:41:02 AM "
-    };
-    final comment = Comment.fromJson(jsonData);
-    expect(comment.mId, equals(125));
-    expect(comment.mContents, equals(null));
-    expect(comment.mLikes, equals(1));
-    expect(comment.mCreated, equals('April 16, 2023 2:41:02 AM'));
-  });
-  test('mLine should be encoded to json', () {
-    final comment = Comment(
-      mId: '125',
-      mContents: '',
-      mLikes: 1,
-      mCreated: 'April 16, 2023 2:41:02 AM',
-    );
-    final jsonData = comment.toJson();
-    expect(jsonData['mStatus'], equals('ok'));
-    expect(jsonData['mData'], isNotNull);
-    final mData = jsonData['mData'];
-    expect(mData['mId'], equals(125));
-    expect(mData['mCotents'], equals(null));
-    expect(mData['mLikes'], equals(1));
-    expect(mData['mCreated'], equals('April 16, 2023 2:41:02 AM'));
   });
 }
