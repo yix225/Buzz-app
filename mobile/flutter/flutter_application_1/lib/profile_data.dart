@@ -51,9 +51,17 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  late Future<Profile> _future_list_numword_pairs;
+  late Timer timer;
+
   @override
   void initState() {
     super.initState();
+    Timer timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        _future_list_numword_pairs = fetchProfile(context);
+      });
+    });
   }
 
 // the previous bunch of code is for function
@@ -61,6 +69,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     var profile = FutureBuilder<Profile>(
+        future: _future_list_numword_pairs,
         builder: (BuildContext context, AsyncSnapshot<Profile> snapshot) {
         return Scaffold(
           appBar: AppBar(
@@ -126,8 +135,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
 }
 
 Future<Profile> fetchProfile(BuildContext context) async {
+  print("here");
   final user = Provider.of<UserData>(context, listen: false);
   final userid = ModalRoute.of(context)!.settings.arguments as String;
+  print('userid');
   final response = await http
       .get(Uri.parse('http://10.0.2.2:8998/getProfile/$userid/${user.sid}'));
 

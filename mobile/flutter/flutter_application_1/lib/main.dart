@@ -3,6 +3,7 @@ import 'package:flutter_application_1/insert_message.dart';
 import 'package:flutter_application_1/Message.dart';
 import 'package:flutter_application_1/my_function.dart';
 import 'package:flutter_application_1/edit_comment.dart';
+import 'package:flutter_application_1/profile_data.dart';
 import 'dart:developer' as developer;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -97,6 +98,7 @@ class MyApp extends StatelessWidget {
         '/mymessage': (context) => Message(),
         '/SignInScreen': (context) => SignInScreen(),
         '/edit' : (context) => EditComment(),
+        '/profile' : (context) => ProfileScreen(),
       },
     );
   }

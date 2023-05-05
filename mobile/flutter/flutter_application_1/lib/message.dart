@@ -156,7 +156,15 @@ class _HttpReqWordsState extends State<HttpReqWords> {
                               ),
                               trailing: Text("\n${snapshot.data![i].mCreated}\n"
                                   "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tLikes:${snapshot.data![i].mLikes}\n"),
-                              subtitle: Text("${snapshot.data![i].mMessage}")
+                              subtitle: Text("${snapshot.data![i].mMessage}"),
+                              onTap: () {
+                                String myarg = (snapshot.data![i].mId).toString();
+                                Navigator.pushNamed(
+                                  context,
+                                  '/profile',
+                                  arguments: myarg,
+                                );
+                              },
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
