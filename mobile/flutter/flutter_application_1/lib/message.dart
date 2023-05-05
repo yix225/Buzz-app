@@ -158,12 +158,20 @@ class _HttpReqWordsState extends State<HttpReqWords> {
                                   "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tLikes:${snapshot.data![i].mLikes}\n"),
                               subtitle: Text("${snapshot.data![i].mMessage}"),
                               onTap: () {
-                                String myarg = (snapshot.data![i].mId).toString();
-                                Navigator.pushNamed(
-                                  context,
-                                  '/profile',
-                                  arguments: myarg,
-                                );
+                                if(snapshot.data![i].mUserId ==  user.userId){
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => UserInfoScreen()),
+                                  );
+                                } else {
+                                  String myarg = (snapshot.data![i].mUserId).toString();
+                                  Navigator.pushNamed(
+                                    context,
+                                    '/profile',
+                                    arguments: myarg,
+                                  );
+                                }
                               },
                             ),
                             Row(

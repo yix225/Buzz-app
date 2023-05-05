@@ -138,7 +138,7 @@ Future<Profile> fetchProfile(BuildContext context) async {
   print("here");
   final user = Provider.of<UserData>(context, listen: false);
   final userid = ModalRoute.of(context)!.settings.arguments as String;
-  print('userid');
+  print(userid);
   final response = await http
       .get(Uri.parse('http://10.0.2.2:8998/getProfile/$userid/${user.sid}'));
 
@@ -146,6 +146,7 @@ Future<Profile> fetchProfile(BuildContext context) async {
     final Profile returnData;
     var res = jsonDecode(response.body);
     dynamic mData = res['mData'];
+    print(mData);
     // ignore: unnecessary_type_check
     if (mData is dynamic) {
       returnData = (mData).map((x) => Profile.fromJson(x));
