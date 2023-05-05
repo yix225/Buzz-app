@@ -22,12 +22,11 @@ class Profile {
     required this.id,
   });
   factory Profile.fromJson(Map<String, dynamic> json) {
-    print('here1');
     return Profile(
-      name: json['mName'] as String,
-      email: json['mEmail'] as String,
-      description: json['mNote'] as String,
-      id: json['mId'],
+      name: json['mData']['mName'] as String,
+      email: json['mData']['mEmail'] as String,
+      description: json['mData']['mNote'] as String,
+      id: json['mData']['mId'],
     );
   }
   Map<String, dynamic> toJson() {
@@ -38,7 +37,7 @@ class Profile {
       'mName': name,
       'mEmail': email,
       'mNote': description,
-      'id': id,
+      'mId': id,
     };
     return user;
   }
@@ -139,23 +138,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
 Future<Profile> fetchProfile(BuildContext context) async {
   final user = Provider.of<UserData>(context, listen: false);
   final userid = ModalRoute.of(context)!.settings.arguments as String;
+  Profile returnData = Profile(name: '', email: '', description: '', id: 0);
   final response = await http
       .get(Uri.parse('http://10.0.2.2:8998/getProfile/$userid/${user.sid}'));
 
-  if (response.statusCode == 200) {
-    final Profile returnData;
-    var res = jsonDecode(response.body);
-    dynamic mData = res['mData'];
-    print(mData);
-    // ignore: unnecessary_type_check
-    if (mData is dynamic) {
-      returnData = (mData).map((x) => Profile.fromJson(x));
-    } else if (mData is Map) {
-      returnData = Profile.fromJson(mData as Map<String, dynamic>);
-    } else {
-      developer
-          .log('ERROR: Unexpected json response type (was not a List or Map).');
-      returnData = Profile(name: '', email: '', description: '', id: 0);
+  if (response.statusCode == 200){
+    if(jsonDecode(response.body) != null){
+      returnData = Profile.fromJson(jsonDecode(response.body));
+    } else{
+      developer.log('ERROR: Unexpected json response type.');
     }
     return returnData;
   } else {

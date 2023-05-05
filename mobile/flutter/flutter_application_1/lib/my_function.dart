@@ -95,7 +95,7 @@ void updateProfile(String? name, String? email, String genId, String sexOtn, Str
   };
   final response = await http.put(
     Uri.parse(
-        'http://10.0.2.2:8998/profile/:$sessid'),
+        'http://10.0.2.2:8998/profile/$sessid'),
     headers: headers,
     body: jsonEncode(payload),
   );

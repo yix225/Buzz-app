@@ -97,11 +97,20 @@ class _HttpReqWordsState extends State<HttpReqWords> {
                   message: message[0],
                   child: InkWell(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => UserInfoScreen()),
-                      );
+                      if(int.parse(message[0]) ==  user.userId){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => UserInfoScreen()),
+                        );
+                      } else {
+                        String myarg = message[0];
+                        Navigator.pushNamed(
+                          context,
+                          '/profile',
+                          arguments: myarg,
+                        );
+                      }
                     },
                     child: ListTile(
                       title: Text(
