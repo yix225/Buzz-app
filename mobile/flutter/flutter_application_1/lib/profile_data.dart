@@ -22,6 +22,7 @@ class Profile {
     required this.id,
   });
   factory Profile.fromJson(Map<String, dynamic> json) {
+    print('here1');
     return Profile(
       name: json['mName'] as String,
       email: json['mEmail'] as String,
@@ -30,6 +31,7 @@ class Profile {
     );
   }
   Map<String, dynamic> toJson() {
+    print('here2');
     final Map<String, dynamic> user = new Map<String, dynamic>();
     user['mStatus'] = 'ok';
     user['mData'] = {
@@ -135,10 +137,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 }
 
 Future<Profile> fetchProfile(BuildContext context) async {
-  print("here");
   final user = Provider.of<UserData>(context, listen: false);
   final userid = ModalRoute.of(context)!.settings.arguments as String;
-  print(userid);
   final response = await http
       .get(Uri.parse('http://10.0.2.2:8998/getProfile/$userid/${user.sid}'));
 
