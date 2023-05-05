@@ -80,10 +80,11 @@
 //         .setApplicationName(APPLICATION_NAME)
 //         .build();
 
-//     File fileMetadata = new File();
-//     fileMetadata.setName("photo.jpg");
-//     java.io.File filePath = new java.io.File("  C:\\Users\\nguye\\CSE216\\team_m\\photo.jpg");
-//     FileContent mediaContent = new FileContent("image/jpeg", filePath);
+//         //upload file to drive
+//         File fileMetadata = new File();
+//         fileMetadata.setName("photo.jpg");
+//         java.io.File filePath = new java.io.File("  C:\\Users\\nguye\\CSE216\\team_m\\photo.jpg");
+//         FileContent mediaContent = new FileContent("image/jpeg", filePath);
 //         File file = service.files().create(fileMetadata, mediaContent)
 //             .setFields("id")
 //             .execute();
