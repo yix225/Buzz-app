@@ -141,7 +141,7 @@ public class Database {
     /**
      * A prepared statement for updating a single comment row in the database
      */
-    private PreparedStatement mUpdateComment;  
+    private PreparedStatement mupdateComment;  
 
     /**
      * A prepared statement for incrementing like on a single idea row in the database
@@ -319,7 +319,7 @@ public class Database {
 
             db.mUpdateUser = db.mConnection.prepareStatement("UPDATE users SET name = ?, email = ?, genderidentity = ?, sexualorientation = ?, note = ? WHERE userid = ?");
             db.mUpdateIdea = db.mConnection.prepareStatement("UPDATE ideas SET message = ? WHERE ideaid = ?");
-            db.mUpdateComment = db.mConnection.prepareStatement("UPDATE comments SET message = ? WHERE ideaid = ? AND commentid = ?");
+            db.mupdateComment = db.mConnection.prepareStatement("UPDATE comments SET message = ? WHERE ideaid = ? AND commentid = ?");
 
             db.mLikeIdea = db.mConnection.prepareStatement("UPDATE ideas SET likes = likes + 1 WHERE ideaid = ?;"
                                                             + "UPDATE likes SET status = ? WHERE ideaid = ? AND userid = ? AND commentid is NULL");
@@ -459,7 +459,7 @@ public class Database {
 
             db.mUpdateUser = db.mConnection.prepareStatement("UPDATE users SET name = ?, email = ?, genderidentity = ?, sexualorientation = ?, note = ? WHERE userid = ?");
             db.mUpdateIdea = db.mConnection.prepareStatement("UPDATE ideas SET message = ? WHERE ideaid = ?");
-            db.mUpdateComment = db.mConnection.prepareStatement("UPDATE comments SET message = ? WHERE ideaid = ? AND commentid = ?");
+            db.mupdateComment = db.mConnection.prepareStatement("UPDATE comments SET message = ? WHERE ideaid = ? AND commentid = ?");
 
             db.mLikeIdea = db.mConnection.prepareStatement("UPDATE ideas SET likes = likes + 1 WHERE ideaid = ?;"
                                                             + "UPDATE likes SET status = ? WHERE ideaid = ? AND userid = ? AND commentid is NULL");
@@ -1137,13 +1137,13 @@ public class Database {
      * @param commentid the id of the comment being updated
      * @return
      */
-    int mUpdateComment(String message, int ideaid, int commentid) {
+    int updateComment(String message, int ideaid, int commentid) {
         int res = -1;
         try {
-            mUpdateComment.setString(1, message);
-            mUpdateComment.setInt(2, ideaid);
-            mUpdateComment.setInt(3, commentid);
-            res = mUpdateComment.executeUpdate();
+            mupdateComment.setString(1, message);
+            mupdateComment.setInt(2, ideaid);
+            mupdateComment.setInt(3, commentid);
+            res = mupdateComment.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }

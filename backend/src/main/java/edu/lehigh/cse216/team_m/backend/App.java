@@ -23,9 +23,11 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.drive.Drive;
@@ -42,8 +44,21 @@ import java.util.List;
 import com.google.api.client.http.FileContent;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 
-package com.google.api.services.samples.drive.cmdline;
+import com.google.api.client.http.HttpRequestInitializer;
+import com.google.auth.http.HttpCredentialsAdapter;
+import com.google.auth.oauth2.GoogleCredentials;
 
+//MemCache
+import net.rubyeye.xmemcached.MemcachedClient;
+import net.rubyeye.xmemcached.MemcachedClientBuilder;
+import net.rubyeye.xmemcached.XMemcachedClientBuilder;
+import net.rubyeye.xmemcached.auth.AuthInfo;
+import net.rubyeye.xmemcached.command.BinaryCommandFactory;
+import net.rubyeye.xmemcached.exception.MemcachedException;
+import net.rubyeye.xmemcached.utils.AddrUtil;
+import java.lang.InterruptedException;
+import java.net.InetSocketAddress;
+import java.util.concurrent.TimeoutException;
 
 /**
  * For now, our app creates an HTTP server that can only get and add data.
@@ -66,24 +81,30 @@ public class App {
    */
   private static final String TOKENS_DIRECTORY_PATH = "tokens";
 
+  private static final String CREDENTIALS_FILE_PATH = "/client_secret.json";
+
 /**
    * Global instance of the {@link DataStoreFactory}. The best practice is to make it a single
    * globally shared instance across your application.
    */
-  private static FileDataStoreFactory dataStoreFactory;
+  private static FileDataStoreFactory DATA_STORE_FACTORY;
   /**
    * Global instance of the scopes required by this quickstart.
    * If modifying these scopes, delete your previously saved tokens/ folder.
    */
-  private static final List<String> SCOPES =
-      Collections.singletonList(DriveScopes.DRIVE);
-  private static final String CREDENTIALS_FILE_PATH = "/client_secret.json";
+//   private static final List<String> SCOPES =
+//       Collections.singletonList(DriveScopes.DRIVE);
+  private static final String CLIENT_SECRET_FILE_NAME = "/client_secret.json";
+
+  private static final List<String> SCOPES = Collections.singletonList(DriveScopes.DRIVE);
 
     /** Global instance of the HTTP transport. */
-  private static HttpTransport httpTransport;
+ // private static HttpTransport HTTP_TRANSPORT;
 
-    /** Global instance of the JSON factory. */
-    private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
+   /** Global Drive API client. */
+  private static Drive _driveService;
+
+  
     /**
      * Get a fully-configured connection to the database, or exit immediately
      * Uses the Postgres configuration from environment variables
@@ -131,46 +152,83 @@ public class App {
         return defaultVal;
     }
 
-    /** Authorizes the installed application to access user's protected data. */
-  private static Credential authorize() throws Exception {
-    // load client secrets
-    GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY,
-        new InputStreamReader(DriveSample.class.getResourceAsStream("/client_secrets.json")));
-    if (clientSecrets.getDetails().getClientId().startsWith("Enter")
-        || clientSecrets.getDetails().getClientSecret().startsWith("Enter ")) {
-      System.out.println(
-          "Enter Client ID and Secret from https://code.google.com/apis/console/?api=drive "
-          + "into drive-cmdline-sample/src/main/resources/client_secrets.json");
-      System.exit(1);
-    }
-    // set up authorization code flow
-    GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
-        httpTransport, JSON_FACTORY, clientSecrets,
-        Collections.singleton(DriveScopes.DRIVE_FILE)).setDataStoreFactory(dataStoreFactory)
-        .build();
-    // authorize
-    return new AuthorizationCodeInstalledApp(flow, new LocalServerReceiver()).authorize("user");
-  }
+    /**
+   * Creates an authorized Credential object.
+   *
+   * @param HTTP_TRANSPORT The network HTTP Transport.
+   * @return An authorized Credential object.
+   * @throws IOException If the credentials.json file cannot be found.
+   */
+  private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT)
+  throws IOException {
+// Load client secrets.
+InputStream in =App.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
+if (in == null) {
+  throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
+}
+GoogleClientSecrets clientSecrets =
+    GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
+
+// Build flow and trigger user authorization request.
+GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
+    HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
+    .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
+    .setAccessType("online")
+    .build();
+LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
+Credential credential = new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
+//returns an authorized Credential object.
+return credential;
+}
 
   /** Uploads a file using either resumable or direct media upload. */
-  private static File uploadFile(boolean useDirectUpload) throws IOException {
+ /**
+   * Upload new file.
+   *
+   * @return Inserted file metadata if successful, {@code null} otherwise.
+   * @throws IOException if service account credentials file not found.
+   */
+  public static String uploadBasic() throws IOException {
+    // Load pre-authorized user credentials from the environment.
+    // TODO(developer) - See https://developers.google.com/identity for
+    // guides on implementing OAuth2 for your application.
+    GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
+        .createScoped(Arrays.asList(DriveScopes.DRIVE_FILE));
+    HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
+        credentials);
+
+    // Build a new authorized API client service.
+    Drive service = new Drive.Builder(new NetHttpTransport(),
+        GsonFactory.getDefaultInstance(),
+        requestInitializer)
+        .setApplicationName("Drive samples")
+        .build();
+    // Upload file photo.jpg on drive.
     File fileMetadata = new File();
-    fileMetadata.setTitle(UPLOAD_FILE.getName());
-
-    FileContent mediaContent = new FileContent("image/jpeg", UPLOAD_FILE);
-
-    Drive.Files.Insert insert = drive.files().insert(fileMetadata, mediaContent);
-    MediaHttpUploader uploader = insert.getMediaHttpUploader();
-    uploader.setDirectUploadEnabled(useDirectUpload);
-    uploader.setProgressListener(new FileUploadProgressListener());
-    return insert.execute();
+    fileMetadata.setName("photo.jpg");
+    // File's content.
+    java.io.File filePath = new java.io.File(" C:\\Users\\nguye\\CSE216\\team_m\\photo.jpg");
+    // Specify media type and file-path for file.
+    FileContent mediaContent = new FileContent("image/jpeg", filePath);
+    try {
+      File file = service.files().create(fileMetadata, mediaContent)
+          .setFields("id")
+          .execute();
+      System.out.println("File ID: " + file.getId());
+      return file.getId();
+    } catch (GoogleJsonResponseException e) {
+      // TODO(developer) - handle error appropriately
+      System.err.println("Unable to upload file: " + e.getDetails());
+      throw e;
+    }
   }
+
     /**
      * @author David
      * @version 4/2/2023
      */
     //public static <GoogleSignInResponse> void main(String[] args) {
-    public static void main(String[] args){
+    public static void main(String[] args) throws IOException, GeneralSecurityException{
           //Store the exist < UUID as Int , user > infomation
           HashMap<Integer,Integer> userSessPair = new HashMap<Integer, Integer>();
 
@@ -209,49 +267,11 @@ public class App {
 
         // Build a new authorized API client service.
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-        Drive service = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
+        _driveService = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
         .setApplicationName(APPLICATION_NAME)
         .build();
 
-        //Drive STUFF
-        Preconditions.checkArgument(
-            !UPLOAD_FILE_PATH.startsWith("Enter ") && !DIR_FOR_DOWNLOADS.startsWith("Enter "),
-            "Please enter the upload file path and download directory in %s", DriveSample.class);
-    
-        try {
-          httpTransport = GoogleNetHttpTransport.newTrustedTransport();
-          dataStoreFactory = new FileDataStoreFactory(DATA_STORE_DIR);
-          // authorization
-          Credential credential = authorize();
-          // set up the global Drive instance
-          drive = new Drive.Builder(httpTransport, JSON_FACTORY, credential).setApplicationName(
-              APPLICATION_NAME).build();
-    
-          // run commands
-    
-          View.header1("Starting Resumable Media Upload");
-          File uploadedFile = uploadFile(false);
-    
-          View.header1("Updating Uploaded File Name");
-          File updatedFile = updateFileWithTestSuffix(uploadedFile.getId());
-    
-          View.header1("Starting Resumable Media Download");
-          downloadFile(false, updatedFile);
-    
-          View.header1("Starting Simple Media Upload");
-          uploadedFile = uploadFile(true);
-    
-          View.header1("Starting Simple Media Download");
-          downloadFile(true, uploadedFile);
-    
-          View.header1("Success!");
-          return;
-        } catch (IOException e) {
-          System.err.println(e.getMessage());
-        } catch (Throwable t) {
-          t.printStackTrace();
-        }
-        System.exit(1);
+        
 
         // Set up a route for serving the main page
         Spark.get("/", (req, res) -> {
@@ -372,6 +392,8 @@ public class App {
                             return gson.toJson(new StructuredResponse("error", "error performing insertion", null));
                         } 
                         else {
+                            getCredentials(HTTP_TRANSPORT);
+                            uploadBasic();
                             return gson.toJson(new StructuredResponse("ok", "" + newId, null));
             
                     }
@@ -440,6 +462,8 @@ public class App {
                         return gson.toJson(new StructuredResponse("error", "error performing insertion", null));
                     } 
                     else {
+                        getCredentials(HTTP_TRANSPORT);
+                        uploadBasic();
                         return gson.toJson(new StructuredResponse("ok", "" + newId, null));
         
                 }
@@ -467,7 +491,7 @@ public class App {
             return gson.toJson(new StructuredResponse("error", "Invalid SessID", null));
         });
 
-
+        
         // PUT route for updating a comment
         Spark.put("/updateComment/:IdeaID/:CommentID/:SessID", (request, response) -> {
             int mSessID = Integer.parseInt(request.params("SessID"));
@@ -624,7 +648,7 @@ public class App {
 
         Spark.post("/login", (request, response) -> {
             String CLIENT_ID = "926558226206-ppmn3bk4ckvrtaq6hun9kpi034sde366.apps.googleusercontent.com";
-            HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
+    
             JsonFactory JSON_FACTORY = new JacksonFactory();
             GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(HTTP_TRANSPORT, JSON_FACTORY)
                 .setAudience(Collections.singletonList(CLIENT_ID)).build();
