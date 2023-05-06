@@ -299,7 +299,7 @@ Future<List<Comment>> fetchComments(BuildContext context) async {
   final List<String> message =
       ModalRoute.of(context)!.settings.arguments as List<String>;
   final response = await http
-      .get(Uri.parse('http://10.0.2.2:8998/GetComment/${message[0]}'));
+      .get(Uri.parse('http://10.0.2.2:8998//GetComment/${message[0]}'));
   
   if (response.statusCode == 200) {
     final List<Comment> returnData;

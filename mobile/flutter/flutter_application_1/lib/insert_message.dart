@@ -127,7 +127,6 @@ class InsertLinkIdea extends StatelessWidget {
               onPressed: () {
                 String firstInput = linkTextControl.text;
                 String secondInput = descTextControl.text;
-                addFileIdea(firstInput, secondInput, user.sid);
                 Navigator.pushNamed(context, '/mymessage');
               },
               child: Text('Add'),

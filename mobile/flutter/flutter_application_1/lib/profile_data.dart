@@ -140,7 +140,7 @@ Future<Profile> fetchProfile(BuildContext context) async {
   final userid = ModalRoute.of(context)!.settings.arguments as String;
   Profile returnData = Profile(name: '', email: '', description: '', id: 0);
   final response = await http
-      .get(Uri.parse('http://10.0.2.2:8998/getProfile/$userid/${user.sid}'));
+      .get(Uri.parse('http://10.0.2.2:8998//getProfile/$userid/${user.sid}'));
 
   if (response.statusCode == 200){
     if(jsonDecode(response.body) != null){
