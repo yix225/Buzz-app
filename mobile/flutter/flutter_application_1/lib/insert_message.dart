@@ -48,6 +48,90 @@ class InsertMessage extends StatelessWidget {
               },
               child: Text('Add'),
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsetsDirectional.all(6),
+                  child: Container(
+                    width: 130.0,
+                    height: 130.0,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.deepPurple, width: 6)
+                    ),
+                    child: TextButton(
+                      child: Image.asset('images/link.png'),
+                      onPressed: () {
+                      }
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsetsDirectional.all(6),
+                  child: Container(
+                    width: 130.0,
+                    height: 130.0,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.deepPurple, width: 6)
+                    ),
+                    child: TextButton(
+                      child: Image.asset('images/attach.png'),
+                      onPressed: () {
+                      }
+                    ),
+                  ),
+                ),
+              ]
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class InsertLinkIdea extends StatelessWidget {
+  TextEditingController linkTextControl = TextEditingController();
+  TextEditingController descTextControl = TextEditingController();
+
+  void dispose() {
+    linkTextControl.dispose();
+    descTextControl.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final user = Provider.of<UserData>(context);
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Please enter your Link'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextField(
+              decoration: InputDecoration(
+                labelText: 'Enter your Link here:',
+              ),
+              controller: linkTextControl,
+            ),
+            TextField(
+              decoration: InputDecoration(
+                labelText: 'Enter your description here:',
+              ),
+              controller: linkTextControl,
+            ),
+            SizedBox(height: 32),
+            ElevatedButton(
+              onPressed: () {
+                String firstInput = linkTextControl.text;
+                String secondInput = descTextControl.text;
+                addFileIdea(firstInput, secondInput, user.sid);
+                Navigator.pushNamed(context, '/mymessage');
+              },
+              child: Text('Add'),
+            ),
           ],
         ),
       ),

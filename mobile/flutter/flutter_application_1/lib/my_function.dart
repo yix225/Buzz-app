@@ -13,23 +13,24 @@ void addMessage(String mySubject, String myMessage, String sessid) async {
     body: jsonEncode(payload),
   );
   if (response.statusCode != 200) {
-    throw Exception('Failed to update like.');
+    throw Exception('Failed to add message.');
   }
 }
 
-void addLink(String mySubject, String myMessage, String sessid) async {
+void addFileIdea(String filepath, String description, String type, int ideaid, String sessid) async {
   Map<String, String> headers = {'Content-Type': 'application/json'};
   Map<String, dynamic> payload = {
-    'mSubject': mySubject,
-    'mMessage': myMessage,
+    'mFilePath': filepath,
+    'mDescription': description,
+    'mFileType': type,
   };
   final response = await http.post(
-    Uri.parse('http://10.0.2.2:8998/insertIdea/$sessid'),
+    Uri.parse('http://10.0.2.2:8998/insertFileIdea/$ideaid/$sessid'),
     headers: headers,
     body: jsonEncode(payload),
   );
   if (response.statusCode != 200) {
-    throw Exception('Failed to update like.');
+    throw Exception('Failed to upload file.');
   }
 }
 
@@ -45,7 +46,7 @@ void addComment(String myComment, int ideaid, int sessid) async {
     body: jsonEncode(payload),
   );
   if (response.statusCode != 200) {
-    throw Exception('Failed to update like.');
+    throw Exception('Failed to add comment.');
   }
 }
 
@@ -60,7 +61,7 @@ void updateComment(String myMessage, int ideaid, int commentid, String sessid) a
     body: jsonEncode(payload),
   );
   if (response.statusCode != 200) {
-    throw Exception('Failed to update like.');
+    throw Exception('Failed to update comment.');
   }
 }
 
@@ -69,16 +70,7 @@ void upvoteIdea(int ideaid, int sessid) async {
   final response = await http.put(Uri.parse(
       'http://10.0.2.2:8998/likeIdea/$ideaid/$sessid'));
   if (response.statusCode != 200) {
-    throw Exception('Failed to update like.');
-  }
-}
-
-void upvoteComment(int ideaid, int sessid, int commentid) async {
-  // Update the mLikes field of the message object.
-  final response = await http.put(Uri.parse(
-      'http://10.0.2.2:8998/likeComment/$ideaid/$commentid/$sessid'));
-  if (response.statusCode != 200) {
-    throw Exception('Failed to update like.');
+    throw Exception('Failed to upvote idea.');
   }
 }
 
@@ -87,7 +79,17 @@ void downvoteIdea(int ideaid, int sessid) async {
   final response = await http.put(Uri.parse(
       'http://10.0.2.2:8998/unlikeIdea/$ideaid/$sessid'));
   if (response.statusCode != 200) {
-    throw Exception('Failed to update like.');
+    throw Exception('Failed to downvote idea.');
+  }
+}
+
+
+void upvoteComment(int ideaid, int sessid, int commentid) async {
+  // Update the mLikes field of the message object.
+  final response = await http.put(Uri.parse(
+      'http://10.0.2.2:8998/likeComment/$ideaid/$commentid/$sessid'));
+  if (response.statusCode != 200) {
+    throw Exception('Failed to upvote comment.');
   }
 }
 
@@ -96,7 +98,7 @@ void downvoteComment(int ideaid, int sessid, int commentid) async {
   final response = await http.put(Uri.parse(
       'http://10.0.2.2:8998/unlikeComment/$ideaid/$commentid/$sessid'));
   if (response.statusCode != 200) {
-    throw Exception('Failed to update like.');
+    throw Exception('Failed to downvote comment.');
   }
 }
 
@@ -116,6 +118,6 @@ void updateProfile(String? name, String? email, String genId, String sexOtn, Str
     body: jsonEncode(payload),
   );
   if (response.statusCode != 200) {
-    throw Exception('Failed to update like.');
+    throw Exception('Failed to update profile.');
   }
 }

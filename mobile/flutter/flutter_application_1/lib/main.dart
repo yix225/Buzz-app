@@ -169,16 +169,6 @@ class _HttpReqWordsState extends State<HttpReqWords> {
     });
   }
 
-  void _retry() {
-    setState(() {
-      _future_list_numword_pairs = fetchIdeas(context);
-    });
-  }
-
-  void reload() {
-    setState(() {});
-  }
-
   final TextEditingController _controller = TextEditingController();
 
   @override

@@ -99,7 +99,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     labelText: 'Name',
                     enabled: false,
                   ),
-                  controller: TextEditingController(text: snapshot.data!.name),
+                  controller: TextEditingController(text: snapshot.data?.name),
                 ),
                 const SizedBox(
                   height: 20,
@@ -113,7 +113,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     labelText: 'Email',
                     enabled: false,
                   ),
-                  controller: TextEditingController(text: snapshot.data!.email),
+                  controller: TextEditingController(text: snapshot.data?.email),
                 ),
                 const SizedBox(
                   height: 50,
@@ -124,7 +124,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     labelText: 'Description',
                     enabled: true,
                   ),
-                  controller: TextEditingController(text: snapshot.data!.description),
+                  controller: TextEditingController(text: snapshot.data?.description),
                 ),
               ],
             ),
