@@ -97,14 +97,15 @@ class _HttpReqWordsState extends State<HttpReqWords> {
                   message: message[0],
                   child: InkWell(
                     onTap: () {
-                      if(int.parse(message[0]) ==  user.userId){
+                      if(int.parse(message[1]) ==  user.userId){
+                        print("here");
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => UserInfoScreen()),
                         );
                       } else {
-                        String myarg = message[0];
+                        String myarg = message[1];
                         Navigator.pushNamed(
                           context,
                           '/profile',
