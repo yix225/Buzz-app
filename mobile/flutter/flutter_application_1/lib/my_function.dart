@@ -17,13 +17,14 @@ void addMessage(String mySubject, String myMessage, String sessid) async {
   }
 }
 
-void updateComment(String myMessage, int ideaid, int commentid, String sessid) async {
+void addLink(String mySubject, String myMessage, String sessid) async {
   Map<String, String> headers = {'Content-Type': 'application/json'};
   Map<String, dynamic> payload = {
+    'mSubject': mySubject,
     'mMessage': myMessage,
   };
-  final response = await http.put(
-    Uri.parse('http://10.0.2.2:8998/updateComment/$ideaid/$commentid/$sessid'),
+  final response = await http.post(
+    Uri.parse('http://10.0.2.2:8998/insertIdea/$sessid'),
     headers: headers,
     body: jsonEncode(payload),
   );
@@ -40,6 +41,21 @@ void addComment(String myComment, int ideaid, int sessid) async {
   };
   final response = await http.post(
     Uri.parse('http://10.0.2.2:8998/insertComment/$ideaid/$sessid'),
+    headers: headers,
+    body: jsonEncode(payload),
+  );
+  if (response.statusCode != 200) {
+    throw Exception('Failed to update like.');
+  }
+}
+
+void updateComment(String myMessage, int ideaid, int commentid, String sessid) async {
+  Map<String, String> headers = {'Content-Type': 'application/json'};
+  Map<String, dynamic> payload = {
+    'mMessage': myMessage,
+  };
+  final response = await http.put(
+    Uri.parse('http://10.0.2.2:8998/updateComment/$ideaid/$commentid/$sessid'),
     headers: headers,
     body: jsonEncode(payload),
   );
