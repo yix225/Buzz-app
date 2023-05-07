@@ -18,6 +18,7 @@ class InsertMessage extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = Provider.of<UserData>(context);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text('Please enter your subject and message'),
       ),
@@ -48,40 +49,49 @@ class InsertMessage extends StatelessWidget {
               },
               child: Text('Add'),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsetsDirectional.all(6),
-                  child: Container(
-                    width: 130.0,
-                    height: 130.0,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.deepPurple, width: 6)
-                    ),
-                    child: TextButton(
-                      child: Image.asset('images/link.png'),
-                      onPressed: () {
-                      }
-                    ),
-                  ),
+            Padding(
+              padding: EdgeInsetsDirectional.all(6),
+              child: Container(
+                width: 400.0,
+                height: 110.0,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.deepPurple, width: 6)
                 ),
-                Padding(
-                  padding: EdgeInsetsDirectional.all(6),
-                  child: Container(
-                    width: 130.0,
-                    height: 130.0,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.deepPurple, width: 6)
-                    ),
-                    child: TextButton(
-                      child: Image.asset('images/attach.png'),
-                      onPressed: () {
-                      }
-                    ),
+                child: TextButton(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Image.asset('images/link.png'),
+                      SizedBox(width: 20,),
+                      Text('Add a link')
+                    ]
                   ),
+                  onPressed: () {
+                  }
                 ),
-              ]
+              ),
+            ),
+            Padding(
+              padding: EdgeInsetsDirectional.all(6),
+              child: Container(
+                width: 400.0,
+                height: 110.0,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.deepPurple, width: 6)
+                ),
+                child: TextButton(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Image.asset('images/attach.png'),
+                      SizedBox(width: 20,),
+                      Text('Attach a file')
+                    ]
+                  ),
+                  onPressed: () {
+                  }
+                ),
+              ),
             ),
           ],
         ),
