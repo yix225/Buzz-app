@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect , navigate} from "react";
 import axios from "axios";
 import { Link } from 'react-router-dom';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
@@ -154,7 +154,29 @@ function Homepage() {
       console.log("Cannot like again within 3 seconds");
       return;
     }
-
+  }
+    const dislikeMessage = async (index) => {
+      const messageId = messages[index].mId;
+      const updatedLikeCount = messages[index].mLikes - 1;
+  
+      // Check if previous like was within 3 seconds
+      const now = Date.now();
+      if (lastLikeTimestamp && now - lastLikeTimestamp < 3000) {
+        const updatedMessages = messages.map((message, i) => {
+          if (i === index) {
+            return {
+              ...message,
+              mLikes: updatedLikeCount - 2,
+            };
+          } else {
+            return message;
+          }
+        });
+        setMessages(updatedMessages);
+        setLastLikeTimestamp(now);
+        console.log("Cannot like again within 3 seconds");
+        return;
+      }
 
     const updatedMessage = {
       ...messages[index],

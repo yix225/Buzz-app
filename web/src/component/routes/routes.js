@@ -1,15 +1,29 @@
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+const CACHE_DURATION = 60;
+
+let cachedIdeas = null;
+let lastCacheTime = null;
+
+
 export const getAllIdea = async () => {
-    axios
-      .get("https://localhost:8998/GetAllIdea")
-      .then((res) => {
-        return res.data.mData;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const now = Date.now();
+  if (cachedIdeas !== null && lastCacheTime !== null && (now - lastCacheTime) / 1000 < CACHE_DURATION) {
+    // return cached data if it's still valid
+    return cachedIdeas;
+  }
+  try {
+    const response = await axios.get('https://localhost:8998/GetAllIdea');
+    const ideas = response.data.mData;
+    // update cache
+    cachedIdeas = ideas;
+    lastCacheTime = now;
+    return ideas;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
 };
+
 export const login = async (mycredential) => {
   console.log("Yes");
   try {
