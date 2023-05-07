@@ -186,6 +186,12 @@ class _HttpReqWordsState extends State<HttpReqWords> {
                   padding: const EdgeInsets.all(16.0),
                   itemCount: snapshot.data!.length,
                   itemBuilder: (context, i) {
+                    RegExp exp = new RegExp(r'(?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+');
+                    Iterable<RegExpMatch> matches = exp.allMatches(snapshot.data![i].mSubject);
+
+                    matches.forEach((match) {
+                      print(snapshot.data![i].mSubject.substring(match.start, match.end));
+                    });
                     return Column(
                       children: <Widget>[
                         ListTile(
