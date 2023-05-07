@@ -1,11 +1,10 @@
 
 import React, { useState } from "react";
+import { Link } from 'react-router-dom';
 import "./Messages.css";
 
 function Messages() {
-  // State variable to store list of messages and their votes
-  const [messages, setMessages] = useState([]);
-
+  
   // State variable to store comment text for a specific message
   const [commentText, setCommentText] = useState("");
 

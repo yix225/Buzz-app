@@ -17,13 +17,13 @@ function Homepage() {
   /**
    * The component defines a "getMessages" function that uses the axios library to fetch messages(data) from the API and updates the state variable for messages.(by using the setMessages)
    */
-  const getMessages = async () => {
+  const getMessages = async (SessID) => {
     const cachedMessages = localStorage.getItem("messages");
     if (cachedMessages) {
       setMessages(JSON.parse(cachedMessages));
     } else {
       axios
-        .get("https://2023sp-team-m.dokku.cse.lehigh.edu/GetAllIdea")
+        .get("https://localhost:8998/GetAllIdea")
         .then((res) => {
           console.log(res.data.mData);
           setMessages(res.data.mData);
@@ -230,9 +230,11 @@ function Homepage() {
               <div className="message-actions">
                 <span className="message-likes">{message.mLikes} likes</span>
                 <button onClick={() => likeMessage(index)}>Like</button>
+                <button onClick={() => dislikeMessage(index)}>DisLike</button>
                 <button onClick={() => editMessage(index, prompt("Enter new text:"))}>Edit</button>
                 <input type="file" onChange={(e) => attachFile(index, e.target.files[0])} />
               </div>
+              <button onClick={() => navigate(`/message/${message.mId}`)}>Go to Message</button>
             </li>
           ))}
         </ul>

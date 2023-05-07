@@ -7,10 +7,9 @@ import Profile from "./component/UserProfile/Profile";
 import Messages from "./component/Messages/Messages";
 import HomePage from "./component/Homepage/Homepage";
 import {login} from "./component/routes/routes";
-
+let sessionId;
 function App() {
   const navigate = useNavigate();
-  let sessionId;
   return (
     <GoogleOAuthProvider clientId="926558226206-ppmn3bk4ckvrtaq6hun9kpi034sde366.apps.googleusercontent.com">
       <div>
@@ -18,9 +17,10 @@ function App() {
         <GoogleLogin
           onSuccess={(credentialResponse) => {
             console.log(credentialResponse);
-            let sessionId = login(credentialResponse)
+            sessionId = login(credentialResponse)
+            sessionId = 123456;
             console.log(sessionId);
-            navigate("/Home");
+            navigate(`/Home/?param=${sessionId}`);
           }}
           onError={() => {
             console.log("Login Failed");
@@ -37,8 +37,8 @@ function Main() {
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/GetAllIdea" element={<Messages />} />
-        <Route path="/Home" element={<HomePage />} /> 
+        <Route path= "/Home" element={<HomePage />} /> 
+        <Route path="/message/:messageId" element={<Messages />} />
       </Routes>
     </Router>
   );
