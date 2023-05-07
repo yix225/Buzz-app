@@ -18,6 +18,7 @@ class InsertMessage extends StatefulWidget {
 class _InsertMessage extends State<InsertMessage> {
   TextEditingController subjectTextControl = TextEditingController();
   TextEditingController messageTextControl = TextEditingController();
+  TextEditingController linkTextControl = TextEditingController();
   XFile? file; 
   String? base64;
 
@@ -30,6 +31,7 @@ class _InsertMessage extends State<InsertMessage> {
     super.dispose();
     subjectTextControl.dispose();
     messageTextControl.dispose();
+    linkTextControl.dispose();
   } 
 
   openFiles() async {
@@ -55,6 +57,33 @@ class _InsertMessage extends State<InsertMessage> {
   }
 
   Future<void> showDialogChoice(BuildContext context) {
+    return showDialog(context: context, builder: (BuildContext context){
+      return AlertDialog(
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                GestureDetector(
+                  child: Text("Camera"),
+                  onTap: (){
+                    openCamera(); 
+                  }
+                ),
+                SizedBox(height: 20,),
+                GestureDetector(
+                  child: Text("Files"),
+                  onTap: (){
+                    openFiles();
+                  }
+                )
+              ],
+            )
+          )
+        );
+      }
+    );
+  }
+
+  Future<void> showLinkInsert(BuildContext context) {
     return showDialog(context: context, builder: (BuildContext context){
       return AlertDialog(
           content: SingleChildScrollView(
@@ -111,7 +140,10 @@ class _InsertMessage extends State<InsertMessage> {
               onPressed: () {
                 String firstInput = subjectTextControl.text;
                 String secondInput = messageTextControl.text;
-                addMessage(firstInput, secondInput, user.sid);
+                Future<int> newid = addMessage(firstInput, secondInput, user.sid);
+                if(file != null){
+                  print('there is an file we are attaching');
+                }
                 Navigator.pushNamed(context, '/home');
               },
               child: Text('Add'),
@@ -160,54 +192,6 @@ class _InsertMessage extends State<InsertMessage> {
                   }
                 ),
               ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class InsertLinkIdea extends StatelessWidget {
-  TextEditingController linkTextControl = TextEditingController();
-  TextEditingController descTextControl = TextEditingController();
-
-  void dispose() {
-    linkTextControl.dispose();
-    descTextControl.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final user = Provider.of<UserData>(context);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Please enter your Link'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextField(
-              decoration: InputDecoration(
-                labelText: 'Enter your Link here:',
-              ),
-              controller: linkTextControl,
-            ),
-            TextField(
-              decoration: InputDecoration(
-                labelText: 'Enter your description here:',
-              ),
-              controller: linkTextControl,
-            ),
-            SizedBox(height: 32),
-            ElevatedButton(
-              onPressed: () {
-                String firstInput = linkTextControl.text;
-                String secondInput = descTextControl.text;
-                Navigator.pushNamed(context, '/mymessage');
-              },
-              child: Text('Add'),
             ),
           ],
         ),

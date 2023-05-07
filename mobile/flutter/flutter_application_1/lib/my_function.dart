@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-void addMessage(String mySubject, String myMessage, String sessid) async {
+Future<int> addMessage(String mySubject, String myMessage, String sessid) async {
   Map<String, String> headers = {'Content-Type': 'application/json'};
   Map<String, dynamic> payload = {
     'mSubject': mySubject,
@@ -12,10 +12,11 @@ void addMessage(String mySubject, String myMessage, String sessid) async {
     headers: headers,
     body: jsonEncode(payload),
   );
-  print(response.body);
   if (response.statusCode != 200) {
     throw Exception('Failed to add message.');
   }
+  int res = jsonDecode(response.body)['mData'];
+  return res;
 }
 
 void addFileIdea(String filepath, String description, String type, int ideaid, String sessid) async {
@@ -35,7 +36,7 @@ void addFileIdea(String filepath, String description, String type, int ideaid, S
   }
 }
 
-void addComment(String myComment, int ideaid, int sessid) async {
+Future<int> addComment(String myComment, int ideaid, int sessid) async {
   Map<String, String> headers = {'Content-Type': 'application/json'};
   Map<String, dynamic> payload = {
     'mSubject': '',
@@ -49,6 +50,8 @@ void addComment(String myComment, int ideaid, int sessid) async {
   if (response.statusCode != 200) {
     throw Exception('Failed to add comment.');
   }
+  int res = jsonDecode(response.body)['mData'];
+  return res;
 }
 
 void updateComment(String myMessage, int ideaid, int commentid, String sessid) async {
