@@ -2,16 +2,83 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/my_function.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:file_picker/file_picker.dart';
 import 'user_data.dart';
+import 'dart:convert';
 
-class InsertMessage extends StatelessWidget {
+class InsertMessage extends StatefulWidget {
+
+  @override
+  _InsertMessage createState() => _InsertMessage();
+}
+
+
+class _InsertMessage extends State<InsertMessage> {
   TextEditingController subjectTextControl = TextEditingController();
   TextEditingController messageTextControl = TextEditingController();
+  XFile? file; 
+  String? base64;
 
+  XFile? getFile(){
+    return file;
+  }
+
+  @override
   void dispose() {
+    super.dispose();
     subjectTextControl.dispose();
     messageTextControl.dispose();
+  } 
+
+  openFiles() async {
+    file = await ImagePicker().pickImage(source: ImageSource.gallery);
+        if(file != null){
+      List<int> bytes = await file!.readAsBytes();
+      print(bytes);
+      base64 = base64Encode(bytes);
+      print(base64);
+    }
+    setState(() {});
+  }
+
+  openCamera() async {
+    file = await ImagePicker().pickImage(source: ImageSource.camera);
+    if(file != null){
+      List<int> bytes = await file!.readAsBytes();
+      print(bytes);
+      base64 = base64Encode(bytes);
+      print(base64);
+    }
+    setState(() {});
+  }
+
+  Future<void> showDialogChoice(BuildContext context) {
+    return showDialog(context: context, builder: (BuildContext context){
+      return AlertDialog(
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                GestureDetector(
+                  child: Text("Camera"),
+                  onTap: (){
+                    openCamera(); 
+                  }
+                ),
+                SizedBox(height: 20,),
+                GestureDetector(
+                  child: Text("Files"),
+                  onTap: (){
+                    openFiles();
+                  }
+                )
+              ],
+            )
+          )
+        );
+      }
+    );
   }
 
   @override
@@ -89,6 +156,7 @@ class InsertMessage extends StatelessWidget {
                     ]
                   ),
                   onPressed: () {
+                    showDialogChoice(context);
                   }
                 ),
               ),

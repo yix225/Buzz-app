@@ -58,6 +58,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
   Widget build(BuildContext context) {
     final user = Provider.of<UserData>(context);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text('Profile'),
       ),
@@ -121,6 +122,9 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                 enabled: true,
               ),
               controller: sexOriTextControl,
+            ),
+            const SizedBox(
+              height: 20,
             ),
             TextField(
               decoration: const InputDecoration(
