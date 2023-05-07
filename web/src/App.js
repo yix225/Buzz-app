@@ -3,19 +3,14 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { GoogleLogin } from "@react-oauth/google";
 import { useNavigate } from "react-router-dom";
-import Profile from "./Profile";
-import Messages from "./component/Messages"; // Import the Messages component
-
-//import ProfileBar from "./ProfileBar"; // Import the ProfileBar component
+import Profile from "./component/UserProfile/Profile";
+import Messages from "./component/Messages/Messages";
+import HomePage from "./component/Homepage/Homepage";
+import {login} from "./component/routes/routes";
 
 function App() {
   const navigate = useNavigate();
-
-  const handleProfileClick = () => {
-    navigate("/profile");
-  };
-
-
+  let sessionId;
   return (
     <GoogleOAuthProvider clientId="926558226206-ppmn3bk4ckvrtaq6hun9kpi034sde366.apps.googleusercontent.com">
       <div>
@@ -23,7 +18,9 @@ function App() {
         <GoogleLogin
           onSuccess={(credentialResponse) => {
             console.log(credentialResponse);
-            navigate("/profile");
+            let sessionId = login(credentialResponse)
+            console.log(sessionId);
+            navigate("/Home");
           }}
           onError={() => {
             console.log("Login Failed");
@@ -34,15 +31,6 @@ function App() {
   );
 }
 
-function NotFound() {
-  return (
-    <div>
-      <h2>Page Not Found</h2>
-      <p>The page you are looking for does not exist.</p>
-    </div>
-  );
-}
-
 function Main() {
   return (
     <Router>
@@ -50,7 +38,7 @@ function Main() {
         <Route path="/" element={<App />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/GetAllIdea" element={<Messages />} />
-        <Route path="*" element={<NotFound />} />
+        <Route path="/Home" element={<HomePage />} /> 
       </Routes>
     </Router>
   );

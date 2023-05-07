@@ -1,15 +1,3 @@
-// import MessageList from './MessageList';
-
-// function Messages() {
-//   return (
-//     <div>
-//       {/* Content of the Messages component */}
-//       <MessageList />
-//     </div>
-//   );
-// }
-
-// export default Messages;
 
 import React, { useState } from "react";
 import "./Messages.css";

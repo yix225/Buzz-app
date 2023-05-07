@@ -9,7 +9,7 @@ describe("MessageList component", () => {
     // Mount the component and fetch the messages
     component = mount(<App />);
     messages = await axios.get(
-      "http://2023sp-team-m.dokku.cse.lehigh.edu/GetallIdea"
+      "https://2023sp-team-m.dokku.cse.lehigh.edu/GetallIdea"
     );
   });
 

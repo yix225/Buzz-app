@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:english_words/english_words.dart';
+ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/insert_message.dart';
 import 'package:flutter_application_1/message.dart';
 import 'package:flutter_application_1/my_function.dart';
@@ -14,9 +13,6 @@ import 'package:flutter_application_1/UserData.dart';
 import 'package:provider/provider.dart';
 
 import 'dart:io';
-import 'package:device_info/device_info.dart';
-
-import 'comment.dart';
 import 'myDrawer.dart';
 
 Future<void> main() async {
@@ -36,7 +32,6 @@ class mLine {
   int mLikes;
   int mComments;
   final int mUserId;
-  //final bool mValid;
   final String mCreated;
   mLine({
     required this.mId,
@@ -45,7 +40,6 @@ class mLine {
     required this.mLikes,
     required this.mComments,
     required this.mUserId,
-    //required this.mValid,
     required this.mCreated,
   });
 
@@ -57,7 +51,6 @@ class mLine {
       mLikes: json['mLikes'],
       mComments: json['mComments'],
       mUserId: json['mUserId'],
-      //mValid: json['mVlid'],
       mCreated: json['mCreated'],
     );
   }
@@ -72,7 +65,6 @@ class mLine {
       'mLikes': this.mLikes,
       'mComments': this.mComments,
       'mUserId': this.mUserId,
-      //'mValid': this.mValid,
       'mCreated': this.mCreated
     };
     print(jsonEncode(data));
@@ -100,7 +92,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.deepPurple,
       ),
-      home: const MyHomePage(title: 'Team M Flutter App'),
+      home: const MyHomePage(title: 'The Buzz'),
       routes: {
         '/insert': (context) => insert_message(),
         '/mymessage': (context) => message(),
@@ -168,7 +160,7 @@ class _HttpReqWordsState extends State<HttpReqWords> {
   @override
   void initState() {
     super.initState();
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    Timer _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
         _future_list_numword_pairs = fetchmLines();
       });
@@ -189,6 +181,7 @@ class _HttpReqWordsState extends State<HttpReqWords> {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserData>(context);
     var fb = FutureBuilder<List<mLine>>(
       future: _future_list_numword_pairs,
       builder: (BuildContext context, AsyncSnapshot<List<mLine>> snapshot) {
@@ -205,32 +198,57 @@ class _HttpReqWordsState extends State<HttpReqWords> {
                       children: <Widget>[
                         ListTile(
                           title: Text(
-                            "${snapshot.data![i].mMessage} | Like:${snapshot.data![i].mLikes}",
+                            "${snapshot.data![i].mUserId}\n"
+                            "${snapshot.data![i].mSubject}",
                             style: _biggerFont,
                           ),
-                          trailing: ElevatedButton(
-                            onPressed: () {
-                              //updateLikes(snapshot.data![i].mId);
-                              //_retry();
-                              List<String> myarg = [];
-                              myarg.add((snapshot.data![i].mId).toString());
-                              myarg
-                                  .add((snapshot.data![i].mSubject).toString());
-                              myarg
-                                  .add((snapshot.data![i].mMessage).toString());
-                              myarg.add((snapshot.data![i].mLikes).toString());
-                              myarg
-                                  .add((snapshot.data![i].mCreated).toString());
-                              Navigator.pushNamed(
-                                context,
-                                '/mymessage',
-                                arguments: myarg,
-                              );
-                            },
-                            child: Text('>>'),
-                          ),
+                          trailing: Text("\n${snapshot.data![i].mCreated}\n"
+                              "\t\t\t\t\t\t\tLikes:${snapshot.data![i].mLikes}\t\tComments:${snapshot.data![i].mComments}\n"),
+                          subtitle: Text("${snapshot.data![i].mMessage}"),
+                          onTap: () {
+                            List<String> myarg = [];
+                            myarg.add((snapshot.data![i].mId).toString());
+                            myarg.add((snapshot.data![i].mUserId).toString());
+                            myarg.add((snapshot.data![i].mSubject).toString());
+                            myarg.add((snapshot.data![i].mCreated).toString());
+                            myarg.add((snapshot.data![i].mLikes).toString());
+                            myarg.add((snapshot.data![i].mComments).toString());
+                            myarg.add((snapshot.data![i].mMessage).toString());
+                            Navigator.pushNamed(
+                              context,
+                              '/mymessage',
+                              arguments: myarg,
+                            );
+                          },
                         ),
-                        Divider(height: 1.0),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children:<Widget>[
+                            ElevatedButton.icon(
+                              icon: SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: Image.asset('images/upvote.png'),
+                              ),
+                              onPressed: () {
+                                upvoteIdea(snapshot.data![i].mId, int.parse(user.sid));
+                              },
+                              label: const Text('upvote'),
+                            ),
+                            ElevatedButton.icon(
+                              icon: SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: Image.asset('images/downvote.png'),
+                              ),
+                              onPressed: () {
+                                downvoteIdea(snapshot.data![i].mId, int.parse(user.sid));
+                              },
+                              label: const Text('downvote'),
+                            ),
+                          ] 
+                        ),
+                        Divider(height: 10.0),
                       ],
                     );
                   },
@@ -254,8 +272,6 @@ class _HttpReqWordsState extends State<HttpReqWords> {
           // newly added
           child = Text('${snapshot.error}');
         } else {
-          // awaiting snapshot data, return simple text widget
-          // child = Text('Calculating answer...');
           child = const CircularProgressIndicator(); //show a loading spinner.
         }
         return child;
@@ -267,11 +283,9 @@ class _HttpReqWordsState extends State<HttpReqWords> {
 }
 
 Future<List<mLine>> fetchmLines() async {
-  //print("1");
   final response = await http
-      .get(Uri.parse('https://2023sp-team-m.dokku.cse.lehigh.edu/GetAllIdea'));
-  // print(response.statusCode);
-  // print(response.body);
+      .get(Uri.parse('http://10.0.2.2:8998/GetAllIdea'));
+  
   if (response.statusCode == 200) {
     final List<mLine> returnData;
     var res = jsonDecode(response.body);
@@ -287,33 +301,6 @@ Future<List<mLine>> fetchmLines() async {
       returnData = List.empty();
     }
     return returnData;
-  } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
-    throw Exception('Did not receive success status code from request.');
-  }
-}
-
-Future<List<Comment>> fetchComment() async {
-  final response =
-      await http.get(Uri.parse('http://2023sp-team-m.dokku.cse.lehigh.edu/'));
-  if (response.statusCode == 200) {
-    final List<Comment> returnComment;
-    var res = jsonDecode(response.body);
-    List<dynamic> mData = res['mData'];
-    // ignore: unnecessary_type_check
-    if (mData is List) {
-      returnComment = (mData).map((x) => Comment.fromJson(x)).toList();
-    } else if (mData is Map) {
-      returnComment = <Comment>[
-        Comment.fromJson(mData as Map<String, dynamic>)
-      ];
-    } else {
-      developer
-          .log('ERROR: Unexpected json response type (was not a List or Map).');
-      returnComment = List.empty();
-    }
-    return returnComment;
   } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.

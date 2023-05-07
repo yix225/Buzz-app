@@ -1,71 +1,61 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>JSDoc: Source: MessageList.js</title>
-
-    <script src="scripts/prettify/prettify.js"> </script>
-    <script src="scripts/prettify/lang-css.js"> </script>
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
-    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
-</head>
-
-<body>
-
-<div id="main">
-
-    <h1 class="page-title">Source: MessageList.js</h1>
-
-    
-
-
-
-    
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Link } from 'react-router-dom';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import "./MessageList.css";
+import "./Homepage.css";
 
 /**
  * MessageList component initializes state variables to store the messages, new message content, and new message subject. It also initializes a state variable to keep track of the timestamp of the last like action.
  * @returns the formate of the addmessage, the button of delete,edit,like, and the title's position
  */
-function MessageList() {
+function Homepage() {
   // Fetch the messages data from the API
   const [messages, setMessages] = useState([]); //using the useState to setmessages
   const [newMessage, setNewMessage] = useState("");
   const [newSubject, setNewSubject] = useState("");
   const [lastLikeTimestamp, setLastLikeTimestamp] = useState(null);
-  //const [newLike, setNewLikes] = useState(0);
-  //console.log("Yess");
-
   /**
    * The component defines a "getMessages" function that uses the axios library to fetch messages(data) from the API and updates the state variable for messages.(by using the setMessages)
    */
   const getMessages = async () => {
-    axios
-      .get("http://2023sp-team-m.dokku.cse.lehigh.edu/GetAllIdea")
-      .then((res) => {
-        console.log(res.data.mData);
-        setMessages(res.data.mData);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    console.log("Yess");
+    const cachedMessages = localStorage.getItem("messages");
+    if (cachedMessages) {
+      setMessages(JSON.parse(cachedMessages));
+    } else {
+      axios
+        .get("https://2023sp-team-m.dokku.cse.lehigh.edu/GetAllIdea")
+        .then((res) => {
+          console.log(res.data.mData);
+          setMessages(res.data.mData);
+          localStorage.setItem("messages", JSON.stringify(res.data.mData));
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
+  
   useEffect(() => {
     getMessages();
   }, []);
-
+  
+  // const getMessages = async () => {
+  //   try {
+  //     const response = await fetch("https://2023sp-team-m.dokku.cse.lehigh.edu/GetAllIdea");
+  //     if (!response.ok) {
+  //       throw new Error(`HTTP error! status: ${response.status}`);
+  //     }
+  //     const data = await response.json();
+  //     console.log(data.mData);
+  //     setMessages(data.mData);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+  
   /**
    * renders a form that allows users to enter new message content and subject. When the form is submitted, the component calls the addMessage function to create a new message using the content and subject entered by the user.
-   * "HandleChange" &amp; "HandleSubjectChange" use for handleing the input of user
+   * "HandleChange" & "HandleSubjectChange" use for handleing the input of user
    * "addMessage" used for add the input message
    * "HandleSubmited" submit the new message
    * using "axios.post" to post the new message
@@ -87,7 +77,7 @@ function MessageList() {
 
     try {
       const response = await axios.post(
-        "http://2023sp-team-m.dokku.cse.lehigh.edu/insertIdea",
+        "https://2023sp-team-m.dokku.cse.lehigh.edu/insertIdea",
         message
       );
       setMessages([...messages, response.data]);
@@ -122,7 +112,7 @@ function MessageList() {
     };
     try {
       const response = await axios.put(
-        `http://2023sp-team-m.dokku.cse.lehigh.edu/updateIdea/${messageId}`,
+        `https://2023sp-team-m.dokku.cse.lehigh.edu/updateIdea/${messageId}`,
         updatedMessage
       );
       const updatedMessages = messages.map((message) =>
@@ -148,7 +138,7 @@ function MessageList() {
 
     // Check if previous like was within 3 seconds
     const now = Date.now();
-    if (lastLikeTimestamp &amp;&amp; now - lastLikeTimestamp &lt; 3000) {
+    if (lastLikeTimestamp && now - lastLikeTimestamp < 3000) {
       const updatedMessages = messages.map((message, i) => {
         if (i === index) {
           return {
@@ -190,83 +180,70 @@ function MessageList() {
     }
   };
 
-  return (
-    &lt;div>
-      &lt;script src="https://accounts.google.com/gsi/client" async defer>&lt;/script>
-      &lt;script src="func.js">&lt;/script>
-      &lt;form onSubmit={handleSubmit}>
-        &lt;div className="message-box">
-          &lt;label htmlFor="subject">Subject:&lt;/label>
-          &lt;input
-            type="text"
-            value={newSubject}
-            onChange={handleSubjectChange}
-            id="subject"
-          />
-          &lt;label htmlFor="message">Message:&lt;/label>
-          &lt;input
-            type="text"
-            value={newMessage}
-            onChange={handleChange}
-            id="message"
-          />
-          &lt;div className="send-button">
-            &lt;button type="submit">Add New Message&lt;/button>
-          &lt;/div>
-        &lt;/div>
-      &lt;/form>
-      &lt;div
-        id="g_id_onload"
-        data-client_id="926558226206-ppmn3bk4ckvrtaq6hun9kpi034sde366.apps.googleusercontent.com"
-        data-context="signin"
-        data-ux_mode="popup"
-        data-callback="callback"
-        data-auto_prompt="false"
-      >&lt;/div>
+  function attachFile(index, file) {
+    // Update the message object at the specified index to include the attached file
+    messages[index].mAttachment = file;
+  
+    // You can perform additional logic here, such as displaying the attached file to the user or sending it to a server for storage.
+  
+    console.log(`Attached file "${file.name}" to message at index ${index}`);
+  }
+  
 
-      &lt;ul className="message-list">
-        {messages.map((message, index) => (
-          &lt;li key={message.mId} className="message-input">
-            &lt;span className="message-item">
-              {message.mSubject}: {message.mMessage}
-            &lt;/span>
-            &lt;div className="message-actions">
-              &lt;span className="message-likes">{message.mLikes} likes&lt;/span>
-              &lt;button onClick={() => likeMessage(index)}>Like&lt;/button>
-              &lt;button
-                onClick={() => editMessage(index, prompt("Enter new text:"))}
-              >
-                Edit
-              &lt;/button>
-            &lt;/div>
-          &lt;/li>
-        ))}
-      &lt;/ul>
-    &lt;/div>
+  return (
+    <div>
+      <script src="https://accounts.google.com/gsi/client" async defer></script>
+      <script src="func.js"></script>
+      <h1 className = "Title">Welcome!</h1>
+      <br />
+      <Link to="/profile" className="profile-link">Go to Profile</Link>
+      <div>
+        <form onSubmit={handleSubmit}>
+          <div className="message-box">
+            <label htmlFor="subject">Subject:</label>
+            <input
+              type="text"
+              value={newSubject}
+              onChange={handleSubjectChange}
+              id="subject"
+            />
+            <label htmlFor="message">Message:</label>
+            <input
+              type="text"
+              value={newMessage}
+              onChange={handleChange}
+              id="message"
+            />
+            <div className="send-button">
+              <button type="submit">Add New Message</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div>
+        <ul className="message-list">
+          {messages.map((message, index) => (
+            <li key={message.mId} className="message-input">
+              <span className="message-item">
+                {message.mSubject}: {message.mMessage}
+              </span>
+              <div className="message-actions">
+                <span className="message-likes">{message.mLikes} likes</span>
+                <button onClick={() => likeMessage(index)}>Like</button>
+                <button onClick={() => editMessage(index, prompt("Enter new text:"))}>Edit</button>
+                <input type="file" onChange={(e) => attachFile(index, e.target.files[0])} />
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+    </div>
   );
 }
 
-export default MessageList;
-</code></pre>
-        </article>
-    </section>
-
-
-
-
-</div>
-
-<nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#MessageList">MessageList</a></li></ul>
-</nav>
-
-<br class="clear">
-
-<footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Sun Apr 16 2023 22:52:24 GMT-0400 (Eastern Daylight Time)
-</footer>
-
-<script> prettyPrint(); </script>
-<script src="scripts/linenumber.js"> </script>
-</body>
-</html>
+export default Homepage;

@@ -112,8 +112,7 @@ public class DataIdea {
         mValid = valid;
         mCreated = new Date(created.getTime());
     }
-
-
+    
     /**
      * Copy constructor to create one dataidea from another
      * @param data The dataIdea you are copying from
@@ -129,4 +128,6 @@ public class DataIdea {
         mValid = data.mValid;
         mCreated = data.mCreated;
     }
+
+   
 }

@@ -66,6 +66,9 @@ flutter:
 
   assets:
     - images/google.png
+    - images/downvote.png
+    - images/upvote.png
+    - images/default_avatar.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:
