@@ -12,6 +12,7 @@ void addMessage(String mySubject, String myMessage, String sessid) async {
     headers: headers,
     body: jsonEncode(payload),
   );
+  print(response.body);
   if (response.statusCode != 200) {
     throw Exception('Failed to add message.');
   }
