@@ -12,6 +12,7 @@ import 'package:flutter_application_1/sign_in_screen.dart';
 
 import 'package:flutter_application_1/user_data.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'dart:io';
 import 'my_drawer.dart';
@@ -186,11 +187,13 @@ class _HttpReqWordsState extends State<HttpReqWords> {
                   padding: const EdgeInsets.all(16.0),
                   itemCount: snapshot.data!.length,
                   itemBuilder: (context, i) {
+                    final message = snapshot.data![i].mMessage;
+                    List<String> links = [];
                     RegExp exp = new RegExp(r'(?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+');
-                    Iterable<RegExpMatch> matches = exp.allMatches(snapshot.data![i].mSubject);
+                    Iterable<RegExpMatch> matches = exp.allMatches(message);
 
                     matches.forEach((match) {
-                      print(snapshot.data![i].mSubject.substring(match.start, match.end));
+                      links.add(message.substring(match.start, match.end));
                     });
                     return Column(
                       children: <Widget>[
@@ -202,7 +205,23 @@ class _HttpReqWordsState extends State<HttpReqWords> {
                           ),
                           trailing: Text("\n${snapshot.data![i].mCreated}\n"
                               "\t\t\t\t\t\t\tLikes:${snapshot.data![i].mLikes}\t\tComments:${snapshot.data![i].mComments}\n"),
-                          subtitle: Text("${snapshot.data![i].mMessage}"),
+                          subtitle: Column( children: <Widget>[
+                              Text("${snapshot.data![i].mMessage}"),
+                              for(String link in links)
+                                TextButton(
+                                  onPressed: () async{
+                                    var launchable = await canLaunchUrl(Uri.parse(link));
+                                    if(launchable){
+                                      await launchUrl(Uri.parse(link));
+                                    }
+                                    else{
+                                      print("not launcable");
+                                    }
+                                  },
+                                  child: Text(link)
+                                )
+                            ]
+                          ),
                           onTap: () {
                             List<String> myarg = [];
                             myarg.add((snapshot.data![i].mId).toString());

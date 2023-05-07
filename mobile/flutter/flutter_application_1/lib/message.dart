@@ -9,6 +9,7 @@ import 'package:flutter_application_1/my_function.dart';
 import 'dart:developer' as developer;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:url_launcher/url_launcher.dart';
 
 
 class Comment {
@@ -87,8 +88,15 @@ class _HttpReqWordsState extends State<HttpReqWords> {
     var fb = FutureBuilder<List<Comment>>(
         future: _future_list_numword_pairs,
         builder: (BuildContext context, AsyncSnapshot<List<Comment>> snapshot) {
-          final List<String> message =
-                ModalRoute.of(context)!.settings.arguments as List<String>;
+          final List<String> message = ModalRoute.of(context)!.settings.arguments as List<String>;
+          final linkMessage = message[6];
+          List<String> links = [];
+          RegExp exp = new RegExp(r'(?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+');
+          Iterable<RegExpMatch> matches = exp.allMatches(linkMessage);
+
+          matches.forEach((match) {
+            links.add(linkMessage.substring(match.start, match.end));
+          });
           Widget child;
             child = Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -121,7 +129,23 @@ class _HttpReqWordsState extends State<HttpReqWords> {
                       ),
                       trailing: Text("\n${message[3]}\n"
                           "\t\t\t\t\t\t\tLikes:${message[4]}\t\tComments:${message[5]}\n"),
-                      subtitle: Text("${message[6]}"),
+                      subtitle: Column( children: <Widget>[
+                          Text("${message[6]}"),
+                          for(String link in links)
+                            TextButton(
+                              onPressed: () async{
+                                var launchable = await canLaunchUrl(Uri.parse(link));
+                                if(launchable){
+                                  await launchUrl(Uri.parse(link));
+                                }
+                                else{
+                                  print("not launcable");
+                                }
+                              },
+                              child: Text(link)
+                            )
+                        ]
+                      ),
                     ),
                   ),
                 ),
@@ -158,6 +182,14 @@ class _HttpReqWordsState extends State<HttpReqWords> {
                       padding: const EdgeInsets.all(16.0),
                       itemCount: snapshot.data!.length,
                       itemBuilder: (context, i){
+                        final linkMessage = snapshot.data![i].mMessage;
+                        List<String> links = [];
+                        RegExp exp = new RegExp(r'(?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+');
+                        Iterable<RegExpMatch> matches = exp.allMatches(linkMessage);
+
+                        matches.forEach((match) {
+                          links.add(linkMessage.substring(match.start, match.end));
+                        });
                         return Column(
                           children: <Widget>[
                             ListTile(
@@ -166,7 +198,23 @@ class _HttpReqWordsState extends State<HttpReqWords> {
                               ),
                               trailing: Text("\n${snapshot.data![i].mCreated}\n"
                                   "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tLikes:${snapshot.data![i].mLikes}\n"),
-                              subtitle: Text("${snapshot.data![i].mMessage}"),
+                              subtitle: Column( children: <Widget>[
+                                Text("${snapshot.data![i].mMessage}"),
+                                for(String link in links)
+                                  TextButton(
+                                    onPressed: () async{
+                                      var launchable = await canLaunchUrl(Uri.parse(link));
+                                      if(launchable){
+                                        await launchUrl(Uri.parse(link));
+                                      }
+                                      else{
+                                        print("not launcable");
+                                      }
+                                    },
+                                    child: Text(link)
+                                  )
+                                ]
+                              ),
                               onTap: () {
                                 if(snapshot.data![i].mUserId ==  user.userId){
                                   Navigator.push(
