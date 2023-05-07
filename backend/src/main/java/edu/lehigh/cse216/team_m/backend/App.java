@@ -62,6 +62,9 @@ import java.net.InetSocketAddress;
 import java.util.concurrent.TimeoutException;
 import java.util.Base64;
 
+
+import com.google.api.client.http.ByteArrayContent;
+import java.io.FileInputStream;
 /**
  * For now, our app creates an HTTP server that can only get and add data.
  */
@@ -258,7 +261,7 @@ public class App {
         // Create the metadata for the file
         File fileMetadata = new File();
         fileMetadata.setName(filename);
-        fileMetadata.setParents(Collections.singletonList(new ParentReference().setId(FOLDER_ID)));
+    
 
         // Create a file content with the data
         ByteArrayContent mediaContent = new ByteArrayContent("application/octet-stream", fileBytes);
