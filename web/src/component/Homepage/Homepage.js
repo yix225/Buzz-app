@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link } from 'react-router-dom';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import "./Homepage.css";
+import {insertMedia} from "../routes/routes";
 
 /**
  * MessageList component initializes state variables to store the messages, new message content, and new message subject. It also initializes a state variable to keep track of the timestamp of the last like action.
@@ -155,29 +156,28 @@ function Homepage() {
       return;
     }
   }
-    const dislikeMessage = async (index) => {
-      const messageId = messages[index].mId;
-      const updatedLikeCount = messages[index].mLikes - 1;
-  
-      // Check if previous like was within 3 seconds
-      const now = Date.now();
-      if (lastLikeTimestamp && now - lastLikeTimestamp < 3000) {
-        const updatedMessages = messages.map((message, i) => {
-          if (i === index) {
-            return {
-              ...message,
-              mLikes: updatedLikeCount - 2,
-            };
-          } else {
-            return message;
-          }
-        });
-        setMessages(updatedMessages);
-        setLastLikeTimestamp(now);
-        console.log("Cannot like again within 3 seconds");
-        return;
-      }
+  const dislikeMessage = async (index) => {
+    const messageId = messages[index].mId;
+    const updatedLikeCount = messages[index].mLikes - 1;
 
+    // Check if previous like was within 3 seconds
+    const now = Date.now();
+    if (lastLikeTimestamp && now - lastLikeTimestamp < 3000) {
+      const updatedMessages = messages.map((message, i) => {
+        if (i === index) {
+          return {
+            ...message,
+            mLikes: updatedLikeCount - 2,
+          };
+        } else {
+          return message;
+        }
+      });
+      setMessages(updatedMessages);
+      setLastLikeTimestamp(now);
+      console.log("Cannot like again within 3 seconds");
+      return;
+    }
     const updatedMessage = {
       ...messages[index],
       mLikes: messages[index].mId
@@ -201,7 +201,13 @@ function Homepage() {
       console.log(error);
     }
   };
-
+  const addFile = async (index, URL) => {
+    try {
+      insertMedia(index, URL);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   function attachFile(index, file) {
     // Update the message object at the specified index to include the attached file
     messages[index].mAttachment = file;
@@ -254,6 +260,7 @@ function Homepage() {
                 <button onClick={() => likeMessage(index)}>Like</button>
                 <button onClick={() => dislikeMessage(index)}>DisLike</button>
                 <button onClick={() => editMessage(index, prompt("Enter new text:"))}>Edit</button>
+                <button onClick={() => addFile(index, prompt("Enter new File:"))}>AddFile</button> 
                 <input type="file" onChange={(e) => attachFile(index, e.target.files[0])} />
               </div>
               <button onClick={() => navigate(`/message/${message.mId}`)}>Go to Message</button>
