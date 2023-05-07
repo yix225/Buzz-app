@@ -122,7 +122,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Description',
-                    enabled: true,
+                    enabled: false,
                   ),
                   controller: TextEditingController(text: snapshot.data?.description),
                 ),

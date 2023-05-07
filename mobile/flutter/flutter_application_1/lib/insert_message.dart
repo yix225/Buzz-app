@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:file_picker/file_picker.dart';
 import 'user_data.dart';
 import 'dart:convert';
+import 'dart:io';
 
 class InsertMessage extends StatefulWidget {
 
@@ -19,12 +20,8 @@ class _InsertMessage extends State<InsertMessage> {
   TextEditingController subjectTextControl = TextEditingController();
   TextEditingController messageTextControl = TextEditingController();
   TextEditingController linkTextControl = TextEditingController();
-  XFile? file; 
+  File? file; 
   String? base64;
-
-  XFile? getFile(){
-    return file;
-  }
 
   @override
   void dispose() {
@@ -35,7 +32,8 @@ class _InsertMessage extends State<InsertMessage> {
   } 
 
   openFiles() async {
-    file = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final result = await FilePicker.platform.pickFiles();
+    file = File(result!.files.first.path.toString());
         if(file != null){
       List<int> bytes = await file!.readAsBytes();
       print(bytes);
@@ -46,7 +44,8 @@ class _InsertMessage extends State<InsertMessage> {
   }
 
   openCamera() async {
-    file = await ImagePicker().pickImage(source: ImageSource.camera);
+    final result = await ImagePicker().pickImage(source: ImageSource.camera);
+    file = File(result!.path);
     if(file != null){
       List<int> bytes = await file!.readAsBytes();
       print(bytes);
@@ -140,59 +139,63 @@ class _InsertMessage extends State<InsertMessage> {
               onPressed: () {
                 String firstInput = subjectTextControl.text;
                 String secondInput = messageTextControl.text;
-                Future<int> newid = addMessage(firstInput, secondInput, user.sid);
                 if(file != null){
                   print('there is an file we are attaching');
+                }
+                else{
+                  Future<int> newid = addMessage(firstInput, secondInput, user.sid);
                 }
                 Navigator.pushNamed(context, '/home');
               },
               child: Text('Add'),
             ),
-            Padding(
-              padding: EdgeInsetsDirectional.all(6),
-              child: Container(
-                width: 400.0,
-                height: 110.0,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.deepPurple, width: 6)
-                ),
-                child: TextButton(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Image.asset('images/link.png'),
-                      SizedBox(width: 20,),
-                      Text('Add a link')
-                    ]
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsetsDirectional.all(6),
+                  child: Container(
+                    width: 100.0,
+                    height: 100.0,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.deepPurple, width: 6)
+                    ),
+                    child: TextButton(
+                      child: Image.asset('images/camera.png'),
+                      onPressed: () {
+                        openCamera();
+                      }
+                    ),
                   ),
-                  onPressed: () {
-                  }
                 ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsetsDirectional.all(6),
-              child: Container(
-                width: 400.0,
-                height: 110.0,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.deepPurple, width: 6)
-                ),
-                child: TextButton(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Image.asset('images/attach.png'),
-                      SizedBox(width: 20,),
-                      Text('Attach a file')
-                    ]
+                Padding(
+                  padding: EdgeInsetsDirectional.all(6),
+                  child: Container(
+                    width: 100.0,
+                    height: 100.0,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.deepPurple, width: 6)
+                    ),
+                    child: TextButton(
+                      child: Image.asset('images/attach.png'),
+                      onPressed: () {
+                        openFiles();
+                      }
+                    ),
                   ),
-                  onPressed: () {
-                    showDialogChoice(context);
-                  }
                 ),
-              ),
+              ]
             ),
+            if(file != null)...{
+              Text('File: ${file!.path.split('/').last}'),
+              ElevatedButton(
+                onPressed: (){
+                  file = null;
+                  setState(() {});
+                },
+                child: Text("Remove"),
+              )
+            }
           ],
         ),
       ),
