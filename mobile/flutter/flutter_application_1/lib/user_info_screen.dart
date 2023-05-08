@@ -1,15 +1,8 @@
 import 'package:flutter/material.dart';
-
-import 'package:flutter_application_1/SignInScreen.dart';
-import 'package:flutter_application_1/myDrawer.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:http/http.dart';
 import 'package:provider/provider.dart';
-import 'dart:convert';
 import 'package:flutter_application_1/user.dart';
-import 'package:http/http.dart' as http;
 
-import 'UserData.dart';
+import 'user_data.dart';
 import 'my_function.dart';
 
 class UserInfoScreen extends StatefulWidget {
@@ -48,10 +41,12 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
   TextEditingController sexOriTextControl = TextEditingController();
   TextEditingController genderTextControl = TextEditingController();
   TextEditingController descTextControl = TextEditingController();
+  
+  @override
   void initState() {
+    final user = Provider.of<UserData>(context, listen: false);
     super.initState();
     // Set the initial value of the userIdentity controller to the current user's userIdentity value.
-    final user = Provider.of<UserData>(context, listen: false);
     sexOriTextControl.text = user.userSexOri!;
     genderTextControl.text = user.userIdentity!;
     descTextControl.text = user.userDescription!;
@@ -62,8 +57,8 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserData>(context);
-    print(user.sid);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text('Profile'),
       ),
@@ -128,6 +123,9 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
               ),
               controller: sexOriTextControl,
             ),
+            const SizedBox(
+              height: 20,
+            ),
             TextField(
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
@@ -142,7 +140,17 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                 String secondInput = sexOriTextControl.text;
                 String thirdInput = descTextControl.text;
                 updateProfile(user.userName, user.userEmail, firstInput, secondInput, thirdInput, int.parse(user.sid));
-                Navigator.pushNamed(context, '/');
+                user.saveUser(User(
+                avatarUrl: user.userAvUrl!,
+                token: "_googleUser",
+                email: user.userEmail!,
+                name: user.userName!,
+                identity: firstInput,
+                sexOri: secondInput,
+                id: user.userId,
+                description: thirdInput,
+                sid: user.sid));
+                Navigator.pushNamed(context, '/home');
               },
               child: const Text("Save"),
             ),

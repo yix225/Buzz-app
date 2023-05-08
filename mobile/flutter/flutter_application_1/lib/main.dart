@@ -1,19 +1,21 @@
- import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_application_1/insert_message.dart';
-import 'package:flutter_application_1/message.dart';
+import 'package:flutter_application_1/Message.dart';
 import 'package:flutter_application_1/my_function.dart';
-import 'package:flutter_application_1/user.dart';
+import 'package:flutter_application_1/edit_comment.dart';
+import 'package:flutter_application_1/profile_data.dart';
 import 'dart:developer' as developer;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
-import 'package:flutter_application_1/SignInScreen.dart';
+import 'package:flutter_application_1/sign_in_screen.dart';
 
-import 'package:flutter_application_1/UserData.dart';
+import 'package:flutter_application_1/user_data.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'dart:io';
-import 'myDrawer.dart';
+import 'my_drawer.dart';
 
 Future<void> main() async {
   HttpOverrides.global = MyHttpOverrides();
@@ -25,7 +27,7 @@ Future<void> main() async {
 }
 
 /// Create object from data like: {mId: 124, mSubject: testing dokku, mMessage: please work, mLikes: 0, mCreated: Mar 10, 2023 8:10:10 PM}
-class mLine {
+class Idea {
   final int mId;
   final String mSubject;
   String mMessage;
@@ -33,7 +35,7 @@ class mLine {
   int mComments;
   final int mUserId;
   final String mCreated;
-  mLine({
+  Idea({
     required this.mId,
     required this.mSubject,
     required this.mMessage,
@@ -42,9 +44,8 @@ class mLine {
     required this.mUserId,
     required this.mCreated,
   });
-
-  factory mLine.fromJson(Map<String, dynamic> json) {
-    return mLine(
+  factory Idea.fromJson(Map<String, dynamic> json) {
+    return Idea(
       mId: json['mId'],
       mSubject: json['mSubject'],
       mMessage: json['mMessage'],
@@ -59,15 +60,14 @@ class mLine {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['mStatus'] = 'ok';
     data['mData'] = {
-      'mId': this.mId,
-      'mSubject': this.mSubject,
-      'mMessage': this.mMessage,
-      'mLikes': this.mLikes,
-      'mComments': this.mComments,
-      'mUserId': this.mUserId,
-      'mCreated': this.mCreated
+      'mId': mId,
+      'mSubject': mSubject,
+      'mMessage': mMessage,
+      'mLikes': mLikes,
+      'mComments': mComments,
+      'mUserId': mUserId,
+      'mCreated': mCreated
     };
-    print(jsonEncode(data));
     return data;
   }
 }
@@ -92,11 +92,14 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.deepPurple,
       ),
-      home: const MyHomePage(title: 'The Buzz'),
+      home: new SignInScreen(),
       routes: {
-        '/insert': (context) => insert_message(),
-        '/mymessage': (context) => message(),
+        '/home' : (context) => const MyHomePage(title: 'The Buzz'),
+        '/insert': (context) => InsertMessage(),
+        '/mymessage': (context) => Message(),
         '/SignInScreen': (context) => SignInScreen(),
+        '/edit' : (context) => EditComment(),
+        '/profile' : (context) => ProfileScreen(),
       },
     );
   }
@@ -132,7 +135,7 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      drawer: const myDrawer(
+      drawer: const MyDrawer(
         selectedPage: 'Profile',
       ),
       body: const Center(
@@ -152,7 +155,7 @@ class HttpReqWords extends StatefulWidget {
 }
 
 class _HttpReqWordsState extends State<HttpReqWords> {
-  late Future<List<mLine>> _future_list_numword_pairs;
+  late Future<List<Idea>> _future_list_numword_pairs;
   late Timer _timer;
 
   final _biggerFont = const TextStyle(fontSize: 18);
@@ -162,19 +165,9 @@ class _HttpReqWordsState extends State<HttpReqWords> {
     super.initState();
     Timer _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
-        _future_list_numword_pairs = fetchmLines();
+        _future_list_numword_pairs = fetchIdeas(context);
       });
     });
-  }
-
-  void _retry() {
-    setState(() {
-      _future_list_numword_pairs = fetchmLines();
-    });
-  }
-
-  void reload() {
-    setState(() {});
   }
 
   final TextEditingController _controller = TextEditingController();
@@ -182,9 +175,9 @@ class _HttpReqWordsState extends State<HttpReqWords> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserData>(context);
-    var fb = FutureBuilder<List<mLine>>(
+    var fb = FutureBuilder<List<Idea>>(
       future: _future_list_numword_pairs,
-      builder: (BuildContext context, AsyncSnapshot<List<mLine>> snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<List<Idea>> snapshot) {
         Widget child;
         if (snapshot.hasData) {
           child = Column(
@@ -194,6 +187,14 @@ class _HttpReqWordsState extends State<HttpReqWords> {
                   padding: const EdgeInsets.all(16.0),
                   itemCount: snapshot.data!.length,
                   itemBuilder: (context, i) {
+                    final message = snapshot.data![i].mMessage;
+                    List<String> links = [];
+                    RegExp exp = new RegExp(r'(?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+');
+                    Iterable<RegExpMatch> matches = exp.allMatches(message);
+
+                    matches.forEach((match) {
+                      links.add(message.substring(match.start, match.end));
+                    });
                     return Column(
                       children: <Widget>[
                         ListTile(
@@ -204,7 +205,23 @@ class _HttpReqWordsState extends State<HttpReqWords> {
                           ),
                           trailing: Text("\n${snapshot.data![i].mCreated}\n"
                               "\t\t\t\t\t\t\tLikes:${snapshot.data![i].mLikes}\t\tComments:${snapshot.data![i].mComments}\n"),
-                          subtitle: Text("${snapshot.data![i].mMessage}"),
+                          subtitle: Column( children: <Widget>[
+                              Text("${snapshot.data![i].mMessage}"),
+                              for(String link in links)
+                                TextButton(
+                                  onPressed: () async{
+                                    var launchable = await canLaunchUrl(Uri.parse(link));
+                                    if(launchable){
+                                      await launchUrl(Uri.parse(link));
+                                    }
+                                    else{
+                                      print("not launcable");
+                                    }
+                                  },
+                                  child: Text(link)
+                                )
+                            ]
+                          ),
                           onTap: () {
                             List<String> myarg = [];
                             myarg.add((snapshot.data![i].mId).toString());
@@ -222,32 +239,33 @@ class _HttpReqWordsState extends State<HttpReqWords> {
                           },
                         ),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children:<Widget>[
-                            ElevatedButton.icon(
-                              icon: SizedBox(
-                                width: 20,
-                                height: 20,
-                                child: Image.asset('images/upvote.png'),
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              ElevatedButton.icon(
+                                icon: SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: Image.asset('images/upvote.png'),
+                                ),
+                                onPressed: () {
+                                  upvoteIdea(snapshot.data![i].mId,
+                                      int.parse(user.sid));
+                                },
+                                label: const Text('upvote'),
                               ),
-                              onPressed: () {
-                                upvoteIdea(snapshot.data![i].mId, int.parse(user.sid));
-                              },
-                              label: const Text('upvote'),
-                            ),
-                            ElevatedButton.icon(
-                              icon: SizedBox(
-                                width: 20,
-                                height: 20,
-                                child: Image.asset('images/downvote.png'),
+                              ElevatedButton.icon(
+                                icon: SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: Image.asset('images/downvote.png'),
+                                ),
+                                onPressed: () {
+                                  downvoteIdea(snapshot.data![i].mId,
+                                      int.parse(user.sid));
+                                },
+                                label: const Text('downvote'),
                               ),
-                              onPressed: () {
-                                downvoteIdea(snapshot.data![i].mId, int.parse(user.sid));
-                              },
-                              label: const Text('downvote'),
-                            ),
-                          ] 
-                        ),
+                            ]),
                         Divider(height: 10.0),
                       ],
                     );
@@ -282,19 +300,19 @@ class _HttpReqWordsState extends State<HttpReqWords> {
   }
 }
 
-Future<List<mLine>> fetchmLines() async {
-  final response = await http
-      .get(Uri.parse('http://10.0.2.2:8998/GetAllIdea'));
-  
+Future<List<Idea>> fetchIdeas(context) async {
+  final user = Provider.of<UserData>(context, listen: false);
+  final response = await http.get(Uri.parse('http://10.0.2.2:8998//GetAllIdea/${user.sid}'));
+
   if (response.statusCode == 200) {
-    final List<mLine> returnData;
+    final List<Idea> returnData;
     var res = jsonDecode(response.body);
     List<dynamic> mData = res['mData'];
     // ignore: unnecessary_type_check
     if (mData is List) {
-      returnData = (mData).map((x) => mLine.fromJson(x)).toList();
+      returnData = (mData).map((x) => Idea.fromJson(x)).toList();
     } else if (mData is Map) {
-      returnData = <mLine>[mLine.fromJson(mData as Map<String, dynamic>)];
+      returnData = <Idea>[Idea.fromJson(mData as Map<String, dynamic>)];
     } else {
       developer
           .log('ERROR: Unexpected json response type (was not a List or Map).');

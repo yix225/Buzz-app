@@ -1,25 +1,22 @@
-// import 'dart:html';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/SignInScreen.dart';
-import 'package:flutter_application_1/UserData.dart';
-import 'package:flutter_application_1/UserInfoscreen.dart';
-import 'package:flutter_application_1/my_function.dart';
-import 'package:http/http.dart';
+import 'package:flutter_application_1/sign_in_screen.dart';
+import 'package:flutter_application_1/user_data.dart';
+import 'package:flutter_application_1/user_info_screen.dart';
 import 'package:provider/provider.dart';
 
 // BASIC CONTRUSCT
-class myDrawer extends StatefulWidget {
-  const myDrawer({super.key, required this.selectedPage});
+class MyDrawer extends StatefulWidget {
+  const MyDrawer({super.key, required this.selectedPage});
 
   final String selectedPage;
 
   // Create the state
   @override
-  State<myDrawer> createState() => _myDrawerState(); // create the state
+  State<MyDrawer> createState() => _MyDrawerState(); // create the state
 }
 
-class _myDrawerState extends State<myDrawer> {
+class _MyDrawerState extends State<MyDrawer> {
+  @override
   void dispose() {
     // Remove any references to this object here
     super.dispose();
@@ -114,22 +111,6 @@ class _myDrawerState extends State<myDrawer> {
                           builder: (context) => const UserInfoScreen()),
                     ),
           ),
-          // ListTile(
-          //   // list  the comment page components
-          //   selected: widget.selectedPage == 'Comment',
-          //   leading: const Icon(Icons.article_rounded),
-          //   title: const Text('Comment'),
-          //   onTap: widget.selectedPage == 'Comment' // when click the comment
-          //       ? () => Navigator.pop(
-          //           context) // go back the previous page with the context
-          //       : () => Navigator.push(
-          //             // go to the comment page
-          //             context,
-          //             MaterialPageRoute(
-          //               builder: (context) => comment(),
-          //             ),
-          //           ),
-          // ),
         ],
       )),
     );

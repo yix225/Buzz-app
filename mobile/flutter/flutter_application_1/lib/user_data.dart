@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'dart:convert';
-import 'main.dart';
-import 'package:flutter_application_1/constants.dart';
 import 'package:http/http.dart' as http;
 import 'user.dart';
 
@@ -16,8 +14,9 @@ class UserData extends ChangeNotifier {
   User? get user => _user;
 
   set user(User? user) {
-    if (_user == user) // if they are equal. the compiler do not need to assigned them equal.
-      return; 
+    if (_user == user) { // if they are equal. the compiler do not need to assigned them equal.
+      return;
+    }
     _user = user;
     //notifyListeners(); // check the any change
   }
@@ -33,6 +32,7 @@ class UserData extends ChangeNotifier {
   String? get userIdentity => _user?.identity;
   String? get userSexOri => _user?.sexOri;
   String? get userDescription => _user?.description;
+  String? get userAvUrl => _user?.avatarUrl;
   int get userId => _user!.id;
   String get sid => _user!.sid;
 
@@ -51,14 +51,14 @@ class UserData extends ChangeNotifier {
 
   Future<GoogleSignInAccount?> googleSignIn() async {
     String sessionid = '';
-    print("hello");
+    String genid = '';
+    String sexotn = '';
+    String note = '';
+    String id = '';
     // Attempts to sign in a previously authenticated user without interaction.
     _googleUser = await _googleSignIn.signIn();
-    print("yes");
     final GoogleSignInAuthentication googleAuth =
         await _googleUser!.authentication;
-    final String idToken = googleAuth.idToken ?? '';
-    final String accessToken = googleAuth.accessToken ?? '';
     if (googleAuth.idToken != null) {
       print(googleAuth.idToken);
       try {
@@ -68,8 +68,12 @@ class UserData extends ChangeNotifier {
         );
         print(response.statusCode);
         print(jsonDecode(response.body));
-        final sessId = jsonDecode(response.body)['mData'];
+        final sessId = jsonDecode(response.body)['mData'][0];
         sessionid = sessId.toString();
+        id = jsonDecode(response.body)['mData'][1];
+        genid = jsonDecode(response.body)['mData'][2];
+        sexotn = jsonDecode(response.body)['mData'][3];
+        note = jsonDecode(response.body)['mData'][4];
         print(sessionid);
         if (response.statusCode == 500) {
           // Get the user's profile information
@@ -85,29 +89,29 @@ class UserData extends ChangeNotifier {
                 sexOri: '',
                 id: 0,
                 description: '',
-                sid: sessId)
+                sid: sessionid)
               ..email = googleUser.email
               ..name = googleUser.displayName ?? ''
               ..avatarUrl = googleUser.photoUrl?.split('=')[0] ?? ''
-              ..sexOri = ''
-              ..identity = ''
+              ..sexOri = sexotn
+              ..identity = genid
+              ..description = note
               ..token = "_googleUser"
-              ..id = 0); // store user basic data
+              ..id = int.parse(id)); // store user basic data
             print("yes3");
             return googleUser;
           }
-        } 
+        }
       } catch (e) {
         print(e);
       }
-    }
-    else  // Authentication failed, return null   
+    } else { // Authentication failed, return null
       return null;
+    }
     print("hello2");
     _googleUser ??= await _googleSignIn
         .signIn(); // if the previous work successfully, we will not use that one
     if (_googleUser != null) {
-      print(sessionid);
       saveUser(User(
           avatarUrl: '',
           token: '',
@@ -117,14 +121,15 @@ class UserData extends ChangeNotifier {
           sexOri: '',
           id: 0,
           description: '',
-          sid: sessionid
-          )
+          sid: sessionid)
         ..email = _googleUser!.email
         ..name = _googleUser!.displayName ?? ''
         ..avatarUrl = _googleUser!.photoUrl?.split('=')[0] ?? ''
-        ..sexOri = ''
-        ..identity = ''
-        ..token = "_googleUser"); // store user basic data
+        ..sexOri = sexotn
+        ..identity = genid
+        ..description = note
+        ..token = "_googleUser"
+        ..id = int.parse(id)); // store user basic data
       return _googleUser;
     }
   }
