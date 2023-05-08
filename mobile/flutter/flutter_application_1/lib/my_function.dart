@@ -19,15 +19,16 @@ Future<int> addMessage(String mySubject, String myMessage, String sessid) async 
   return res;
 }
 
-void addFileIdea(String filepath, String description, String type, int ideaid, String sessid) async {
+void addFileMessage(String mySubject, String myMessage, String sessid, String path, String type) async {
   Map<String, String> headers = {'Content-Type': 'application/json'};
   Map<String, dynamic> payload = {
-    'mFilePath': filepath,
-    'mDescription': description,
-    'mFileType': type,
+    'mSubject': mySubject,
+    'mMessage': myMessage,
+    'mfilePath' : path, 
+    'mfileType' : type,
   };
   final response = await http.post(
-    Uri.parse('http://10.0.2.2:8998//insertFileIdea/$ideaid/$sessid'),
+    Uri.parse('http://10.0.2.2:8998/insertIdea/$sessid/$type'),
     headers: headers,
     body: jsonEncode(payload),
   );

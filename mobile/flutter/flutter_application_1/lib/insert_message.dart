@@ -5,6 +5,7 @@ import 'package:flutter_application_1/my_function.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:mime/mime.dart';
 import 'user_data.dart';
 import 'dart:convert';
 import 'dart:io';
@@ -140,7 +141,8 @@ class _InsertMessage extends State<InsertMessage> {
                 String firstInput = subjectTextControl.text;
                 String secondInput = messageTextControl.text;
                 if(file != null){
-                  print('there is an file we are attaching');
+                  String path = file!.path.split('/').last;
+                  addFileMessage(firstInput, secondInput, user.sid, file!.path, lookupMimeType(path).toString());
                 }
                 else{
                   Future<int> newid = addMessage(firstInput, secondInput, user.sid);
