@@ -56,33 +56,6 @@ class _InsertMessage extends State<InsertMessage> {
     setState(() {});
   }
 
-  Future<void> showDialogChoice(BuildContext context) {
-    return showDialog(context: context, builder: (BuildContext context){
-      return AlertDialog(
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                GestureDetector(
-                  child: Text("Camera"),
-                  onTap: (){
-                    openCamera(); 
-                  }
-                ),
-                SizedBox(height: 20,),
-                GestureDetector(
-                  child: Text("Files"),
-                  onTap: (){
-                    openFiles();
-                  }
-                )
-              ],
-            )
-          )
-        );
-      }
-    );
-  }
-
   Future<void> showLinkInsert(BuildContext context) {
     return showDialog(context: context, builder: (BuildContext context){
       return AlertDialog(
