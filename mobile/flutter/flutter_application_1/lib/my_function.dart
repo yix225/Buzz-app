@@ -28,7 +28,7 @@ void addFileMessage(String mySubject, String myMessage, String sessid, String pa
     'mfileType' : type,
   };
   final response = await http.post(
-    Uri.parse('http://10.0.2.2:8998/insertIdea/$sessid/$type'),
+    Uri.parse('http://10.0.2.2:8998/insertIdeaMedia/$sessid/'),
     headers: headers,
     body: jsonEncode(payload),
   );
