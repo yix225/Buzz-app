@@ -10,9 +10,13 @@ public class DataFile extends DataIdea {
      */
     public final int mIdeaId;
 
-    DataFile(int id, String fileDescription, String filePath, int userId, int likes, int comments, boolean valid,
-            int ideaId, Timestamp created) {
-        super(id, fileDescription, filePath, userId, likes, comments, valid, created);
+    public String mfilePath; 
+    public String mfileType;
+    DataFile(int id, String subject, String message, int userId, int likes, int comments, boolean valid,
+            int ideaId, Timestamp created,String filePath, String fileType) {
+        super(id, subject, message, userId, likes, comments, valid, created);
+        mfilePath = filePath;
+        mfileType = fileType;
         mIdeaId = ideaId;
     }
 

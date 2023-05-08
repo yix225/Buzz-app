@@ -1,0 +1,1615 @@
+commit fcdb7db9fcd6b9ae65fd6c0e1107e91810d130c8
+Author: hnt224 <hnt224@lehigh.edu>
+Date:   Mon May 1 15:15:36 2023 -0400
+
+    fix backend errors
+
+commit c893ec182c216bcd5f5f8322748021404af6ff06
+Author: hnt224 <hnt224@lehigh.edu>
+Date:   Mon May 1 15:00:39 2023 -0400
+
+    dataLink class add
+
+commit fb4fb0592e2da28078ce84c04af5a60a9341f466
+Author: hnt224 <hnt224@lehigh.edu>
+Date:   Mon May 1 14:18:40 2023 -0400
+
+    update backend
+
+commit 41b15374b38699fac163ac1edc024a517fc4bc04
+Author: hnt224 <hnt224@lehigh.edu>
+Date:   Sun Apr 30 20:54:01 2023 -0400
+
+    backend new code
+
+commit 1c250baa81e0638384812ab28068fcc38ec69fa1
+Author: hnt224 <hnt224@lehigh.edu>
+Date:   Sun Apr 30 13:19:19 2023 -0400
+
+    update backend
+
+commit c4c94156f398e717b1bbb0e4b93c17f5b1e8ce23
+Author: hnt224 <hnt224@lehigh.edu>
+Date:   Sun Apr 30 13:14:14 2023 -0400
+
+    backend update
+
+commit 41f3c49ce1948f22e57b2594eb32ea48706403cf
+Author: hnt224 <hnt224@lehigh.edu>
+Date:   Sun Apr 30 13:05:02 2023 -0400
+
+    add new route
+
+commit 6e0f425659d2b090e2b532ce4698c6dbf261484d
+Author: hnt224 <hnt224@lehigh.edu>
+Date:   Sat Apr 29 18:22:17 2023 -0400
+
+    fixed backend classes
+
+commit e14ec85116932b3ebe488c49343a006840aca42c
+Author: hnt224 <hnt224@lehigh.edu>
+Date:   Sat Apr 29 18:06:26 2023 -0400
+
+    Update classes in backend
+
+commit a24d42300c2c069bf3e542c7cd0e5a1ffa18102d
+Author: hnt224 <hnt224@lehigh.edu>
+Date:   Sat Apr 29 16:26:33 2023 -0400
+
+    finished routes
+
+commit 4cf2ef7e2fecfbbe9c01cd58d71c30f8024ca42c
+Author: hnt224 <hnt224@lehigh.edu>
+Date:   Sat Apr 29 11:32:43 2023 -0400
+
+    Routes for file addition
+
+commit ded277f48139744ff365fc7a0332ec3fc1bf1400
+Author: hnt224 <hnt224@lehigh.edu>
+Date:   Thu Apr 27 13:55:04 2023 -0400
+
+    Add upload class for uploading file
+
+commit add034ab7e3e3277fc9d75c38fc32f397e03a7f3
+Author: David-CN <2245076558@qq.com>
+Date:   Tue Apr 25 13:38:48 2023 -0400
+
+    upd
+
+commit 2a42c7f8af18faae1583ef03b560d23874fda3ae
+Author: David-CN <2245076558@qq.com>
+Date:   Tue Apr 25 13:36:29 2023 -0400
+
+    upd
+
+commit 0d09c163011401452e98b3e8ea4b1514d005504d
+Author: David-CN <2245076558@qq.com>
+Date:   Tue Apr 25 13:34:46 2023 -0400
+
+    upd
+
+commit cb9fa7b6b8b937797cb39b35b195913244e47c53
+Author: David-CN <2245076558@qq.com>
+Date:   Tue Apr 25 13:27:24 2023 -0400
+
+    upd
+
+commit f9572c4ee1a65b6f33421b51ca96d8ce6bbbcabe
+Author: Hien <hnt224@lehigh.edu>
+Date:   Sat Apr 22 15:36:07 2023 -0400
+
+    changed one method
+
+commit 2a18d8c9983a98656175f3f68f9d6099ca5827a6
+Author: David-CN <2245076558@qq.com>
+Date:   Sun Apr 16 23:45:15 2023 -0400
+
+    update
+
+commit 430f888c05c219b0d1d2ae7a00cb165ebeed4adb
+Author: David-CN <2245076558@qq.com>
+Date:   Sun Apr 16 23:43:37 2023 -0400
+
+    update
+
+commit 08fcd9920d2cf7f26bd70377f902bc0927553d8a
+Author: David-CN <2245076558@qq.com>
+Date:   Sun Apr 16 23:17:48 2023 -0400
+
+    update
+
+commit 4f76212c00486dca0d47e95bd1476036e533b99f
+Author: David-CN <2245076558@qq.com>
+Date:   Sun Apr 16 22:26:22 2023 -0400
+
+    update
+
+commit a094c5fc5517474274db22b76a1c0baad2eeb2ff
+Merge: 185503c 49c32c6
+Author: David-CN <2245076558@qq.com>
+Date:   Sun Apr 16 22:22:35 2023 -0400
+
+    update
+
+commit 185503c278fccf154ec5f5615eff0bd4090bc8cc
+Author: David-CN <2245076558@qq.com>
+Date:   Sun Apr 16 22:21:13 2023 -0400
+
+    update
+
+commit ea7ebd4f0dedbc048622b5925de5fdbf69d3c5ef
+Author: David-CN <2245076558@qq.com>
+Date:   Sun Apr 16 22:10:27 2023 -0400
+
+    update
+
+commit cd697af5e0b969ad77750d165c75383a237ea16c
+Author: David-CN <2245076558@qq.com>
+Date:   Sun Apr 16 21:28:14 2023 -0400
+
+    update
+
+commit a8bb4c0072d18af1417af0c2063c8b0b3a379507
+Author: David-CN <2245076558@qq.com>
+Date:   Sun Apr 16 21:07:48 2023 -0400
+
+    update
+
+commit cd1bd01dc6b775c715d9bc70d0aab6627eebee4b
+Author: David-CN <2245076558@qq.com>
+Date:   Sun Apr 16 21:03:06 2023 -0400
+
+    update
+
+commit d63ffe6e41f19220698b09b753365772663e02d3
+Merge: 509333d eada223
+Author: David-CN <2245076558@qq.com>
+Date:   Sun Apr 16 20:56:05 2023 -0400
+
+    Merge branch 'backend' of https://bitbucket.org/team-messi/team_m into backend
+
+commit 509333d5e90b4341d6215696dfa8af96b185df7c
+Author: David-CN <2245076558@qq.com>
+Date:   Sun Apr 16 20:55:50 2023 -0400
+
+    update
+
+commit eada223971fcb38dc4cb3ab2b40e25269ae673c4
+Author: David Wang <jiw324@lehigh.edu>
+Date:   Mon Apr 17 00:50:54 2023 +0000
+
+    README.md edited online with Bitbucket
+
+commit 84c021df87d7b5f93d9ba602b62eda9f9ccd0083
+Author: David-CN <2245076558@qq.com>
+Date:   Sun Apr 16 20:48:51 2023 -0400
+
+    update test
+
+commit 6d54fb8d5b256bd761b02b187049de083ccdfa6b
+Author: David-CN <2245076558@qq.com>
+Date:   Sun Apr 16 18:00:58 2023 -0400
+
+    update
+
+commit 25d2bfb85896d7b2d20a3a0724e88830eaa9d69f
+Author: David-CN <2245076558@qq.com>
+Date:   Sun Apr 16 17:59:07 2023 -0400
+
+    update
+
+commit 49c32c61ef3467218e5c844eef12bc8dd4babccb
+Merge: 3b1e607 2f05b43
+Author: Yinuo Xu <yix225@lehigh.edu>
+Date:   Sun Apr 16 21:48:47 2023 +0000
+
+    Merged in mobile (pull request #43)
+    
+    update the mobile
+    
+    Approved-by: Hien Thi
+
+commit 3b1e607bed61254fe5185678c9a2d6ec300f9818
+Merge: 5d9bcec 3d8065d
+Author: Tamilore Adegbaye <doa325@lehigh.edu>
+Date:   Sun Apr 16 21:43:00 2023 +0000
+
+    Merged in web (pull request #42)
+    
+    Added New Functionalities
+    
+    Approved-by: Hien Thi
+
+commit 3d8065d944734512e1461cb323328b952dd9d495
+Author: doa325 <doa325@lehigh.edu>
+Date:   Sun Apr 16 17:41:22 2023 -0400
+
+    Added New Functionalities
+
+commit 5d9bcec58d9fc0e435f2ff0691e78be012e3a4e8
+Merge: b473d5b 21f4e79
+Author: Selase Dzathor <skd225@lehigh.edu>
+Date:   Sun Apr 16 21:32:02 2023 +0000
+
+    Merged in admin (pull request #41)
+    
+    Admin
+    
+    Approved-by: Hien Thi
+
+commit 21f4e79963f0b009682726dcf8a1562e6631602d
+Author: skd225 <skd225@lehigh.edu>
+Date:   Sun Apr 16 16:00:28 2023 -0400
+
+    tests for unlike, like, togglevalid, and showvalid
+
+commit 2f05b43793e934b3dbf29a80414a7d9c9b98dbef
+Author: yix225 <yix225@lehigh.edu>
+Date:   Sun Apr 16 15:28:40 2023 -0400
+
+    update the mobile
+
+commit d7c822bf35e0930f5a2d6003495547bc3d01aa85
+Author: skd225 <skd225@lehigh.edu>
+Date:   Wed Apr 12 19:31:12 2023 -0400
+
+    FInished Database Test
+
+commit 95002af520da2499da4bc00b05bae86bc462279b
+Author: skd225 <skd225@lehigh.edu>
+Date:   Wed Apr 12 18:59:45 2023 -0400
+
+    adding more test
+
+commit f3dae5f0a3f0461bd146c19d47580f6119fec637
+Author: skd225 <skd225@lehigh.edu>
+Date:   Wed Apr 12 18:35:42 2023 -0400
+
+    yes
+
+commit c38a6092dd720a7a1ba0cc94a9c00e9e79518b25
+Author: skd225 <skd225@lehigh.edu>
+Date:   Wed Apr 12 18:27:25 2023 -0400
+
+    test fixes
+
+commit 30982c847eec847504d8716452e097cdc54f570f
+Author: skd225 <skd225@lehigh.edu>
+Date:   Wed Apr 12 18:13:41 2023 -0400
+
+    new tests :)
+
+commit b473d5bb2cc15fa8a127ca0fa4baaabd0f23f6e4
+Merge: 1bdea62 39b08d0
+Author: Hien <hnt224@lehigh.edu>
+Date:   Wed Apr 12 18:08:02 2023 -0400
+
+    Merge branch 'mobile'
+
+commit 826bc7f7f2846fe489a3e95c12c556b3ac671ec4
+Author: David-CN <44127727+jiw324@users.noreply.github.com>
+Date:   Wed Apr 12 18:01:33 2023 -0400
+
+    update
+
+commit 1bdea623d7614446193b431f77564fdd94004a77
+Author: David-CN <2245076558@qq.com>
+Date:   Wed Apr 12 16:42:26 2023 -0400
+
+    update
+
+commit b4afbb1477766fd8f1341294d27ed2b9a831619f
+Author: David-CN <44127727+jiw324@users.noreply.github.com>
+Date:   Wed Apr 12 16:03:23 2023 -0400
+
+    update
+
+commit 4911accd10b448418c7cf0f20a43cfa69da3aac7
+Merge: eb87e2b b5e4f2e
+Author: hnt224 <hnt224@lehigh.edu>
+Date:   Tue Apr 11 22:17:35 2023 -0400
+
+    Merge branch 'web' of bitbucket.org:team-messi/team_m. Approved by Hien Thi
+
+commit 39b08d03976b4ff8013cd5e0c9cc5541df13ee80
+Author: yix225 <yix225@lehigh.edu>
+Date:   Tue Apr 11 21:55:03 2023 -0400
+
+    update
+
+commit 286334947d4a1ed42844e3dd10275317efe11a26
+Author: yix225 <yix225@lehigh.edu>
+Date:   Tue Apr 11 18:40:45 2023 -0400
+
+    update the mobile
+
+commit b5e4f2ef408937376257ea9d01ee3aacbf89ca7f
+Author: doa325 <doa325@lehigh.edu>
+Date:   Tue Apr 11 18:27:38 2023 -0400
+
+    Adding We
+
+commit eb87e2bd5542ca61493d31ea4e77d520cc745e50
+Author: Hien Thi <hnt224@lehigh.edu>
+Date:   Tue Apr 11 21:18:03 2023 +0000
+
+    Add new routes
+
+commit 0dcdef8e0fb7cd60f1b16e665186c329d4ec7f5c
+Author: Hien Thi <hnt224@lehigh.edu>
+Date:   Tue Apr 11 20:53:31 2023 +0000
+
+    Added instructions on building and running each component
+
+commit 36c4778e8a344e69a81a05a8fbae7db119d753c6
+Author: David-CN <2245076558@qq.com>
+Date:   Tue Apr 11 10:20:57 2023 -0400
+
+    update test
+
+commit 2ba6223475a400b0491d991664d37243fa013e50
+Author: David-CN <2245076558@qq.com>
+Date:   Tue Apr 11 08:07:52 2023 -0400
+
+    change test
+
+commit 1ec7a719d23e1f97367ac2dc0ecd5e20f3cd7357
+Author: David-CN <2245076558@qq.com>
+Date:   Tue Apr 11 07:58:48 2023 -0400
+
+    cross out test
+
+commit 933af2f63547daef43b88b8101b9d0a5c404d8e6
+Author: David-CN <2245076558@qq.com>
+Date:   Tue Apr 11 03:00:45 2023 -0400
+
+    change gitign
+
+commit 9ac0570fcd20418e9fc2afb6ddad48b0f5ebd113
+Author: doa325 <doa325@lehigh.edu>
+Date:   Mon Apr 10 21:42:31 2023 -0400
+
+    Adding to web
+
+commit 9e13392ce64df2d27bc3de82f4055725520227e1
+Author: hnt224 <hnt224@lehigh.edu>
+Date:   Mon Apr 10 21:39:38 2023 -0400
+
+    Add new backend
+
+commit 8fe81640abfb2205e0933ad92158f8d26a8b882e
+Author: David-CN <2245076558@qq.com>
+Date:   Mon Apr 10 21:34:56 2023 -0400
+
+    update
+
+commit 281b237dd5ba095ae32204f116d205626317d2b9
+Author: David-CN <2245076558@qq.com>
+Date:   Mon Apr 10 21:21:52 2023 -0400
+
+    update
+
+commit 30840ec37c9161eed113d34844f26ff814853ac9
+Merge: 581055d 24263df
+Author: David Wang <jiw324@lehigh.edu>
+Date:   Mon Apr 10 21:03:55 2023 -0400
+
+    Merged master into backend
+
+commit 581055d95ce76f9f77bbe2a94f052d74a90c2e5f
+Author: David-CN <2245076558@qq.com>
+Date:   Mon Apr 10 20:47:21 2023 -0400
+
+    update
+
+commit 3a64c155ec6a695c543603b88ebf828a83563ba2
+Author: yix225 <yix225@lehigh.edu>
+Date:   Mon Apr 10 20:43:45 2023 -0400
+
+    the mobile update
+
+commit b63c9f901f2e32d133b669e8c4881ab897479f7e
+Author: David-CN <2245076558@qq.com>
+Date:   Mon Apr 10 20:40:57 2023 -0400
+
+    add rm
+
+commit 8135cede0a8417f3bcd47af269a34ba2b9e35c4d
+Author: David-CN <2245076558@qq.com>
+Date:   Mon Apr 10 20:35:07 2023 -0400
+
+    update
+
+commit 0ae9ce8b787dc09ab38730c1c3b747d13af08299
+Author: skd225 <skd225@lehigh.edu>
+Date:   Mon Apr 10 19:30:55 2023 -0400
+
+    Adding unit tests for DataUser
+
+commit d15cced07ad6ddd620b32aa2c420ca68dbd6abca
+Author: David-CN <2245076558@qq.com>
+Date:   Mon Apr 10 19:29:45 2023 -0400
+
+    update
+
+commit de9d3b85fd6591a87c386f57d966ef1edff35592
+Author: David-CN <2245076558@qq.com>
+Date:   Mon Apr 10 18:45:34 2023 -0400
+
+    check the lehigh.edu
+
+commit 24263dfa536c4c9d70cd0be4b1cabdc8a135a6e0
+Merge: 0636ec1 f2b944b
+Author: Selase Dzathor <skd225@lehigh.edu>
+Date:   Mon Apr 10 22:35:29 2023 +0000
+
+    Merged in admin (pull request #31)
+    
+    Admin
+    
+    Approved-by: Hien Thi
+
+commit af1abfd121b8a57d41defedf7e9ab310a53cecf8
+Author: David-CN <2245076558@qq.com>
+Date:   Mon Apr 10 18:24:05 2023 -0400
+
+    small change
+
+commit f2b944b69b12d3247140d4050b5311b31ae9392b
+Author: skd225 <skd225@lehigh.edu>
+Date:   Mon Apr 10 18:20:37 2023 -0400
+
+    Changed a comment on the Database
+
+commit bc612dd465a145e334033a813b35a1eb08b04d86
+Merge: 9e836dd a184e5a
+Author: David-CN <2245076558@qq.com>
+Date:   Mon Apr 10 18:20:24 2023 -0400
+
+    Merge branch 'master' into backend
+
+commit 9e836dd1e2bacf606d131334e4e54ab7c4885a20
+Author: David-CN <2245076558@qq.com>
+Date:   Mon Apr 10 18:14:16 2023 -0400
+
+    fix merge conf
+
+commit 2eb5c5c21463a4f2080e8876e842902f07e669ed
+Merge: 4cc771a c0787e4
+Author: David-CN <2245076558@qq.com>
+Date:   Mon Apr 10 18:12:21 2023 -0400
+
+    Merge branch 'backend' of https://bitbucket.org/team-messi/team_m into backend
+
+commit 4cc771a040efd5a3c74aaa940c6edf17e5d814df
+Author: David-CN <2245076558@qq.com>
+Date:   Mon Apr 10 18:10:33 2023 -0400
+
+    fix merge conf
+
+commit c0787e43cf9d58bbe641ed54f85a4f24bdfb4f58
+Author: David-CN <44127727+jiw324@users.noreply.github.com>
+Date:   Mon Apr 10 17:18:45 2023 -0400
+
+    fix conflict
+
+commit 6ad8a8fdd6325195456d6565f47a5d54d1f42127
+Author: David-CN <44127727+jiw324@users.noreply.github.com>
+Date:   Mon Apr 10 17:16:23 2023 -0400
+
+    fix conflict
+
+commit 7a94495aea5606479da4d64586fa8213f7cb5ac2
+Author: David-CN <2245076558@qq.com>
+Date:   Mon Apr 10 16:11:25 2023 -0400
+
+    update
+
+commit 0636ec1f89bcc53f243a273bdfaeaf7a68a3a036
+Author: Hien Thi <hnt224@lehigh.edu>
+Date:   Mon Apr 10 15:46:55 2023 +0000
+
+    Add new roles
+
+commit 41686fce412d1b93059fc2e10a571727a6520c07
+Author: David-CN <2245076558@qq.com>
+Date:   Sun Apr 9 10:56:23 2023 -0400
+
+    update to app.java
+
+commit e01fb112a5b19d8723bd8d13a23eb480424a084a
+Author: David-CN <2245076558@qq.com>
+Date:   Sat Apr 8 17:29:50 2023 -0400
+
+    update
+
+commit 22dcc4811b06bf1fa7b76cbd2b67167ab7ee4747
+Author: skd225 <skd225@lehigh.edu>
+Date:   Sat Apr 8 16:35:33 2023 -0400
+
+    Updated Database to include 4 different tables
+    (user, idea, comment, like) added new prepared statments to retrieve
+    all that information. Added new functions to admin app.
+    Can now:
+        T: Create all tables
+        D: Delete all tables
+        1: Query for specific row(user, idea, comment)
+            Asks the admin what type of row they want, the corresponding ids,
+            and then displays the data with a few options
+                For user:
+                    - Update information(name, email, gen, sex, note)
+                For idea:
+                    - Upvote
+                        if no like exists creates new like in database with userid, ideaid, and commentid
+                        if like status is 0 or -1 it increment likes and set status to 1
+                        if like status is 1 it will decrement likes and set status to 0
+                    - unlike
+                        if no like exists creates new like in database with userid, ideaid, and commentid
+                        if like status is 0 or 1 it decrement likes and set status to -1
+                        if like status is -1 it will increment likes and set status to 0
+                (comments works the same way as idea except the commentid is actually set and not *NULL*)
+        V: Query for all valid rows(user, idea, comment)
+            Asks the admin what type of row they want then displays all
+            rows and little data, ONLY valid rows
+        *: Query for all rows(user, idea, comment)
+            Asks the admin what type of row they want then displays all
+            rows and little data, includes invalid rows as well
+        -: Delete Row(user, idea, comment)
+        +: Insert Row(user, idea, comment)
+        ~: Update Row(user, idea, comment)
+        /: Toggle Valid(user, idea, comment)
+            Asks what type, and then the ids. Sets valid = !valid [true -> false] or [false -> true]
+                If user:
+                    toggles all users, ideas and comments with userid
+                If idea:
+                    toggles all ideas and comments with ideaid
+                If comment:
+                    toggles all comments with ideaid and commentid
+        q: quit :T
+    
+    I think that's everything . . .
+
+commit 2ef2e15d6a2441383c1cbc440fbb303e8061f0d6
+Author: skd225 <skd225@lehigh.edu>
+Date:   Fri Apr 7 20:10:16 2023 -0400
+
+    i guess i modified the .project but idk what i did
+
+commit 53c0165c702295519e7ca00116f6b0b8fe0e3a65
+Author: skd225 <skd225@lehigh.edu>
+Date:   Fri Apr 7 18:36:45 2023 -0400
+
+    Still updaint database for users, comments, and likes
+
+commit c042c94179012cdb4381435782883adb59e0e873
+Merge: 59f4316 3911baf
+Author: David-CN <2245076558@qq.com>
+Date:   Thu Apr 6 13:02:34 2023 -0400
+
+    Merge branch 'backend' of https://bitbucket.org/team-messi/team_m into backend
+
+commit 59f43168ec59056c7ec77fa87ac6233ec177716f
+Author: David-CN <2245076558@qq.com>
+Date:   Thu Apr 6 13:02:25 2023 -0400
+
+    add all
+
+commit 3911bafb12de1ee351b1ce4b7fd0cd8149709ba9
+Author: David-CN <44127727+jiw324@users.noreply.github.com>
+Date:   Thu Apr 6 11:36:36 2023 -0400
+
+    change to backend folder
+
+commit 0d3555a6fb5624537026c2c0296185ed53964218
+Author: David-CN <2245076558@qq.com>
+Date:   Thu Apr 6 08:06:34 2023 -0400
+
+    include test web
+
+commit baf39607fd8067bff48f6dd9cd07f93f55fca008
+Merge: 8392e89 d671874
+Author: David-CN <2245076558@qq.com>
+Date:   Thu Apr 6 08:06:22 2023 -0400
+
+    Merge branch 'backend' of https://bitbucket.org/team-messi/team_m into backend
+
+commit 8392e892b1ed9f2e2087ca6efc4b7f62381381f9
+Author: David-CN <2245076558@qq.com>
+Date:   Thu Apr 6 08:06:13 2023 -0400
+
+    include test web
+
+commit deb1c38ec858f6a31dbdba68cfe14c3950fc8cf8
+Author: skd225 <skd225@lehigh.edu>
+Date:   Wed Apr 5 23:29:47 2023 -0400
+
+    Adding new dataRow class types (Ideas, comments, user likes) changing database to add new functions for getting data
+
+commit f2588c709719da15f242c49cfb0ef4a3537b7d53
+Author: yix225 <yix225@lehigh.edu>
+Date:   Wed Apr 5 21:28:47 2023 -0400
+
+    delete
+
+commit a463cc5caa26511a357e0cb625cda4ce7c7d2253
+Author: yix225 <yix225@lehigh.edu>
+Date:   Wed Apr 5 21:27:18 2023 -0400
+
+    mobile update
+
+commit 0523630b9802d488dcdfc426a686003d0f0766a1
+Author: yix225 <yix225@lehigh.edu>
+Date:   Wed Apr 5 21:25:33 2023 -0400
+
+     delete
+
+commit 056e9b344b59abed5c105ed4a1a3a336ac5de0fe
+Author: yix225 <yix225@lehigh.edu>
+Date:   Wed Apr 5 21:24:33 2023 -0400
+
+    delete
+
+commit 5e8cbb1c44c6c29ec8219e9a6a5d941fd3767692
+Author: yix225 <yix225@lehigh.edu>
+Date:   Wed Apr 5 21:20:09 2023 -0400
+
+    mobile google sign in part
+
+commit d671874387f5f9c02c77587dbcb9a2123f13896c
+Author: David-CN <44127727+jiw324@users.noreply.github.com>
+Date:   Wed Apr 5 17:41:04 2023 -0400
+
+    incomplete code
+
+commit 5f9bf2b4b98f04801a10abb2540d7e69048f8c74
+Author: David-CN <2245076558@qq.com>
+Date:   Mon Apr 3 10:11:12 2023 -0400
+
+    change some storage thing, add some Gooogle login stuff, incomeplete code
+
+commit a184e5aab6d8df0a31958798ef4b954fcf1c2191
+Author: Hien Thi <hnt224@lehigh.edu>
+Date:   Mon Apr 3 00:06:40 2023 +0000
+
+    sprint 8 phase 2 markdown added
+
+commit 750c6eec816bcc985fb2ff57250ee0592338781b
+Merge: f258c56 2208f76
+Author: David Wang <jiw324@lehigh.edu>
+Date:   Mon Mar 27 00:01:28 2023 +0000
+
+    Merged in David-Wang/add-developer-doc-into-readmemd-1679875266499 (pull request #30)
+    
+    add developer doc into readme.md
+
+commit 2208f7654593766491c8108ec83ec615b5660274
+Author: David Wang <jiw324@lehigh.edu>
+Date:   Mon Mar 27 00:01:12 2023 +0000
+
+    add developer doc into readme.md
+
+commit f258c56539ce1bf0e3d3ee632211a40da8abefe4
+Author: skd225 <skd225@lehigh.edu>
+Date:   Sun Mar 26 19:29:36 2023 -0400
+
+    adding javadoc for backend to Doc folder
+
+commit f19e0b6305d0cea53c47b5740ca4b48d7fc80dc2
+Merge: d422bb3 5cfcecc
+Author: skd225 <skd225@lehigh.edu>
+Date:   Sun Mar 26 19:22:40 2023 -0400
+
+    Merge branch 'master' of bitbucket.org:team-messi/team_m
+
+commit d422bb3e3a5925e36d1d6f5b3b5e0d3384fb5d8a
+Merge: 64d19aa 31e6686
+Author: skd225 <skd225@lehigh.edu>
+Date:   Sun Mar 26 19:22:36 2023 -0400
+
+    Merge branch 'backend' o
+
+commit 5cfcecc3e30bd9d1ed1cb313e9b33ce2d03b8f56
+Author: David-CN <2245076558@qq.com>
+Date:   Sun Mar 26 19:18:57 2023 -0400
+
+    change the location of docs files
+
+commit 64d19aa2a27feb52521ab7e84921440334985c8f
+Author: David-CN <2245076558@qq.com>
+Date:   Sun Mar 26 19:11:14 2023 -0400
+
+    add correct web folder
+
+commit cde4f132c62157f7f5742b46b2e25fee5ad06f10
+Author: David-CN <2245076558@qq.com>
+Date:   Sun Mar 26 19:07:12 2023 -0400
+
+    add web
+
+commit 1b9403ae4f95be3f0bb60e6cd770123125723d92
+Merge: 5d1af9e 4adb420
+Author: David-CN <2245076558@qq.com>
+Date:   Sun Mar 26 19:05:19 2023 -0400
+
+    Merge branch 'web' of https://bitbucket.org/team-messi/team_m into web
+
+commit 5d1af9ea421061c024d7d6aa16385154ffce26ea
+Author: David-CN <2245076558@qq.com>
+Date:   Sun Mar 26 19:05:03 2023 -0400
+
+    test
+
+commit 7de3346b7877d521ed5588c06ad6fa802aee226a
+Author: David-CN <2245076558@qq.com>
+Date:   Sun Mar 26 19:03:46 2023 -0400
+
+    test
+
+commit 2f2897bd992295de74c7ff0592ae78c437600bae
+Author: Hien Thi <hnt224@lehigh.edu>
+Date:   Sun Mar 26 22:59:59 2023 +0000
+
+    put README.md back in
+
+commit f95b690f749fa640436a9adacbd77c3c5cab74d4
+Merge: 33ac4f7 ed2ec93
+Author: Hien Thi <hnt224@lehigh.edu>
+Date:   Sun Mar 26 22:50:33 2023 +0000
+
+    Phase 1 Prime Submission
+    
+    Merged in master2
+    
+    Fixing Master
+    
+    Approved-by: Tamilore Adegbaye
+
+commit ed2ec9397a451bf40450407638cab83c46faa5ba
+Author: Hien Thi <hnt224@lehigh.edu>
+Date:   Sun Mar 26 21:59:59 2023 +0000
+
+    README.md deleted online with Bitbucket
+
+commit 33ac4f71cd54303b45c130e128a31f3d282b5193
+Author: hnt224 <hnt224@lehigh.edu>
+Date:   Sun Mar 26 17:55:12 2023 -0400
+
+    remove old gitignore and readme
+
+commit 502658a07ae0610634ac0b24a11c1f9af3419e68
+Author: hnt224 <hnt224@lehigh.edu>
+Date:   Sun Mar 26 17:54:06 2023 -0400
+
+    delete old web folder
+
+commit 8d4583ca3f37a3f1d035fb72ce5a8d0a08f2f86f
+Author: hnt224 <hnt224@lehigh.edu>
+Date:   Sun Mar 26 17:50:19 2023 -0400
+
+    Revert "Merged in web"
+    
+    This reverts commit b4b0860515ee259417d18fbbdc10ee9b468fde70, reversing
+    changes made to 3c1964d2532796c97e2ea5322b8508a9ef60d895.
+
+commit 18a6b9f3591e80e8008713524d8393a842179548
+Author: Hien Thi <hnt224@lehigh.edu>
+Date:   Sun Mar 26 21:04:22 2023 +0000
+
+    README.md edited online with Bitbucket
+
+commit 6a90d5808c79030c1fccef9c0928b542f909d59a
+Author: hnt224 <hnt224@lehigh.edu>
+Date:   Sun Mar 26 17:01:52 2023 -0400
+
+    removed user log
+
+commit 9890d8d40abd84d4f7480bf0dd8655ff5f745145
+Author: hnt224 <hnt224@lehigh.edu>
+Date:   Sun Mar 26 16:53:24 2023 -0400
+
+    add userID-log.txt
+
+commit b4b0860515ee259417d18fbbdc10ee9b468fde70
+Merge: 3c1964d 4adb420
+Author: Yinuo Xu <yix225@lehigh.edu>
+Date:   Sun Mar 26 16:16:39 2023 +0000
+
+    Merged in web
+    
+    Web
+    
+    Approved-by: Tamilore Adegbaye
+
+commit 4adb420ae22746245578d20def15ef73e4b2c0ee
+Merge: a837508 3c1964d
+Author: yix225 <yix225@lehigh.edu>
+Date:   Sun Mar 26 12:04:44 2023 -0400
+
+    the change of readme
+
+commit a837508a2d3b42733edbdd4033fe7b536e3f8c0c
+Author: yix225 <yix225@lehigh.edu>
+Date:   Sat Mar 25 22:09:21 2023 -0400
+
+    add the artifacts link
+
+commit da98da215334728901b07048bd72bc00fb8451b4
+Author: yix225 <yix225@lehigh.edu>
+Date:   Sat Mar 25 22:06:31 2023 -0400
+
+    delet creat.js
+
+commit 968417811ebe5139e71b6ff406c5833e30255a41
+Author: yix225 <yix225@lehigh.edu>
+Date:   Sat Mar 25 21:55:59 2023 -0400
+
+    add the comment by jsDoc formate & explain each function
+
+commit c6142d60df40486d82c1503ede0ccb39fd82bd9f
+Author: yix225 <yix225@lehigh.edu>
+Date:   Sat Mar 25 21:31:39 2023 -0400
+
+    delete the dislike function and add the like click within 5 seconds
+
+commit 445f79f83d75f55057a63eea55f7caf8c15559f8
+Author: yix225 <yix225@lehigh.edu>
+Date:   Sat Mar 25 20:18:09 2023 -0400
+
+    web write by react
+
+commit 31e668688b3ce8066818906beca576ae189c9e75
+Author: skd225 <skd225@lehigh.edu>
+Date:   Sat Mar 25 18:01:07 2023 -0400
+
+    Fixing conflitc
+
+commit d3e138896d08e0b614f50c99904a832ced4abff0
+Author: skd225 <skd225@lehigh.edu>
+Date:   Sat Mar 25 18:00:05 2023 -0400
+
+    Fixed conflitc
+
+commit 3c1964d2532796c97e2ea5322b8508a9ef60d895
+Merge: 3b97eb6 2daac17
+Author: Hien Thi <hnt224@lehigh.edu>
+Date:   Sat Mar 25 21:10:19 2023 +0000
+
+    Merged in admin
+    
+    Admin Artifacts Added
+    
+    Approved-by: Tamilore Adegbaye
+
+commit 34b1a2d26d0deaa81222ef9a56925d2b7bd437dc
+Author: skd225 <skd225@lehigh.edu>
+Date:   Sat Mar 25 16:39:26 2023 -0400
+
+    Added Javadoc link in README.md in backend
+
+commit 891e0742f9fba0373d7c8d589341bb1b959cb698
+Author: skd225 <skd225@lehigh.edu>
+Date:   Sat Mar 25 16:38:55 2023 -0400
+
+    Added javadoc artifacts to README in backend folder
+
+commit d812a713f5fa3ef0568a8a04b0df7e5e0cbcb1f5
+Author: skd225 <skd225@lehigh.edu>
+Date:   Sat Mar 25 15:28:45 2023 -0400
+
+    Added Javadocs to backend
+
+commit 2daac17c0e8e2e736bc075d0d6289e6d182a5516
+Author: Hien Thi <hnt224@lehigh.edu>
+Date:   Sat Mar 25 19:03:44 2023 +0000
+
+    README.md created online with Bitbucket
+
+commit 1b54f5b738447ea8cc0f5d86a525837776892bd0
+Author: hnt224 <hnt224@lehigh.edu>
+Date:   Sat Mar 25 15:02:08 2023 -0400
+
+    delete README
+
+commit 669144fe7f5f2ff02886fe60b6630eb52ae2090a
+Author: Hien Thi <hnt224@lehigh.edu>
+Date:   Sat Mar 25 18:54:25 2023 +0000
+
+    fix README
+
+commit a7d224de8a00da271734ca6011b26bafbe6f515a
+Author: Hien Thi <hnt224@lehigh.edu>
+Date:   Sat Mar 25 18:42:32 2023 +0000
+
+    README.md edited online with Bitbucket
+
+commit f2bce44bbbb896130cd587a4ea74d907926951b4
+Author: Hien Thi <hnt224@lehigh.edu>
+Date:   Sat Mar 25 18:36:28 2023 +0000
+
+    put artifact inside admin-cli folder
+
+commit dff42ede47880c0283379a95703d2dda86f25c41
+Author: Hien Thi <hnt224@lehigh.edu>
+Date:   Sat Mar 25 18:35:40 2023 +0000
+
+    README.md edited online with Bitbucket
+
+commit 50d81487df4f3eeb16afcd55b8e42ab1d66a3f47
+Author: Hien Thi <hnt224@lehigh.edu>
+Date:   Sat Mar 25 18:28:03 2023 +0000
+
+    Added path for JavaDoc in admin
+
+commit 8127237b1bae59c4f4d0fbe08a6ddfc2ad50f945
+Author: hnt224 <hnt224@lehigh.edu>
+Date:   Sat Mar 25 14:24:51 2023 -0400
+
+    added javadoc
+
+commit 3b97eb6e016f599150291b8313b390c5ddb7f11a
+Merge: fbc863e 750ac5b
+Author: David-CN <2245076558@qq.com>
+Date:   Sat Mar 25 13:39:55 2023 -0400
+
+    Merge branch 'master' of https://bitbucket.org/team-messi/team_m
+
+commit fbc863e5b77bf3c2c9eaade84641faa0fece9928
+Author: David-CN <2245076558@qq.com>
+Date:   Sat Mar 25 13:39:42 2023 -0400
+
+    add mobile dartdoc
+
+commit 89c788a9adaebf71bbce2756125c15a218686176
+Author: David-CN <2245076558@qq.com>
+Date:   Sat Mar 25 11:04:35 2023 -0400
+
+    Finished mobile changes, now it can unlike if like button is pressed within 5 sec; also it display all messages by click the arrow next to message
+
+commit e1dbdd32271e5dc0752703d99a035cb6bc791cff
+Author: skd225 <skd225@lehigh.edu>
+Date:   Thu Mar 23 17:16:55 2023 -0400
+
+    Added tests for almost every function in DB except CREATE and DELETE table
+
+commit 750ac5b98d34611e8a21bb37d11283f59d362593
+Merge: 7744e26 4487539
+Author: Yinuo Xu <yix225@lehigh.edu>
+Date:   Sun Mar 12 23:07:11 2023 +0000
+
+    Merged in web (pull request #24)
+    
+    Updated Web
+    
+    Approved-by: Tamilore Adegbaye
+
+commit 7744e2614dad0eb1ec7f7ec42b419c1482f9e580
+Merge: 8d7e4de 5ad51cc
+Author: Selase Dzathor <skd225@lehigh.edu>
+Date:   Sun Mar 12 23:06:43 2023 +0000
+
+    Merged in backend (pull request #23)
+    
+    Backend
+    
+    Approved-by: Tamilore Adegbaye
+
+commit 44875398336ad0d6069d0bd65eaf9992ea0934da
+Author: yix225 <yix225@lehigh.edu>
+Date:   Sun Mar 12 18:53:38 2023 -0400
+
+    delet the web1 which have error, and submit the new correct one
+
+commit 5ad51cc018458166a05e8c414096804cbf9d5913
+Merge: 59883bb 8d7e4de
+Author: skd225 <skd225@lehigh.edu>
+Date:   Sun Mar 12 17:28:15 2023 -0500
+
+    Merge branch 'master' into backend
+
+commit 8d7e4de9ee6e9fcc2fc2457f163bbe9539d5d1dd
+Author: skd225 <skd225@lehigh.edu>
+Date:   Sun Mar 12 17:20:03 2023 -0500
+
+    Changing var names see last 2 commits
+
+commit 59883bb87af63f63f85b74bb1443af5e1aaca4df
+Author: skd225 <skd225@lehigh.edu>
+Date:   Sun Mar 12 17:15:34 2023 -0500
+
+    Changed var name look at previous backend-dokku commit
+
+commit f02665d14306192f0d4f13ec387f816d8fc31d3a
+Author: skd225 <skd225@lehigh.edu>
+Date:   Sun Mar 12 16:11:22 2023 -0500
+
+    fixing merge conflict
+
+commit 9327a6f372d260e001d13cd1647a8e0e2ffbcfe6
+Merge: 02d4ce7 2c6b0b3
+Author: skd225 <skd225@lehigh.edu>
+Date:   Sun Mar 12 16:06:41 2023 -0500
+
+    Merge branch 'master' of bitbucket.org:team-messi/team_m
+
+commit 02d4ce798fcd9e4fad5b5b04637ae7c06decfaa2
+Author: skd225 <skd225@lehigh.edu>
+Date:   Sun Mar 12 16:06:09 2023 -0500
+
+    Fixing merge conflict in app.js
+
+commit b25d7d03347d471a3622be0edfa8af4b918149b5
+Author: skd225 <skd225@lehigh.edu>
+Date:   Sun Mar 12 15:55:49 2023 -0500
+
+    Fixed like functionality in web resource backend
+
+commit f2f498a26cd9cab28bce3ad5c8644fa218a9065b
+Author: skd225 <skd225@lehigh.edu>
+Date:   Sun Mar 12 15:27:46 2023 -0500
+
+    yea
+
+commit 2c6b0b3dd6d9ab35f1c08f44644da7b26add8161
+Author: David Wang <jiw324@lehigh.edu>
+Date:   Sun Mar 12 20:24:33 2023 +0000
+
+    app.js edited online with Bitbucket
+
+commit a537ee62ec4eea5b7e52836726676c750856601a
+Author: skd225 <skd225@lehigh.edu>
+Date:   Sun Mar 12 14:41:50 2023 -0500
+
+    Changed like and unlike routes from GET to PUT
+
+commit 92d660baca24df9468f04f669f45b6fd4e2cdc35
+Merge: b2f536e 2f246dc
+Author: Selase Dzathor <skd225@lehigh.edu>
+Date:   Sun Mar 12 19:14:20 2023 +0000
+
+    Merged in backend
+    
+    Reverting last change in backend branch :P
+    
+    Approved-by: Tamilore Adegbaye
+
+commit 2f246dcb25116b146de1b3dc1fccc51ff51caaea
+Author: skd225 <skd225@lehigh.edu>
+Date:   Sun Mar 12 14:13:16 2023 -0500
+
+    Reverting last change in backend branch :P
+
+commit b2f536e69b9563650766a60ac876245973b167a9
+Merge: ba31543 4ee4aa4
+Author: Selase Dzathor <skd225@lehigh.edu>
+Date:   Sun Mar 12 19:06:00 2023 +0000
+
+    Merged in backend
+    
+    Updating app.js trying to fix web CORS error
+    
+    Approved-by: Tamilore Adegbaye
+
+commit 4ee4aa4fc2a22072e572ade9e03c69d98d96922b
+Author: skd225 <skd225@lehigh.edu>
+Date:   Sun Mar 12 14:03:59 2023 -0500
+
+    Updating app.js trying to fix web CORS error
+
+commit 5ab96da7af4fac328c46264a63e1a157dd41b2b1
+Author: yix225 <yix225@lehigh.edu>
+Date:   Sun Mar 12 14:11:06 2023 -0400
+
+    the temport web folder with some error
+
+commit ba31543ec9835f6b094a7d1352b08a1d345c5429
+Merge: af1cefc bb2e3e8
+Author: Selase Dzathor <skd225@lehigh.edu>
+Date:   Sun Mar 12 17:37:54 2023 +0000
+
+    Merged in backend (pull request #17)
+    
+    Added two test cases to AppTest (likeOne, unlikeOne) updated DataRow test case(testConstructor2)
+    
+    Approved-by: Tamilore Adegbaye
+
+commit bb2e3e861052cd545f908a094c69adacc5f50f52
+Author: skd225 <skd225@lehigh.edu>
+Date:   Sun Mar 12 12:31:24 2023 -0500
+
+    Added two test cases to AppTest (likeOne, unlikeOne) updated DataRow test case(testConstructor2)
+
+commit af1cefca71760217f3df8c6483017d72e1012594
+Merge: f42d790 27dbb72
+Author: David Wang <jiw324@lehigh.edu>
+Date:   Sun Mar 12 17:09:36 2023 +0000
+
+    Merged in mobile
+    
+    Finishing Mobile
+    
+    Approved-by: Tamilore Adegbaye
+
+commit 27dbb72765fac2a31daa734f32d9c151b696c1bf
+Author: David-CN <2245076558@qq.com>
+Date:   Sun Mar 12 13:08:14 2023 -0400
+
+    mobile done!
+
+commit f42d790876713ac2f63b3d738947027a1f0187b9
+Merge: f9d4693 8b4b1f9
+Author: Selase Dzathor <skd225@lehigh.edu>
+Date:   Sun Mar 12 16:49:47 2023 +0000
+
+    Merged in backend
+    
+    SelectAll in database orders by ID
+    
+    Approved-by: Tamilore Adegbaye
+
+commit 8b4b1f9f532fb6737d534e2d5000c74ae0035ddf
+Author: skd225 <skd225@lehigh.edu>
+Date:   Sun Mar 12 11:47:07 2023 -0500
+
+    Added more test cases to DataRowTest testing the new constructor
+
+commit f9d4693d42a6033ece709f5bea1cc0c319e7332f
+Author: skd225 <skd225@lehigh.edu>
+Date:   Sun Mar 12 11:31:36 2023 -0500
+
+    Syncing changes
+
+commit e853c2e4586f760eaa24226ec166f138333a284b
+Author: skd225 <skd225@lehigh.edu>
+Date:   Sun Mar 12 11:28:22 2023 -0500
+
+    SelectAll in database orders by ID
+
+commit 54311e9aade9d996ba976991173cf567bf02203f
+Author: David-CN <2245076558@qq.com>
+Date:   Sun Mar 12 00:53:46 2023 -0500
+
+    small change
+
+commit 6e59832d6d47ff6169a0bb6d7a678d391be55491
+Author: David-CN <2245076558@qq.com>
+Date:   Sat Mar 11 07:37:10 2023 -0500
+
+    update mobile
+
+commit cbf7a6d691ede77677d5a3bdc2326913ffa68a93
+Author: skd225 <skd225@lehigh.edu>
+Date:   Fri Mar 10 20:47:32 2023 -0500
+
+    pleaseee
+
+commit 82bad00abeb1d51ea0dee72d8dbd98fb18844e1f
+Merge: b9f961e 6fdc91f
+Author: Selase Dzathor <skd225@lehigh.edu>
+Date:   Sat Mar 11 01:42:10 2023 +0000
+
+    Merged in backend
+    
+    Displaying Message Content
+    
+    Approved-by: Tamilore Adegbaye
+
+commit 6fdc91f1217f0b8ff614c02fe306fe7e6322aa9d
+Merge: 2bcfdb7 b9f961e
+Author: skd225 <skd225@lehigh.edu>
+Date:   Fri Mar 10 20:39:44 2023 -0500
+
+    plzz
+
+commit b9f961ef3d20e19f74f97e3b8c8492813fe39201
+Author: skd225 <skd225@lehigh.edu>
+Date:   Fri Mar 10 20:26:50 2023 -0500
+
+    fix
+
+commit 2bcfdb74ceaed66197e633d15c47749790d065a2
+Author: skd225 <skd225@lehigh.edu>
+Date:   Fri Mar 10 20:15:54 2023 -0500
+
+    Fixed database to show messages when using GET /messages Route
+
+commit 4f57c3eea8db8eb0b5f4e355732583cd2a716dcd
+Merge: aeaabce 7f0c999
+Author: Hien Thi <hnt224@lehigh.edu>
+Date:   Sat Mar 11 01:05:35 2023 +0000
+
+    Merged in admin
+    
+    add so display all displays likes too
+    
+    Approved-by: Tamilore Adegbaye
+
+commit 7f0c999ffe15887fbca3d5ad5821f9d0c418b9ca
+Author: hnt224 <hnt224@lehigh.edu>
+Date:   Fri Mar 10 20:01:46 2023 -0500
+
+    add so display all displays likes too
+
+commit 7b2733fab80bd5d55995f344be2a4a584e438727
+Author: skd225 <skd225@lehigh.edu>
+Date:   Fri Mar 10 19:55:26 2023 -0500
+
+    Whoops last commit was supposed to be in backend
+
+commit aeaabce55c113511fc2d99a58f7a9e21dc948fea
+Merge: 0df405f 709a54c
+Author: Hien Thi <hnt224@lehigh.edu>
+Date:   Sat Mar 11 00:54:15 2023 +0000
+
+    Merged in admin
+    
+    Admin
+    
+    Approved-by: Tamilore Adegbaye
+
+commit 0df405f6586159e0b26e2b9bf16eec48917d7b74
+Author: skd225 <skd225@lehigh.edu>
+Date:   Fri Mar 10 19:52:36 2023 -0500
+
+    Changed selectAll to show messages in Database
+
+commit 709a54ca5988d5f7ce048875f7bbec7b2669d916
+Author: hnt224 <hnt224@lehigh.edu>
+Date:   Fri Mar 10 19:49:11 2023 -0500
+
+    added like/unlike unit test
+
+commit f415c38843b9a6182fa2db3e6ae8872fb71a2a9f
+Author: hnt224 <hnt224@lehigh.edu>
+Date:   Fri Mar 10 15:18:54 2023 -0500
+
+    can add or remove likes from command line input
+
+commit e8b2bcb482cb6da77e0bbaf0701ab00373a948ed
+Author: hnt224 <hnt224@lehigh.edu>
+Date:   Fri Mar 10 01:34:50 2023 -0500
+
+    can view single messages along with its like from command line
+
+commit 03be935074e226e21df662e8b1ecd1431c10e58d
+Merge: b04b234 49de067
+Author: Selase Dzathor <skd225@lehigh.edu>
+Date:   Thu Mar 9 16:49:09 2023 +0000
+
+    Merged in backend Phase 1 Sprint 6
+    
+    Backend
+    
+    Approved-by: Tamilore Adegbaye
+
+commit 732849d9cf05de8c5ca3005f62e542484bc3e11a
+Author: hnt224 <hnt224@lehigh.edu>
+Date:   Wed Mar 8 18:16:22 2023 -0500
+
+    added so message input is limited to 1024 characters
+
+commit 49de06771052d31297fd7aaf44db5edc0b1de7fa
+Author: skd225 <skd225@lehigh.edu>
+Date:   Wed Mar 8 18:05:28 2023 -0500
+
+    Added unlike functionality and Routes in App
+
+commit 8179904441d22bf0726f11841c1acc5d41e88612
+Author: skd225 <skd225@lehigh.edu>
+Date:   Wed Mar 8 17:50:54 2023 -0500
+
+    The rest of the commit lol(app.java)
+
+commit 49cb46cc4b2a11a9f7ce4f5e8aeb8ed81e60d302
+Author: skd225 <skd225@lehigh.edu>
+Date:   Wed Mar 8 17:50:12 2023 -0500
+
+    Finished implement likes in database and added like routes in App.java
+
+commit 8d3637b2c3a599c3e136f2d82dd6847fdbdf4937
+Author: skd225 <skd225@lehigh.edu>
+Date:   Wed Mar 8 15:10:50 2023 -0500
+
+    "Updating like functionality for Database.java and App.java, attempting to reform app.js to display likes"
+
+commit ad84eee2aa500984b153955f369267ff6aab032e
+Author: skd225 <skd225@lehigh.edu>
+Date:   Tue Mar 7 14:34:18 2023 -0500
+
+    Added like attribute to DataRow, updated Database, App, and the others to access like attribute, created LikeTest to test like functionality
+
+commit bd4f68db7db2a0029c560e7132214a567d869ad3
+Author: hnt224 <hnt224@lehigh.edu>
+Date:   Sun Mar 5 18:50:29 2023 -0500
+
+    added git log txt
+
+commit b04b2345aca2b63e4d658132ff3d8fd4981db020
+Author: doa325 <doa325@lehigh.edu>
+Date:   Sun Mar 5 13:33:54 2023 -0500
+
+    finised :)
+
+commit a29d8e17fa8d8ff084113bc9c751cdef1a1c3d8f
+Author: doa325 <doa325@lehigh.edu>
+Date:   Sun Mar 5 13:22:42 2023 -0500
+
+    Adding documents folder
+
+commit 43e6852571ebac12419ae0e1ba5c4bad72468339
+Merge: ab59000 897ef7a
+Author: Tamilore Adegbaye <doa325@lehigh.edu>
+Date:   Sun Mar 5 18:13:01 2023 +0000
+
+    Merged in Tamilore-Adegbaye/readmemd-edited-online-with-bitbucket-1678039953982 (pull request #8)
+    
+    README.md edited online with Bitbucket
+
+commit 897ef7a74e60daa12ce76e856bd81309265d1dd8
+Author: Tamilore Adegbaye <doa325@lehigh.edu>
+Date:   Sun Mar 5 18:12:39 2023 +0000
+
+    README.md edited online with Bitbucket
+
+commit ab59000a100b33a0e302b250cf8ee3cd57826068
+Merge: e579701 a9b5bd4
+Author: skd225 <skd225@lehigh.edu>
+Date:   Sun Mar 5 13:12:10 2023 -0500
+
+    merging local branch with remote branch
+
+commit e5797012a2b1705a63fc791c155582a37e6cd561
+Author: skd225 <skd225@lehigh.edu>
+Date:   Sun Mar 5 13:10:35 2023 -0500
+
+    Added backend test description to README-phase1.md
+
+commit a9b5bd41adb1917a81e6a6f41b0fc8276bf4141c
+Merge: cb1b123 dfc04d8
+Author: David-CN <2245076558@qq.com>
+Date:   Sun Mar 5 13:08:54 2023 -0500
+
+    Merge branch 'master' of https://bitbucket.org/team-messi/team_m
+
+commit dfc04d89a43b1ec0f033fdde85ea803ec07b06b0
+Merge: 788ecef ef252e2
+Author: Yinuo Xu <yix225@lehigh.edu>
+Date:   Sun Mar 5 18:08:12 2023 +0000
+
+    Merged in web (pull request #7)
+    
+    change update
+    
+    Approved-by: Tamilore Adegbaye
+
+commit cb1b123370b9b85c43048b22565ef88f68fbf799
+Author: David-CN <2245076558@qq.com>
+Date:   Sun Mar 5 13:06:37 2023 -0500
+
+    add readme
+
+commit 7dfd832ff9ab2b1252f3b2fd1df1fe4c308c4fdd
+Author: David-CN <2245076558@qq.com>
+Date:   Sun Mar 5 13:06:02 2023 -0500
+
+    add readme
+
+commit ef252e2e496afb0a5f5958c0b4d30897717f76d3
+Author: yix225 <yix225@lehigh.edu>
+Date:   Sun Mar 5 13:05:08 2023 -0500
+
+    change update
+
+commit 788ecef769cdb449ca78a809eaf84f542bca17be
+Merge: 03219b8 c4c75a0
+Author: David Wang <jiw324@lehigh.edu>
+Date:   Sun Mar 5 17:52:44 2023 +0000
+
+    Update on run flutter test guide
+
+commit c4c75a00a815f627528c7a17b34e8562d3abf2c6
+Author: David Wang <jiw324@lehigh.edu>
+Date:   Sun Mar 5 17:51:16 2023 +0000
+
+    Update on run flutter test guide
+
+commit 03219b88e817a348043b63a118964981bc93d2f8
+Merge: 8c3b44e 15bb6f3
+Author: Yinuo Xu <yix225@lehigh.edu>
+Date:   Sun Mar 5 17:48:08 2023 +0000
+
+    Merged in web (pull request #5)
+    
+    set up branch web
+    
+    Approved-by: Tamilore Adegbaye
+
+commit 8c3b44ed0daa8a52a683d22c012e113de773aeb6
+Merge: 25404fe c534a86
+Author: David Wang <jiw324@lehigh.edu>
+Date:   Sun Mar 5 17:38:30 2023 +0000
+
+    Merged in mobile (pull request #4)
+    
+    add mobile
+    
+    Approved-by: Tamilore Adegbaye
+
+commit c534a862ce5978747ad1ed7286a4e01a49e586a4
+Author: David-CN <2245076558@qq.com>
+Date:   Sun Mar 5 12:37:36 2023 -0500
+
+    change conflict
+
+commit de1796365e7c5129a25fb9d8c9afd3be58f3f65c
+Author: David-CN <2245076558@qq.com>
+Date:   Sun Mar 5 12:24:05 2023 -0500
+
+    add mobile
+
+commit 25404fe3deedee006c969abc5d37e752ce2a7760
+Merge: 1dfaacc c7a40bb
+Author: skd225 <skd225@lehigh.edu>
+Date:   Sun Mar 5 12:24:04 2023 -0500
+
+    merging remote master branch and my local master branch
+
+commit c7a40bbb8f18ad8431ee3bdf6b60c9872a59925e
+Merge: 8a26c2c 107e3a1
+Author: Hien Thi <hnt224@lehigh.edu>
+Date:   Sun Mar 5 17:21:48 2023 +0000
+
+    Merged in admin (pull request #3)
+    
+    Admin
+    
+    Approved-by: Tamilore Adegbaye
+
+commit 8a26c2c05bc4234330285681929431958719673b
+Merge: e9bf26a 4303766
+Author: Selase Dzathor <skd225@lehigh.edu>
+Date:   Sun Mar 5 17:21:07 2023 +0000
+
+    Merged in backend (pull request #1)
+    
+    Backend
+    
+    Approved-by: Tamilore Adegbaye
+
+commit 107e3a1d54aa14d638b56095132b01bdea7fa458
+Author: hnt224 <hnt224@lehigh.edu>
+Date:   Sun Mar 5 12:04:14 2023 -0500
+
+    changed pom.xml file
+
+commit e9bf26a98de943736d73514652526e84c3c19278
+Author: doa325 <doa325@lehigh.edu>
+Date:   Sun Mar 5 00:57:16 2023 -0500
+
+    Updating master branch README
+
+commit a42bde85df9fb3fd86f2e2574f26f479f874906b
+Author: doa325 <doa325@lehigh.edu>
+Date:   Sun Mar 5 00:04:28 2023 -0500
+
+    Finishing up our team's document description
+
+commit ba72f1c28430451560301c74523e6228cba1e589
+Author: doa325 <doa325@lehigh.edu>
+Date:   Sat Mar 4 21:15:48 2023 -0500
+
+    creating document
+
+commit fdbed881a755eb71f6c99a5f740613641c70ce39
+Author: doa325 <doa325@lehigh.edu>
+Date:   Sat Mar 4 17:40:25 2023 -0500
+
+    Updating README.md
+
+commit 15bb6f35d3c2c074a143b544516639ebff9a7845
+Author: yix225 <yix225@lehigh.edu>
+Date:   Sat Mar 4 15:30:12 2023 -0500
+
+    set up branch web
+
+commit 7a77e9b4a802f7130a89b4ebfba41b5d30fc6193
+Author: yix225 <yix225@lehigh.edu>
+Date:   Sat Mar 4 15:14:57 2023 -0500
+
+    set up web branch
+
+commit 867a90fd9cf721986fb38c970c3c5ca2db3cf7c8
+Author: hnt224 <hnt224@lehigh.edu>
+Date:   Sat Mar 4 15:12:10 2023 -0500
+
+    forgot 1 unit test
+
+commit 088845775ae5f2e164fa0ffc59b8699e42ecad88
+Author: hnt224 <hnt224@lehigh.edu>
+Date:   Sat Mar 4 15:11:23 2023 -0500
+
+    some more unit tests
+
+commit 4303766162dd1c5d4421e58751f88567bbce6ab2
+Author: skd225 <skd225@lehigh.edu>
+Date:   Sat Mar 4 00:23:54 2023 -0500
+
+    added DataRowTest to test aspects covered in the unit testing tutorial
+
+commit 9e301e540cd961eb0227dc73150861e967c95a40
+Merge: 87f1156 855fd8b
+Author: hnt224 <hnt224@lehigh.edu>
+Date:   Fri Mar 3 22:27:21 2023 -0500
+
+    Merge branch 'admin' of bitbucket.org:team-messi/team_m into admin
+
+commit 87f11560416cfaf2394e5b8cf43a1a2121e53c8f
+Author: hnt224 <hnt224@lehigh.edu>
+Date:   Fri Mar 3 21:20:51 2023 -0500
+
+    added first unit test for database which tests row data
+
+commit 1dfaacc2549033b999e179e88be27123fa346280
+Author: skd225 <skd225@lehigh.edu>
+Date:   Fri Mar 3 21:15:52 2023 -0500
+
+    I may have made an oopsie while trying to make the dokku branch, this commit SHOULDN'T change anything, I'm just trying to restart with a clean slate
+
+commit d53094ce517c0759d9f03d8d1baf227325314765
+Author: skd225 <skd225@lehigh.edu>
+Date:   Fri Mar 3 21:09:44 2023 -0500
+
+    treat backend as root of backend-dokku
+
+commit bfb0ab724e4c521d248b242a48ea16242a88e1a7
+Author: skd225 <skd225@lehigh.edu>
+Date:   Fri Mar 3 21:08:58 2023 -0500
+
+    Set up backend to be at the state of the end of the last tutorial
+
+commit d03def03f20a2e48e2d9f2f1a5b4e0b8fae8ced3
+Author: hnt224 <hnt224@lehigh.edu>
+Date:   Fri Mar 3 19:31:00 2023 -0500
+
+    added implementation for postgres
+
+commit 4f3e683ddb3c6f0d4bfd5b057afbbe98294d7d9e
+Author: hnt224 <hnt224@lehigh.edu>
+Date:   Fri Mar 3 19:00:30 2023 -0500
+
+    added pom.xml dependencies
+
+commit 30d08ff539706e57f4a137e9eebd69aa55d178ae
+Author: hnt224 <hnt224@lehigh.edu>
+Date:   Fri Mar 3 18:59:43 2023 -0500
+
+    added a .gitignore file for the admin app
+
+commit 03b665d7e4b040e48704f568882f0709a85dcd42
+Author: hnt224 <hnt224@lehigh.edu>
+Date:   Fri Mar 3 18:51:58 2023 -0500
+
+    used maven to create project template
+
+commit 855fd8b046fdf5b70e923aa339e0b1393bae68e3
+Author: David Wang <jiw324@lehigh.edu>
+Date:   Wed Mar 1 23:59:53 2023 +0000
+
+    Update on ReadMe.md
+
+commit f5d7dab06e1a286970b921dc4e8f8de74922f0ab
+Author: doa325 <doa325@lehigh.edu>
+Date:   Tue Feb 28 12:48:47 2023 -0500
+
+    updating README.md
+
+commit 6c8ba851243da8204276f0edbf2b5f45ae62b058
+Author: doa325 <doa325@lehigh.edu>
+Date:   Tue Feb 28 12:40:13 2023 -0500
+
+    Updating README.md
+
+commit 8124b696ca2e6d5b766dcd4942de7a8eab7a5467
+Author: Tamilore Adegbaye <doa325@lehigh.edu>
+Date:   Tue Feb 28 17:07:53 2023 +0000
+
+    Initial commit

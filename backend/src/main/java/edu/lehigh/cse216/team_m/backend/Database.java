@@ -141,7 +141,7 @@ public class Database {
     /**
      * A prepared statement for updating a single comment row in the database
      */
-    private PreparedStatement mUpdateComment;  
+    private PreparedStatement mupdateComment;  
 
     /**
      * A prepared statement for incrementing like on a single idea row in the database
@@ -190,6 +190,10 @@ public class Database {
     private PreparedStatement mDropAll;
 
     private PreparedStatement mSelectUserEmail;
+
+    private PreparedStatement mInsertIdeaLink;
+
+    private PreparedStatement mInsertIdeaFile;
     /**
      * RowData is like a struct in C: we use it to hold data, and we allow 
      * direct access to its fields.  In the context of this Database, RowData 
@@ -281,6 +285,8 @@ public class Database {
             
             db.mInsertUser = db.mConnection.prepareStatement("INSERT INTO users VALUES (default, ?, ?, ?, ?, ?, ?, default)");
             db.mInsertIdea = db.mConnection.prepareStatement("INSERT INTO ideas VALUES (default, ?, ?, ?, default, default, ?, default)");
+            db.mInsertIdeaFile = db.mConnection.prepareStatement("INSERT INTO ideas VALUES(default, ?,?,?, default, default, ?,default, ?,?)");
+            db.mInsertIdeaLink = db.mConnection.prepareStatement("INSERT INTO ideas VALUES(default, ?,?,?, default, default, ?,default, ?,?)");
             db.mInsertComment = db.mConnection.prepareStatement("INSERT INTO comments VALUES (default, ?, ?, ?, ?, default, default, ?, default);"
                                                             + " UPDATE ideas SET comments = comments + 1 WHERE ideaid = ?");
             db.mInsertCommentFile = db.mConnection.prepareStatement("INSERT INTO files VALUES (?,default, default,?, ?, default, ?, default, default, ?, default)"
@@ -313,7 +319,7 @@ public class Database {
 
             db.mUpdateUser = db.mConnection.prepareStatement("UPDATE users SET name = ?, email = ?, genderidentity = ?, sexualorientation = ?, note = ? WHERE userid = ?");
             db.mUpdateIdea = db.mConnection.prepareStatement("UPDATE ideas SET message = ? WHERE ideaid = ?");
-            db.mUpdateComment = db.mConnection.prepareStatement("UPDATE comments SET message = ? WHERE ideaid = ? AND commentid = ?");
+            db.mupdateComment = db.mConnection.prepareStatement("UPDATE comments SET message = ? WHERE ideaid = ? AND commentid = ?");
 
             db.mLikeIdea = db.mConnection.prepareStatement("UPDATE ideas SET likes = likes + 1 WHERE ideaid = ?;"
                                                             + "UPDATE likes SET status = ? WHERE ideaid = ? AND userid = ? AND commentid is NULL");
@@ -419,6 +425,8 @@ public class Database {
             
             db.mInsertUser = db.mConnection.prepareStatement("INSERT INTO users VALUES (default, ?, ?, ?, ?, ?, ?, default)");
             db.mInsertIdea = db.mConnection.prepareStatement("INSERT INTO ideas VALUES (default, ?, ?, ?, default, default, ?, default)");
+            db.mInsertIdeaFile = db.mConnection.prepareStatement("INSERT INTO ideas VALUES(default, ?,?,?, default, default, ?,default, ?,?)");
+            db.mInsertIdeaLink = db.mConnection.prepareStatement("INSERT INTO ideas VALUES(default, ?,?,?, default, default, ?,default, ?,?)");
             db.mInsertComment = db.mConnection.prepareStatement("INSERT INTO comments VALUES (default, ?, ?, ?, ?, default, default, ?, default);"
             + " UPDATE ideas SET comments = comments + 1 WHERE ideaid = ?");
             db.mInsertCommentFile = db.mConnection.prepareStatement("INSERT INTO files VALUES (?,default, default,?, ?, default, ?, default, default, ?, default)"
@@ -451,7 +459,7 @@ public class Database {
 
             db.mUpdateUser = db.mConnection.prepareStatement("UPDATE users SET name = ?, email = ?, genderidentity = ?, sexualorientation = ?, note = ? WHERE userid = ?");
             db.mUpdateIdea = db.mConnection.prepareStatement("UPDATE ideas SET message = ? WHERE ideaid = ?");
-            db.mUpdateComment = db.mConnection.prepareStatement("UPDATE comments SET message = ? WHERE ideaid = ? AND commentid = ?");
+            db.mupdateComment = db.mConnection.prepareStatement("UPDATE comments SET message = ? WHERE ideaid = ? AND commentid = ?");
 
             db.mLikeIdea = db.mConnection.prepareStatement("UPDATE ideas SET likes = likes + 1 WHERE ideaid = ?;"
                                                             + "UPDATE likes SET status = ? WHERE ideaid = ? AND userid = ? AND commentid is NULL");
@@ -588,7 +596,44 @@ public class Database {
         }
         return count;
     }
+   
+    /**
+     * Insert an idea with a file into the idea table in database
+     */
+    int insertIdeaFile(String subject, String message, int userid, String filePath, String fileType){
+        int count =0;
+        try{
+            mInsertIdeaFile.setString(1,subject);
+            mInsertIdeaFile.setString(2, message);
+            mInsertIdeaFile.setInt(3, userid);
+            mInsertIdeaFile.setTimestamp(4, new Timestamp(new Date().getTime()));
+            mInsertIdeaFile.setString(5, filePath);
+            mInsertIdeaFile.setString(6, fileType);
+            count += mInsertIdeaFile.executeUpdate();
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return count;
+    }
 
+    /**
+     * Insert an idea with a link into the idea table in database
+     */
+    int insertIdeaLink(String subject, String message, int userid, String filePath, String fileType){
+        int count =0;
+        try{
+            mInsertIdeaFile.setString(1,subject);
+            mInsertIdeaFile.setString(2, message);
+            mInsertIdeaFile.setInt(3, userid);
+            mInsertIdeaFile.setTimestamp(4, new Timestamp(new Date().getTime()));
+            mInsertIdeaFile.setString(5, filePath);
+            mInsertIdeaFile.setString(6, fileType);
+            count += mInsertIdeaFile.executeUpdate();
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return count;
+    }
     /**
      * Insert a comment into comments table in the database
      * 
@@ -634,11 +679,11 @@ public class Database {
     int insertCommentLink(String fileType, String fileDescription, String filePath, int ideaid){
         int count = 0;
         try{
-          mInsertCommentFile.setString(1, fileType);
-        mInsertCommentFile.setString(2, fileDescription);
-        mInsertCommentFile.setString(3, filePath);
-        mInsertCommentFile.setInt(4, ideaid);
-        mInsertCommentFile.setTimestamp(5, new Timestamp(new Date().getTime()));  
+          mInsertCommentLink.setString(1, fileType);
+        mInsertCommentLink.setString(2, fileDescription);
+        mInsertCommentLink.setString(3, filePath);
+        mInsertCommentLink.setInt(4, ideaid);
+        mInsertCommentLink.setTimestamp(5, new Timestamp(new Date().getTime()));  
         count += mInsertCommentLink.executeUpdate();
         }
         catch(SQLException e){
@@ -1092,13 +1137,13 @@ public class Database {
      * @param commentid the id of the comment being updated
      * @return
      */
-    int mUpdateComment(String message, int ideaid, int commentid) {
+    int updateComment(String message, int ideaid, int commentid) {
         int res = -1;
         try {
-            mUpdateComment.setString(1, message);
-            mUpdateComment.setInt(2, ideaid);
-            mUpdateComment.setInt(3, commentid);
-            res = mUpdateComment.executeUpdate();
+            mupdateComment.setString(1, message);
+            mupdateComment.setInt(2, ideaid);
+            mupdateComment.setInt(3, commentid);
+            res = mupdateComment.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
